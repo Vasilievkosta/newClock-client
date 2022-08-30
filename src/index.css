@@ -1,13 +1,175 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+html {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*,
+*::after,
+*::before {
+  -webkit-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+ul,
+ol {
+  padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul[class] {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.navbar {
+  margin: 5px;
+  padding: 5px;
+  background-color: #607d8b;
+}
+
+.navbar,
+.navbar__list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar__link {
+  display: block;
+  padding: 20px;
+  margin-right: 20px;
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.navbar__link:hover {
+  background-color: #cecece;
+}
+
+.auth {
+  background-color: #26a1b1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  padding-top: 10em;
+  color: white;
+  font-size: 1.5em;
+}
+
+.auth__title {
+  color: #fff;
+  font-size: 30px;
+  line-height: 1;
+  margin-bottom: 30px;
+}
+
+.auth__input {
+
+  width: 100%;
+  border: none;
+  padding: 3px 10px;
+  background-color: #fef7f0;
+  color: #333366;
+  margin-bottom: 10px;
+  outline: 0;
+}
+
+.auth__input::-webkit-input-placeholder {
+  font-family: 'DMSans', sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #234969;
+  padding: 0 10px;
+}
+
+.auth__input:focus {
+  background-color: #b6cefc;
+}
+
+.auth__btn {
+  width: 100%;
+  padding: 5px;
+  border: none;
+  background-color: #607d8b;
+  color: #fff;
+  cursor: pointer;
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+  white-space: nowrap;
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.auth__btn:focus {
+  outline: 0;
+}
+
+.auth__btn:hover {
+  color: #333366
+}
+
+.auth__btn:active {
+  background-color: #436372;
+}
+
+.auth__link {
+  -webkit-transition: color 0.3s;
+  -o-transition: color 0.3s;
+  transition: color 0.3s;
+}
+
+.auth__link:focus {
+  outline: 0;
+  color: #99cccc;
+}
+
+.auth__link:hover {
+  color: #1a1a1a;
+}
+
+.auth__link:active {
+  color: red;
+}
+
+.auth__acc {
+  font-size: 18px;
 }
