@@ -55,8 +55,14 @@ a {
   color: inherit;
 }
 
+body {
+  font-family: Georgia, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 5px;
+}
+
 .navbar {
-  margin: 5px;
   padding: 5px;
   background-color: #607d8b;
 }
@@ -172,4 +178,20 @@ a {
 
 .auth__acc {
   font-size: 18px;
+}
+
+.table {
+  margin: 0 auto;
+  border: 1px solid #607d8b;
+  font-size: 24px;
+  min-width: 500px;
+  text-align: center;
+}
+
+.table thead {
+  background-color: #b6cefc;
+}
+
+.table tbody {
+  background-color: #cecece;
 }

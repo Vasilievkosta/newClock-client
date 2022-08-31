@@ -1,34 +1,40 @@
 import React, { useState } from 'react';
 import { accord } from '../http/userAPI';
+import Table from '../components/Table';
 
 function Master() {
 
     // const [master, setMaster] = useState(['Helen', 'Miki', 'Buki']);
 
-    const getMaster = async () => {
-        try {
-            let data = await accord();
+    // const getMaster = async () => {
+    //     try {
+    //         let data = await accord();
 
-            console.log(data);
+    //         console.log(data);
 
-        } catch (e) {
-            alert(e.response.data.message);
-        }
-    }
+    //     } catch (e) {
+    //         alert(e.response.data.message);
+    //     }
+    // }
+    const [items, setItems] = useState([]);
 
+    React.useEffect(() => {
+        accord()
+            .then((json) => {
+                setItems(json);
+            });
+    }, []);
 
-
-    // const result = master.map((el, index) => {
-    //     return <p key={index}>{el}</p>;
-    // });
+    console.log(items)
 
     return (
         <div className="Master">
             <h2>Страница админа</h2>
+
             <p>Добавить мастеров</p>
-            {/* {result} */}
-            <p>Здесь таблица мастеров должна быть</p>
-            <button className="auth__btn" type='button' onClick={getMaster}> {'Показать мастеров'} </button>
+
+            <button className="auth__btn" type='button'> {'Показать мастеров'} </button>
+            <Table master={items} />
         </div>
     );
 }
