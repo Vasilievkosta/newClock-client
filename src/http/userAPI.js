@@ -7,6 +7,11 @@ const $host = axios.create({
 export const login = async (email, password) => {
 
     const { data } = await $host.post('/login', { email, password });
-    console.log(data);
+    return data;
+}
+
+export const accord = async () => {
+
+    const { data } = await $host.get('/api/master');
     return data;
 }
