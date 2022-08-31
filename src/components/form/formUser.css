@@ -1,0 +1,68 @@
+.field {
+    padding: 50px 75px;
+    background-color: #273164;
+    max-width: 630px;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.field__title {
+    color: #fff;
+    font-size: 30px;
+    line-height: 1;
+    margin-bottom: 30px;
+}
+
+.field__text {
+    color: #f45e1f;
+    font-size: 12px;
+    line-height: 2;
+    margin-bottom: 35px;
+}
+
+.field__input {
+    width: 100%;
+    border: none;
+    outline: 0;
+    border-bottom: 1px solid #7d83a2;
+    display: block;
+    background-color: transparent;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.field__input::-webkit-input-placeholder {
+    font-size: 14px;
+    color: #fff;
+}
+
+.field__size {
+    margin-bottom: 20px;
+}
+
+.field__radio {
+    color: #fff;
+    margin-right: 20px;
+}
+
+.field__city {
+    color: #000;
+    background-color: #cecece;
+}
+
+.field__link {
+    color: #f45e1f;
+    font-size: 20px;
+    line-height: 1.2;
+    font-weight: 700;
+    padding-bottom: 5px;
+    padding-right: 30px;
+    border-bottom: 1px solid transparent;
+    text-decoration: none;
+    transition: border-color 0.3s;
+}
+
+.field__link:hover {
+    border-color: #f45e1f;
+}
