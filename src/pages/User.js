@@ -1,5 +1,5 @@
 import React from 'react';
-import FormUser from '../components/form/FormUser';
+import FormUser from '../components/UI/form/FormUser';
 
 function User() {
 
