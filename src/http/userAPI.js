@@ -12,6 +12,6 @@ export const login = async (email, password) => {
 
 export const accord = async () => {
 
-    const { data } = await $host.get('/api/master');
+    const { data } = await $host.get('/api/masters');
     return data;
 }

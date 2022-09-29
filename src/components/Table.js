@@ -9,7 +9,7 @@ const Table = ({ master }) => {
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>city_id</th>
+                    <th>City</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,7 +17,7 @@ const Table = ({ master }) => {
                     <tr key={item.id}>
                         <td>{item.id}</td>
                         <td>{item.name}</td>
-                        <td>{item.city_id}</td>
+                        <td>{item.title}</td>
                     </tr>
                 ))}
             </tbody>

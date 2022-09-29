@@ -21,6 +21,7 @@ function Master() {
 	const [load, setLoad] = useState(true);
 
     React.useEffect(() => {
+		setLoad(true);
         accord()
             .then((json) => {
                 setItems(json);
