@@ -15,3 +15,9 @@ export const accord = async () => {
     const { data } = await $host.get('/api/masters');
     return data;
 }
+
+export const createMaster = async (name, city_id) => {
+
+    const { data } = await $host.post('/api/createMaster', { name, city_id });
+    return data;
+}
