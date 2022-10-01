@@ -1,33 +1,61 @@
 import React, { useState } from 'react';
-import { accord, createMaster } from '../http/userAPI';
+import { createMaster, createCity, outMaster, outCity } from '../http/userAPI';
 import Table from '../components/Table';
+import TableCity from '../components/TableCity';
 import Loader from '../components/UI/loader/Loader';
 
 function Master() {
 
-    const [items, setItems] = useState([]);
+    const [itemsMaster, setItemsMaster] = useState([]);
+    const [itemsCity, setItemsCity] = useState([]);
     const [load, setLoad] = useState(true);
 
     const [master, setMaster] = useState('');
     const [cityId, setCityId] = useState();
 
+    const [city, setCity] = useState();
+
     React.useEffect(() => {
         setLoad(true);
-        accord()
+        outMaster()
             .then((json) => {
-                setItems(json);
+                setItemsMaster(json);
             });
         setLoad(false);
-    }, [items]);
+    }, [itemsMaster]);
 
-    // console.log(items);
-    console.log(master, cityId);
+    React.useEffect(() => {
 
-    const click = async () => {
+        outCity()
+            .then((json) => {
+                setItemsCity(json);
+            });
+
+    }, [itemsCity]);
+
+    // console.log(itemsCity);
+    // console.log(master, cityId);
+
+
+    const clickMaster = async () => {
         try {
             let data = await createMaster(master, cityId);
 
             console.log({ data })
+            setMaster('');
+            setCityId('');
+
+        } catch (e) {
+            alert(e.response.data.message);
+        }
+    }
+
+    const clickCity = async () => {
+        try {
+            let data = await createCity(city);
+
+            console.log({ data });
+            setCity('');
 
         } catch (e) {
             alert(e.response.data.message);
@@ -37,29 +65,51 @@ function Master() {
 
 
     return (
-        <div className="Master">
-
-            <h2 style={{ 'text-align': 'center' }}>Страница админа</h2>
-            <p style={{ 'text-align': 'center' }}>Форма для добавления мастеров</p>
-            {/* <button className="auth__btn" type='button'> {'Показать мастеров'} </button> */}
-
-            <form style={{ width: '500px', margin: '0 auto', border: 'solid 1px grey' }}>
-
-                <input className="auth__input" placeholder='Введите имя мастера...' type='text' value={master} onChange={e => setMaster(e.target.value)} />
-                <p></p>
-                <input className="auth__input" placeholder='Введите id города...' type='number' value={cityId} onChange={e => setCityId(e.target.value)} />
-
-                <button className="auth__btn" type='button' onClick={click}> {'Добавить мастера'} </button>
-            </form>
-            <br />
-            {
-                load
-                    ? <Loader />
-                    : <Table master={items} />
-            }
+        <>
+            <h2 style={{ textAlign: 'center' }}>Страница админа</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
 
 
-        </div >
+                <div className="master" style={{ marginRight: '40px' }}>
+
+                    <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
+
+                    <form style={{ width: '500px', margin: '0 auto', border: 'solid 1px grey' }}>
+
+                        <input className="auth__input" placeholder='Введите имя мастера...' type='text' value={master} onChange={e => setMaster(e.target.value)} />
+                        <p></p>
+                        <input className="auth__input" placeholder='Введите id города...' type='number' value={cityId} onChange={e => setCityId(e.target.value)} />
+
+                        <button className="auth__btn" type='button' onClick={clickMaster}> {'Добавить мастера'} </button>
+                    </form>
+                    <br />
+                    {
+                        load
+                            ? <Loader />
+                            : <Table master={itemsMaster} />
+                    }
+                </div>
+
+                <div className="city">
+
+                    <p style={{ textAlign: 'center' }}>Форма для добавления городов</p>
+
+                    <form style={{ width: '500px', margin: '0 auto', border: 'solid 1px grey' }}>
+
+                        <input className="auth__input" placeholder='Введите название города...' type='text' value={city} onChange={e => setCity(e.target.value)} />
+
+                        <button className="auth__btn" type='button' onClick={clickCity}> {'Добавить город'} </button>
+                    </form>
+                    <br />
+                    {
+                        load
+                            ? <Loader />
+                            : <TableCity city={itemsCity} />
+                    }
+                </div>
+            </div>
+        </>
+
     );
 }
 
