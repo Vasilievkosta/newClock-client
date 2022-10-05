@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import { createMaster, outMaster } from '../http/userAPI';
+import { createMaster, outMaster, outCity } from '../http/userAPI';
+// import SelectCity from './SelectCity';
 import Table from './Table';
 import Loader from './UI/loader/Loader';
 
@@ -14,14 +15,30 @@ function BlockMaster() {
     const [cityId, setCityId] = useState();
 
     React.useEffect(() => {
-        setLoad(true);
+
         outMaster()
             .then((json) => {
                 setItemsMaster(json);
             });
+
+        outCity()
+            .then((json) => {
+                setItemsCity(json);
+            });
+
         setLoad(false);
     }, []);
 
+    const [itemsCity, setItemsCity] = useState([]);
+
+    // React.useEffect(() => {
+
+    //     outCity()
+    //         .then((json) => {
+    //             setItemsCity(json);
+    //         });
+
+    // }, [itemsCity]);
 
     const clickMaster = async () => {
         try {
@@ -46,7 +63,17 @@ function BlockMaster() {
 
                 <input className="auth__input" placeholder='Введите имя мастера...' type='text' value={master} onChange={e => setMaster(e.target.value)} />
                 <p></p>
-                <input className="auth__input" placeholder='Введите id города...' type='number' value={cityId} onChange={e => setCityId(e.target.value)} />
+
+                <select className="auth__input" type="text" value={cityId} onChange={e => setCityId(e.target.value)}>
+
+                    <option disabled selected className="field__city" >{'Выберите город'}</option>
+                    {itemsCity.map(item => (
+                        <option key={item.id} className="field__city" value={item.id}>{item.title}</option>
+                    ))}
+                </select>
+                {/* {
+                    <SelectCity />
+                } */}
 
                 <button className="auth__btn" type='button' onClick={clickMaster}> {'Добавить мастера'} </button>
             </form>

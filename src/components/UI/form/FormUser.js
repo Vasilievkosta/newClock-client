@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import './formUser.css';
 
+import { outCity } from '../../../http/userAPI';
+
 function FormUser() {
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [size, setSize] = useState('');
-    const [city, setCity] = useState('');
+    const [cityId, setCityId] = useState('');
     const [time, setTime] = useState('');
+
+    const sizeItems = ['Большие', 'Средние', 'Маленькие'];
+
+    const [itemsCity, setItemsCity] = useState([]);
+
+    React.useEffect(() => {
+
+        outCity()
+            .then((json) => {
+                setItemsCity(json);
+            });
+
+    }, []);
 
     return (
         <div className="field">
@@ -25,43 +40,33 @@ function FormUser() {
 
                 <div className="field__size">
                     <span className="field__radio">Размер часов: </span>
-                    <label className="field__radio">Маленькие
-                        <input id="size" name="size" type="radio" value="small"
-                            checked={size === "small"}
-                            onChange={e => setSize(e.target.value)}
-                        />
-                    </label>
-
-                    <label className="field__radio">Средние
-                        <input id="size" name="size" type="radio" value="medium"
-                            checked={size === "medium"}
-                            onChange={e => setSize(e.target.value)}
-                        />
-                    </label>
-
-                    <label className="field__radio">Большие
-                        <input id="size" name="size" type="radio" value="big"
-                            checked={size === "big"}
-                            onChange={e => setSize(e.target.value)}
-                        />
-                    </label>
+                    {
+                        sizeItems.map((item, index) => (
+                            <label key={index} className="field__radio">{item}
+                                <input type="radio"
+                                    checked={size === item}
+                                    onChange={() => setSize(item)}
+                                />
+                            </label>
+                        ))
+                    }
                 </div>
 
                 <label for="city" hidden>Город</label>
-                <select className="field__input" id="city" name="city" type="text" value={city}
-                    onChange={e => setCity(e.target.value)}>
-                    <option className="field__city" value="Днепр">Днепр</option>
-                    <option className="field__city" value="Ужгород">Ужгород</option>
-                    <option className="field__city" value="Киев">Киев</option>
-                    <option className="field__city" value="Одесса">Одесса</option>
+                <select className="field__input" type="text" value={cityId} onChange={e => setCityId(e.target.value)}>
+
+                    <option disabled selected className="field__city" style={{ color: 'white' }}>{'Выберите город'}</option>
+                    {itemsCity.map(item => (
+                        <option key={item.id} className="field__city" value={item.id}>{item.title}</option>
+                    ))}
                 </select>
 
                 <label for="time" hidden>Дата</label>
-                <input className="field__input" id="size" name="time" type="tel"
+                <input className="field__input" id="time" name="time" type="date"
                     placeholder="Введите дату" value={time} onChange={e => setTime(e.target.value)} />
             </form>
 
-            <a className="field__link" href="#">Выбор мастера</a>
+            <button type="submit" className="field__link" href="#">Выбор мастера</button>
         </div>
     );
 }
