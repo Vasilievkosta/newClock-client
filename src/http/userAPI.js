@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const $host = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: ''
 })
 
 export const login = async (email, password) => {
@@ -31,5 +31,11 @@ export const createMaster = async (name, city_id) => {
 export const createCity = async (title) => {
 
     const { data } = await $host.post('/api/createCity', { title });
+    return data;
+}
+
+export const createUser = async (user) => {
+
+    const { data } = await $host.post('/api/createUser', { user });
     return data;
 }

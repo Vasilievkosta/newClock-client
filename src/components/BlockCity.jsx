@@ -11,13 +11,17 @@ function BlockCity() {
     const [city, setCity] = useState();
 
     React.useEffect(() => {
-
-        outCity()
+		setLoad(true);
+        getCity();
+        setLoad(false);
+    }, []);
+	
+	const getCity = () => {
+		outCity()
             .then((json) => {
                 setItemsCity(json);
             });
-        setLoad(false);
-    }, []);
+	}
 
     const clickCity = async () => {
         try {
@@ -29,6 +33,8 @@ function BlockCity() {
         } catch (e) {
             alert(e.response.data.message);
         }
+		
+		getCity();
     }
 
 

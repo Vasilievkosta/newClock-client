@@ -7,38 +7,39 @@ import Loader from './UI/loader/Loader';
 
 function BlockMaster() {
 
+    
     const [itemsMaster, setItemsMaster] = useState([]);
+	const [itemsCity, setItemsCity] = useState([]);
 
     const [load, setLoad] = useState(true);
 
     const [master, setMaster] = useState('');
     const [cityId, setCityId] = useState();
 
-    React.useEffect(() => {
-
-        outMaster()
+    const getMaster = () => {
+		outMaster()
             .then((json) => {
                 setItemsMaster(json);
             });
-
-        outCity()
+	}
+	
+	const getCity = () => {
+		outCity()
             .then((json) => {
                 setItemsCity(json);
             });
+	}	
 
+    React.useEffect(() => {
+		setLoad(true);
+        getMaster();
         setLoad(false);
     }, []);
+	
+	React.useEffect(() => {		
+        getCity();
+    }, []);
 
-    const [itemsCity, setItemsCity] = useState([]);
-
-    // React.useEffect(() => {
-
-    //     outCity()
-    //         .then((json) => {
-    //             setItemsCity(json);
-    //         });
-
-    // }, [itemsCity]);
 
     const clickMaster = async () => {
         try {
@@ -51,6 +52,8 @@ function BlockMaster() {
         } catch (e) {
             alert(e.response.data.message);
         }
+		
+		getMaster();
     }
 
     return (
