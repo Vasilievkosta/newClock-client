@@ -145,8 +145,7 @@ body {
   white-space: nowrap;
   -o-text-overflow: clip;
   text-overflow: clip;
-  overflow: hidden;
-  margin-bottom: 20px;
+  overflow: hidden;  
 }
 
 .auth__btn:focus {

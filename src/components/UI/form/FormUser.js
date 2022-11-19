@@ -74,7 +74,7 @@ function FormUser() {
                 <label htmlFor="city" hidden>Город</label>
                 <select className="field__input" type="text" value={cityId} onChange={e => setCityId(e.target.value)}>
 
-                    <option disabled selected className="field__city" style={{ color: 'white' }}>{'Выберите город'}</option>
+                    <option disabled className="field__city" style={{ color: 'white' }}>{'Выберите город'}</option>
                     {itemsCity.map(item => (
                         <option key={item.id} className="field__city" value={item.id}>{item.title}</option>
                     ))}

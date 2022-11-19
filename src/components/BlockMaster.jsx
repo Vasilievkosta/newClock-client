@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { createMaster, outMaster, outCity } from '../http/userAPI';
+import { createMaster, outMaster, deleteMaster, outCity } from '../http/userAPI';
 // import SelectCity from './SelectCity';
 import Table from './Table';
 import Loader from './UI/loader/Loader';
@@ -55,6 +55,19 @@ function BlockMaster() {
 		
 		getMaster();
     }
+	
+	const removeMaster = async (id) => {
+        try {
+            let data = await deleteMaster(id);
+
+            console.log({ data })
+
+        } catch (e) {
+            alert(e.response.data.message);
+        }
+
+        getMaster();
+    }
 
     return (
 
@@ -69,7 +82,7 @@ function BlockMaster() {
 
                 <select className="auth__input" type="text" value={cityId} onChange={e => setCityId(e.target.value)}>
 
-                    <option disabled selected className="field__city" >{'Выберите город'}</option>
+                    <option disabled className="field__city" >{'Выберите город'}</option>
                     {itemsCity.map(item => (
                         <option key={item.id} className="field__city" value={item.id}>{item.title}</option>
                     ))}
@@ -84,7 +97,7 @@ function BlockMaster() {
             {
                 load
                     ? <Loader />
-                    : <Table master={itemsMaster} />
+                    : <Table master={itemsMaster} removeMaster={removeMaster}/>
             }
         </div>
 

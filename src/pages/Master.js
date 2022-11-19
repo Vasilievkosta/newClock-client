@@ -8,6 +8,7 @@ function Master() {
     return (
         <>
             <h2 style={{ textAlign: 'center' }}>Страница админа</h2>
+			<p style={{ textAlign: 'center' }}>Табы для переключения между сущностями</p>
             <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
 
                 <BlockMaster />
