@@ -1,7 +1,7 @@
 import React from 'react';
 
 
-const Table = ({ master, removeMaster }) => {
+const TableMaster = ({ master, removeMaster }) => {
 
     return (
         <table className="table">
@@ -24,4 +24,4 @@ const Table = ({ master, removeMaster }) => {
     );
 };
 
-export default Table;
+export default TableMaster;

@@ -60,6 +60,7 @@ body {
   font-size: 16px;
   line-height: 1.5;
   padding: 5px;
+  background: #fff;
 }
 
 .navbar {
@@ -87,7 +88,7 @@ body {
 }
 
 .navbar__img {
-	max-width: 80%;
+  max-width: 80%;
 }
 
 .auth {
@@ -145,7 +146,7 @@ body {
   white-space: nowrap;
   -o-text-overflow: clip;
   text-overflow: clip;
-  overflow: hidden;  
+  overflow: hidden;
 }
 
 .auth__btn:focus {

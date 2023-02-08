@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 const $host = axios.create({
-    baseURL: ''
+    baseURL: 'https://railway-first.up.railway.app'
 })
 
 export const login = async (email, password) => {
 
-    const { data } = await $host.post('/login', { email, password });
+    const { data } = await $host.post('/login2', { email, password });
     return data;
 }
 
@@ -22,6 +22,12 @@ export const outCity = async () => {
     return data;
 }
 
+export const outUser = async () => {
+
+    const { data } = await $host.get('/api/user');
+    return data;
+}
+
 export const createMaster = async (name, city_id) => {
 
     const { data } = await $host.post('/api/master/create', { name, city_id });
@@ -34,14 +40,20 @@ export const createCity = async (title) => {
     return data;
 }
 
-export const createUser = async (user) => {
+export const createUser = async (userName, email, city_id, time) => {
 
-    const { data } = await $host.post('/api/user/create', { user });
+    const { data } = await $host.post('/api/user/create', { userName, email, city_id, time });	
     return data;
 }
 
 export const deleteMaster = async (id) => {
 
     const { data } = await $host.delete(`/api/master/delete/${String(id)}`);
+    return data;
+}
+
+export const deleteUser = async (id) => {
+
+    const { data } = await $host.delete(`/api/user/delete/${String(id)}`);
     return data;
 }

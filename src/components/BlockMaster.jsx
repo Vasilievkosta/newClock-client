@@ -1,42 +1,42 @@
 import React, { useState } from 'react';
 
 import { createMaster, outMaster, deleteMaster, outCity } from '../http/userAPI';
-// import SelectCity from './SelectCity';
-import Table from './Table';
+
+import TableMaster from './TableMaster';
 import Loader from './UI/loader/Loader';
 
 function BlockMaster() {
 
-    
+
     const [itemsMaster, setItemsMaster] = useState([]);
-	const [itemsCity, setItemsCity] = useState([]);
+    const [itemsCity, setItemsCity] = useState([]);
 
     const [load, setLoad] = useState(true);
 
     const [master, setMaster] = useState('');
-    const [cityId, setCityId] = useState();
+    const [cityId, setCityId] = useState(1);	
 
     const getMaster = () => {
-		outMaster()
+        outMaster()
             .then((json) => {
                 setItemsMaster(json);
             });
-	}
-	
-	const getCity = () => {
-		outCity()
+    }
+
+    const getCity = () => {
+        outCity()
             .then((json) => {
                 setItemsCity(json);
             });
-	}	
+    }
 
     React.useEffect(() => {
-		setLoad(true);
+        setLoad(true);
         getMaster();
         setLoad(false);
     }, []);
-	
-	React.useEffect(() => {		
+
+    React.useEffect(() => {
         getCity();
     }, []);
 
@@ -46,17 +46,16 @@ function BlockMaster() {
             let data = await createMaster(master, cityId);
 
             console.log({ data })
-            setMaster('');
-            setCityId('');
+            setMaster('');            
 
         } catch (e) {
             alert(e.response.data.message);
         }
-		
-		getMaster();
+
+        getMaster();
     }
-	
-	const removeMaster = async (id) => {
+
+    const removeMaster = async (id) => {
         try {
             let data = await deleteMaster(id);
 
@@ -86,10 +85,7 @@ function BlockMaster() {
                     {itemsCity.map(item => (
                         <option key={item.id} className="field__city" value={item.id}>{item.title}</option>
                     ))}
-                </select>
-                {/* {
-                    <SelectCity />
-                } */}
+                </select>                
 
                 <button className="auth__btn" type='button' onClick={clickMaster}> {'Добавить мастера'} </button>
             </form>
@@ -97,7 +93,7 @@ function BlockMaster() {
             {
                 load
                     ? <Loader />
-                    : <Table master={itemsMaster} removeMaster={removeMaster}/>
+                    : <TableMaster master={itemsMaster} removeMaster={removeMaster} />
             }
         </div>
 

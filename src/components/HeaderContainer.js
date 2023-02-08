@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import imageLogo from '../images/Clockwise.png';
 
-const NavBar = () => {
+const HeaderContainer = () => {
     const navigate = useNavigate();
 
     const logOut = () => {
@@ -14,8 +14,8 @@ const NavBar = () => {
     return (
         <div className='navbar'>
             <NavLink to={'/'}>
-				<img className='navbar__img' src={imageLogo} alt='logo'/>
-			</NavLink>
+                <img className='navbar__img' src={imageLogo} alt='logo' />
+            </NavLink>
 
             {
                 <ul className='navbar__list'>
@@ -23,9 +23,8 @@ const NavBar = () => {
                         <button className='navbar__link' onClick={() => navigate('/login')}>Admin panel</button>
                     </li>
                     <li className='navbar__item'>
-                        <button className='navbar__link' onClick={() => logOut()}>About us</button>
+                        <button className='navbar__link' onClick={() => logOut()}>Log out</button>
                     </li>
-
                 </ul>
             }
 
@@ -33,4 +32,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default HeaderContainer;
