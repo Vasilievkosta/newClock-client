@@ -49,7 +49,7 @@ function BlockMaster() {
             setMaster('');            
 
         } catch (e) {
-            alert(e.response.data.message);
+            console.log(e.response.data.message);
         }
 
         getMaster();
@@ -62,7 +62,7 @@ function BlockMaster() {
             console.log({ data })
 
         } catch (e) {
-            alert(e.response.data.message);
+            console.log(e.response.data.message);
         }
 
         getMaster();
