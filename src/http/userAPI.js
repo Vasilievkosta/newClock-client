@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const $host = axios.create({
     baseURL: 'https://railway-first.up.railway.app'
+	// baseURL: ''
 })
 
 export const login = async (email, password) => {

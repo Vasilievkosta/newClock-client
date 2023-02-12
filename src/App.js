@@ -1,15 +1,15 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from "react-router-dom";
 import HeaderContainer from './components/HeaderContainer';
 import AppRouter from './components/AppRouter';
 
 const App = () => {
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <HeaderContainer />
       <AppRouter />
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
