@@ -3,6 +3,7 @@ import './tabs.css';
 
 import BlockCity from '../../BlockCity';
 import BlockMaster from '../../BlockMaster';
+import BlockUser from '../../BlockUser';
 
 function Tabs() {
     const [toggleState, setToggleState] = useState(1);
@@ -54,10 +55,7 @@ function Tabs() {
                 >
                     <h2>List of users</h2>
                     <hr />
-
-                    <p>
-                        Здесь будет таблица <b>Users</b>
-                    </p>
+                    <BlockUser />
                 </div>
             </div>
         </div >

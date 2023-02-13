@@ -7,8 +7,14 @@ import imageLogo from '../images/Clockwise.png';
 const HeaderContainer = () => {
     const navigate = useNavigate();
 
+    const validAuthAdmin = () => {
+        const readValue = localStorage.getItem('authKey');
+        readValue ? navigate('/admin-panel') : navigate('/auth-admin')
+    }
+
     const logOut = () => {
-        alert('Exit?');
+        localStorage.removeItem('authKey');
+        alert('log out)');
     }
 
     return (
@@ -20,10 +26,10 @@ const HeaderContainer = () => {
             {
                 <ul className='navbar__list'>
                     <li className='navbar__item'>
-                        <button className='navbar__link' onClick={() => navigate('/login')}>Admin panel</button>
+                        <button className='navbar__link' onClick={validAuthAdmin}>Admin panel</button>
                     </li>
                     <li className='navbar__item'>
-                        <button className='navbar__link' onClick={() => logOut()}>Log out</button>
+                        <button className='navbar__link' onClick={logOut}>Log out</button>
                     </li>
                 </ul>
             }

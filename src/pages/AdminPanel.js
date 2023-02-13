@@ -2,7 +2,7 @@ import React from 'react';
 
 import Tabs from '../components/UI/tabs/Tabs';
 
-function Master() {
+function AdminPanel() {
 
     return (
         <div >
@@ -15,4 +15,4 @@ function Master() {
     );
 }
 
-export default Master;
+export default AdminPanel;

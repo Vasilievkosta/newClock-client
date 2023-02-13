@@ -32,19 +32,19 @@ function FormUser() {
         try {
             let data = await createUser(userName, email, cityId, time);
             console.log(data);
-			
-			setUserName('');
-			setEmail('');
-			setSize('medium');
-			setCityId('1');
-			setTime('');
+
+            setUserName('');
+            setEmail('');
+            setSize('medium');
+            setCityId('1');
+            setTime('');
 
         } catch (e) {
             alert(e.response.data.message);
         }
     }
 
-
+    const nowDate = new Date().toISOString().split('T')[0]
 
     return (
         <div className="field">
@@ -87,7 +87,7 @@ function FormUser() {
 
                 <label htmlFor="time" hidden>Дата</label>
                 <input className="field__input" name="time" type="date"
-                    placeholder="Введите дату" value={time}
+                    placeholder="Введите дату" value={time} min={nowDate}
                     onChange={e => setTime(e.target.value)} required={true} />
 
                 <button className="field__btn">Выбор мастера</button>

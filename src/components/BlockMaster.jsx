@@ -7,14 +7,13 @@ import Loader from './UI/loader/Loader';
 
 function BlockMaster() {
 
-
     const [itemsMaster, setItemsMaster] = useState([]);
     const [itemsCity, setItemsCity] = useState([]);
 
     const [load, setLoad] = useState(true);
 
     const [master, setMaster] = useState('');
-    const [cityId, setCityId] = useState(1);	
+    const [cityId, setCityId] = useState(1);
 
     const getMaster = () => {
         outMaster()
@@ -46,7 +45,7 @@ function BlockMaster() {
             let data = await createMaster(master, cityId);
 
             console.log({ data })
-            setMaster('');            
+            setMaster('');
 
         } catch (e) {
             console.log(e.response.data.message);
@@ -85,7 +84,7 @@ function BlockMaster() {
                     {itemsCity.map(item => (
                         <option key={item.id} className="field__city" value={item.id}>{item.title}</option>
                     ))}
-                </select>                
+                </select>
 
                 <button className="auth__btn" type='button' onClick={clickMaster}> {'Добавить мастера'} </button>
             </form>
@@ -96,7 +95,6 @@ function BlockMaster() {
                     : <TableMaster master={itemsMaster} removeMaster={removeMaster} />
             }
         </div>
-
     );
 }
 

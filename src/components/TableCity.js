@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { memo } from 'react';
 
 
-const TableCity = ({ city }) => {
+const TableCity = memo(({ city }) => {
 
     return (
         <table className="table">
@@ -21,6 +21,6 @@ const TableCity = ({ city }) => {
             </tbody>
         </table>
     );
-};
+});
 
 export default TableCity;

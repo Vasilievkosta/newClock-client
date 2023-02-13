@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const $host = axios.create({
     baseURL: 'https://railway-first.up.railway.app'
-	// baseURL: ''
+    //baseURL: ''
 })
 
 export const login = async (email, password) => {
@@ -43,7 +43,7 @@ export const createCity = async (title) => {
 
 export const createUser = async (userName, email, city_id, time) => {
 
-    const { data } = await $host.post('/api/user/create', { userName, email, city_id, time });	
+    const { data } = await $host.post('/api/user/create', { userName, email, city_id, time });
     return data;
 }
 

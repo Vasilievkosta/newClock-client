@@ -1,8 +1,6 @@
 import User from './pages/User';
-import Admin from './pages/Admin';
-import Master from './pages/Master';
-import BlockMaster from './components/BlockMaster';
-import BlockCity from './components/BlockCity';
+import AuthAdmin from './pages/AuthAdmin';
+import AdminPanel from './pages/AdminPanel';
 
 export const publicRoutes = [
     {
@@ -10,19 +8,11 @@ export const publicRoutes = [
         Component: User
     },
     {
-        path: '/login',
-        Component: Admin
+        path: '/auth-admin',
+        Component: AuthAdmin
     },
     {
-        path: '/master',
-        Component: Master
-    },
-    {
-        path: '/master-content',
-        Component: BlockMaster
-    },
-    {
-        path: '/city-content',
-        Component: BlockCity
-    }	
+        path: '/admin-panel',
+        Component: AdminPanel
+    }
 ]
