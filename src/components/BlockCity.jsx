@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createCity, outCity } from '../http/userAPI';
+import { createCity, outCity, deleteCity } from '../http/userAPI';
 import TableCity from './TableCity';
 import Loader from './UI/loader/Loader';
 
@@ -11,17 +11,17 @@ function BlockCity() {
     const [city, setCity] = useState();
 
     React.useEffect(() => {
-		setLoad(true);
+        setLoad(true);
         getCity();
         setLoad(false);
     }, []);
-	
-	const getCity = () => {
-		outCity()
+
+    const getCity = () => {
+        outCity()
             .then((json) => {
                 setItemsCity(json);
             });
-	}
+    }
 
     const clickCity = async () => {
         try {
@@ -33,11 +33,22 @@ function BlockCity() {
         } catch (e) {
             alert(e.response.data.message);
         }
-		
-		getCity();
+
+        getCity();
     }
 
+    const removeCity = async (id) => {
+        try {
+            let data = await deleteCity(id);
 
+            console.log({ data })
+
+        } catch (e) {
+            console.log(e.response.data.message);
+        }
+
+        getCity();
+    }
 
     return (
 
@@ -55,7 +66,7 @@ function BlockCity() {
             {
                 load
                     ? <Loader />
-                    : <TableCity city={itemsCity} />
+                    : <TableCity city={itemsCity} removeCity={removeCity} />
             }
         </div>
     );

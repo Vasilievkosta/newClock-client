@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const $host = axios.create({
-    baseURL: 'https://railway-first.up.railway.app'
-    //baseURL: ''
+    baseURL: 'https://render-clock.onrender.com'
+    // baseURL: ''
 })
 
 export const login = async (email, password) => {
@@ -56,5 +56,11 @@ export const deleteMaster = async (id) => {
 export const deleteUser = async (id) => {
 
     const { data } = await $host.delete(`/api/user/delete/${String(id)}`);
+    return data;
+}
+
+export const deleteCity = async (id) => {
+
+    const { data } = await $host.delete(`/api/city/delete/${String(id)}`);
     return data;
 }

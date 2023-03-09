@@ -111,7 +111,6 @@ body {
 }
 
 .auth__input {
-
   width: 100%;
   border: none;
   padding: 3px 10px;
@@ -149,12 +148,20 @@ body {
   overflow: hidden;
 }
 
+.auth__btn svg {
+  transition: fill 0.3s;
+}
+
+.auth__btn:hover svg {
+  fill: #333366;
+}
+
 .auth__btn:focus {
   outline: 0;
 }
 
 .auth__btn:hover {
-  color: #333366
+  color: #333366;
 }
 
 .auth__btn:active {
