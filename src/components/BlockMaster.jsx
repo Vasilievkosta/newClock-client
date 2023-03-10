@@ -42,11 +42,12 @@ function BlockMaster() {
 
     const clickMaster = async () => {
         try {
+            setLoad(true);
             let data = await createMaster(master, cityId);
 
             console.log({ data })
             setMaster('');
-
+            setLoad(false);
         } catch (e) {
             console.log(e.response.data.message);
         }
@@ -56,10 +57,11 @@ function BlockMaster() {
 
     const removeMaster = async (id) => {
         try {
+            setLoad(true);
             let data = await deleteMaster(id);
 
             console.log({ data })
-
+            setLoad(false);
         } catch (e) {
             console.log(e.response.data.message);
         }

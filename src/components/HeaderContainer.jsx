@@ -6,10 +6,10 @@ import imageLogo from '../images/Clockwise.png';
 
 const HeaderContainer = () => {
     const navigate = useNavigate();
+    const valid = localStorage.getItem('authKey')
 
     const validAuthAdmin = () => {
-        const readValue = localStorage.getItem('authKey');
-        readValue ? navigate('/admin-panel') : navigate('/auth-admin')
+        valid ? navigate('/admin-panel') : navigate('/auth-admin')
     }
 
     const logOut = () => {
@@ -23,17 +23,15 @@ const HeaderContainer = () => {
                 <img className='navbar__img' src={imageLogo} alt='logo' />
             </NavLink>
 
-            {
-                <ul className='navbar__list'>
-                    <li className='navbar__item'>
-                        <button className='navbar__link' onClick={validAuthAdmin}>Admin panel</button>
-                    </li>
+            <ul className='navbar__list'>
+                <li className='navbar__item'>
+                    <button className='navbar__link' onClick={validAuthAdmin}>Admin panel</button>
+                </li>
+                {(valid) &&
                     <li className='navbar__item'>
                         <button className='navbar__link' onClick={logOut}>Log out</button>
-                    </li>
-                </ul>
-            }
-
+                    </li>}
+            </ul>
         </div >
     );
 };

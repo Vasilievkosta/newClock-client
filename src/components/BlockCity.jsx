@@ -8,7 +8,7 @@ function BlockCity() {
     const [itemsCity, setItemsCity] = useState([]);
     const [load, setLoad] = useState(true);
 
-    const [city, setCity] = useState();
+    const [city, setCity] = useState('');
 
     React.useEffect(() => {
         setLoad(true);
@@ -25,10 +25,11 @@ function BlockCity() {
 
     const clickCity = async () => {
         try {
+            setLoad(true);
             let data = await createCity(city);
-
             console.log({ data });
             setCity('');
+            setLoad(false);
 
         } catch (e) {
             alert(e.response.data.message);
@@ -39,10 +40,11 @@ function BlockCity() {
 
     const removeCity = async (id) => {
         try {
+            setLoad(true);
             let data = await deleteCity(id);
 
             console.log({ data })
-
+            setLoad(false);
         } catch (e) {
             console.log(e.response.data.message);
         }

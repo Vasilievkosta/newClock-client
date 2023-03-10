@@ -8,14 +8,19 @@ const AuthAdmin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const click = async () => {
+    const loginHandler = async () => {
         try {
             let data = await login(email, password);
 
             console.log({ data })
-            data ?
-                localStorage.setItem('authKey', data) || navigate('/admin-panel')
-                : alert("Не правильный пароль или логин.");
+            if (data) {
+                localStorage.setItem('authKey', data)
+                navigate('/admin-panel')
+            } else {
+                alert("Не правильный пароль или логин.")
+                setEmail('')
+                setPassword('')
+            }
 
         } catch (e) {
             alert(e.response.data.message);
@@ -25,7 +30,7 @@ const AuthAdmin = () => {
     return (
         <div className="auth" >
 
-            <h2 className="auth__title">{'Авторизация админа'}</h2>
+            <h2 className="auth__title">Авторизация админа</h2>
 
             <form>
                 <input className="auth__input" placeholder='Введите ваш email...' type='text' value={email} onChange={e => setEmail(e.target.value)} />
@@ -33,7 +38,7 @@ const AuthAdmin = () => {
                 <input className="auth__input" placeholder='Введите ваш пароль...' type='password' value={password} onChange={e => setPassword(e.target.value)} />
 
                 <br />
-                <button className="auth__btn" type='button' onClick={click}> {'Войти'} </button>
+                <button className="auth__btn" type='button' onClick={loginHandler}>Войти</button>
 
             </form>
         </div>
