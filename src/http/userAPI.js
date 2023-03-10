@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const $host = axios.create({
-    baseURL: 'https://render-clock.onrender.com'
-    // baseURL: ''
+    // baseURL: 'https://render-clock.onrender.com'
+    baseURL: ''
 })
 
 export const login = async (email, password) => {
