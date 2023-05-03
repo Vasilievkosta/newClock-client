@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const $host = axios.create({
-    baseURL: 'https://render-clock.onrender.com'
-    //baseURL: ''
+    // baseURL: 'https://render-clock.onrender.com'
+    baseURL: ''
 })
 
 export const login = async (email, password) => {
@@ -42,7 +42,7 @@ export const createCity = async (title) => {
 }
 
 export const createUser = async (userName, email, city_id, time) => {
-
+    // нужна и data и time
     const { data } = await $host.post('/api/user/create', { userName, email, city_id, time });
     return data;
 }

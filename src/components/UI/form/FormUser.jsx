@@ -9,7 +9,8 @@ function FormUser() {
     const [email, setEmail] = useState('');
     const [size, setSize] = useState('medium');
     const [cityId, setCityId] = useState('1');
-    const [time, setTime] = useState('');
+    const [date, setDate] = useState('');
+    const [time, setTime] = useState('09:00');
 
     const sizeItems = ['large', 'medium', 'small'];
 
@@ -32,12 +33,14 @@ function FormUser() {
         try {
             let data = await createUser(userName, email, cityId, time);
             console.log(data);
+            // нужна и data и time
 
             setUserName('');
             setEmail('');
             setSize('medium');
             setCityId('1');
-            setTime('');
+            setDate('');
+            setTime('09:00');
 
         } catch (e) {
             alert(e.response.data.message);
@@ -85,10 +88,16 @@ function FormUser() {
                     ))}
                 </select>
 
-                <label htmlFor="time" hidden>Дата</label>
-                <input className="field__input" name="time" type="date"
-                    placeholder="Введите дату" value={time} min={nowDate}
-                    onChange={e => setTime(e.target.value)} required={true} />
+                <label htmlFor="date" hidden>Дата</label>
+                <input className="field__input" name="date" type="date"
+                    placeholder="Введите дату" value={date} min={nowDate}
+                    onChange={e => setDate(e.target.value)} required />
+
+                <label htmlFor="time" hidden>Время</label>
+                <input className="field__input" name="time" type="time"
+                    placeholder="Введите время" value={time}
+                    min="09:00" max="17:00" step='3600'
+                    onChange={e => setTime(e.target.value)} required />
 
                 <button className="field__btn">Выбор мастера</button>
             </form>
