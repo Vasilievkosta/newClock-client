@@ -23,7 +23,19 @@ function BlockCity() {
             });
     }
 
-    const clickCity = async () => {
+    const addCity = async () => {
+
+        if (city.trim() === "") {
+            alert('City is required')
+            setCity('')
+            return
+        }
+        let newCity = itemsCity.find((c) => c.title === city.trim())
+        if (newCity) {
+            alert('This city already exists')
+            setCity('')
+            return
+        }
         try {
             setLoad(true);
             let data = await createCity(city);
@@ -62,7 +74,7 @@ function BlockCity() {
 
                 <input className="auth__input" placeholder='Введите название города...' type='text' value={city} onChange={e => setCity(e.target.value)} />
 
-                <button className="auth__btn" type='button' onClick={clickCity}> {'Добавить город'} </button>
+                <button className="auth__btn" type='button' onClick={addCity}> {'Добавить город'} </button>
             </form>
             <br />
             {
