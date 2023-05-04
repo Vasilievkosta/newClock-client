@@ -10,7 +10,7 @@ function FormUser() {
     const [size, setSize] = useState('medium');
     const [cityId, setCityId] = useState('1');
     const [date, setDate] = useState('');
-    const [time, setTime] = useState('09:00');
+    const [time, setTime] = useState('');
 
     const sizeItems = ['large', 'medium', 'small'];
 
@@ -33,14 +33,13 @@ function FormUser() {
         try {
             let data = await createUser(userName, email, cityId, time);
             console.log(data);
-            // нужна и data и time
 
             setUserName('');
             setEmail('');
             setSize('medium');
             setCityId('1');
             setDate('');
-            setTime('09:00');
+            setTime('');
 
         } catch (e) {
             alert(e.response.data.message);
