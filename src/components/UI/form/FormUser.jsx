@@ -31,7 +31,7 @@ function FormUser() {
     в выбранном городе на подходящую дату!`);
 
         try {
-            let data = await createUser(userName, email, cityId, time);
+            let data = await createUser(userName, email, cityId, date, time);
             console.log(data);
 
             setUserName('');
@@ -46,7 +46,7 @@ function FormUser() {
         }
     }
 
-    const nowDate = new Date().toISOString().split('T')[0]
+    const nowDate = new Date().toISOString().split('T')[0];
 
     return (
         <div className="field">

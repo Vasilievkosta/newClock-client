@@ -40,7 +40,13 @@ function BlockMaster() {
     }, []);
 
 
-    const clickMaster = async () => {
+    const addMaster = async () => {
+
+        if (master.trim() === "") {
+            alert('Master is required')
+            setMaster('')
+            return
+        }
         try {
             setLoad(true);
             let data = await createMaster(master, cityId);
@@ -88,7 +94,7 @@ function BlockMaster() {
                     ))}
                 </select>
 
-                <button className="auth__btn" type='button' onClick={clickMaster}> {'Добавить мастера'} </button>
+                <button className="auth__btn" type='button' onClick={addMaster}> {'Добавить мастера'} </button>
             </form>
             <br />
             {

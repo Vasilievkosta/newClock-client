@@ -1,14 +1,18 @@
 import axios from 'axios';
 
 const $host = axios.create({
-
     baseURL: window.location.hostname === 'localhost' ? '' : 'https://render-clock.onrender.com'
-
 })
 
 export const login = async (email, password) => {
 
-    const { data } = await $host.post('/login2', { email, password });
+    const { data } = await $host.post('/auth', { email, password });
+    return data;
+}
+
+export const logout = async () => {
+
+    const { data } = await $host.get('/logout');
     return data;
 }
 
@@ -42,9 +46,9 @@ export const createCity = async (title) => {
     return data;
 }
 
-export const createUser = async (userName, email, city_id, time) => {
+export const createUser = async (userName, email, city_id, date, time) => {
     // нужна и data и time
-    const { data } = await $host.post('/api/user/create', { userName, email, city_id, time });
+    const { data } = await $host.post('/api/user/create', { userName, email, city_id, date, time });
     return data;
 }
 

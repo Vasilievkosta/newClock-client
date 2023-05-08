@@ -9,6 +9,7 @@ const TableUser = ({ user, removeUser }) => {
                     <th>name</th>
                     <th>email</th>
                     <th>date</th>
+                    <th>time</th>
                     <th>city</th>
                 </tr>
             </thead>
@@ -17,6 +18,7 @@ const TableUser = ({ user, removeUser }) => {
                     <tr key={item.id}>
                         <td>{item.username}</td>
                         <td>{item.email}</td>
+                        <td>{item.date}</td>
                         <td>{item.time}</td>
                         <td>{item.title}</td>
                         <td><button className="auth__btn" onClick={() => removeUser(item.id)}>

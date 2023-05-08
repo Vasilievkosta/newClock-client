@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../http/userAPI';
 
 import imageLogo from '../images/Clockwise.png';
 
@@ -12,10 +13,11 @@ const HeaderContainer = () => {
         valid ? navigate('/admin-panel') : navigate('/auth-admin')
     }
 
-    const logOut = () => {
+    const logOutHandler = () => {
         localStorage.removeItem('authKey');
         alert('log out)');
-        navigate('/auth-admin')
+        navigate('/auth-admin');
+        logout()
     }
 
     return (
@@ -30,7 +32,7 @@ const HeaderContainer = () => {
                 </li>
                 {(valid) &&
                     <li className='navbar__item'>
-                        <button className='navbar__link' onClick={logOut}>Log out</button>
+                        <button className='navbar__link' onClick={logOutHandler}>Log out</button>
                     </li>}
             </ul>
         </div >
