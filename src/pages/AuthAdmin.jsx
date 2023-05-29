@@ -12,10 +12,16 @@ const AuthAdmin = () => {
         try {
             let data = await login(email, password);
 
-            console.log({ data })
-            if (data) {
-                localStorage.setItem('authKey', data)
+            if (data.data) {
+
+                const authorizationHeader = data.headers.authorization
+                const token = authorizationHeader.split(' ')[1];
+
+                localStorage.setItem('token', token);
+                localStorage.setItem('authKey', data.data)
+
                 navigate('/admin-panel')
+
             } else {
                 alert("Не правильный пароль или логин.")
                 setEmail('')

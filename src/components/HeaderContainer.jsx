@@ -15,6 +15,7 @@ const HeaderContainer = () => {
 
     const logOutHandler = () => {
         localStorage.removeItem('authKey');
+        localStorage.removeItem('token');
         alert('log out)');
         navigate('/auth-admin');
         logout()

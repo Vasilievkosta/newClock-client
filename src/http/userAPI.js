@@ -6,7 +6,7 @@ const $host = axios.create({
 
 export const login = async (email, password) => {
 
-    const { data } = await $host.post('/auth', { email, password });
+    const data = await $host.post('/auth', { email, password });
     return data;
 }
 
@@ -18,7 +18,13 @@ export const logout = async () => {
 
 export const outMaster = async () => {
 
-    const { data } = await $host.get('/api/master');
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+
+    const { data } = await $host.get('/api/master', { headers });
+
     return data;
 }
 
@@ -29,8 +35,12 @@ export const outCity = async () => {
 }
 
 export const outUser = async () => {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
 
-    const { data } = await $host.get('/api/user');
+    const { data } = await $host.get('/api/user', { headers });
     return data;
 }
 
