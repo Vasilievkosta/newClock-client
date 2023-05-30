@@ -10,14 +10,17 @@ const AuthAdmin = () => {
 
     const loginHandler = async () => {
         try {
+
             let data = await login(email, password);
 
             if (data.data) {
 
-                const authorizationHeader = data.headers.authorization
-                const token = authorizationHeader.split(' ')[1];
+                // const authorizationHeader = await data.headers.authorization
+                // const token = await data.headers.get('Authorization').split(' ')[1];
+                // const token = authorizationHeader.split(' ')[1];
+                // const token = data.headers['x-auth-token'];
 
-                localStorage.setItem('token', token);
+                localStorage.setItem('token', data.token);
                 localStorage.setItem('authKey', data.data)
 
                 navigate('/admin-panel')

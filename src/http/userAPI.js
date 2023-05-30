@@ -2,12 +2,14 @@ import axios from 'axios';
 
 const $host = axios.create({
     baseURL: window.location.hostname === 'localhost' ? '' : 'https://render-clock.onrender.com'
+    // baseURL: 'https://render-clock.onrender.com'
 })
 
 export const login = async (email, password) => {
 
     const data = await $host.post('/auth', { email, password });
-    return data;
+
+    return data.data;
 }
 
 export const logout = async () => {
