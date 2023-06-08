@@ -46,9 +46,9 @@ export const outUser = async () => {
     return data;
 }
 
-export const createMaster = async (name, city_id) => {
+export const createMaster = async (name, arr) => {
 
-    const { data } = await $host.post('/api/master/create', { name, city_id });
+    const { data } = await $host.post('/api/master/create', { name, arr });
     return data;
 }
 
@@ -59,14 +59,13 @@ export const createCity = async (title) => {
 }
 
 export const createUser = async (userName, email, city_id, date, time) => {
-    // нужна и data и time
+
     const { data } = await $host.post('/api/user/create', { userName, email, city_id, date, time });
     return data;
 }
 
-export const deleteMaster = async (id) => {
-
-    const { data } = await $host.delete(`/api/master/delete/${String(id)}`);
+export const deleteMaster = async (name) => {
+    const { data } = await $host.delete(`/api/master/delete/${name}`);
     return data;
 }
 

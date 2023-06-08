@@ -7,7 +7,6 @@ const TableCity = memo(({ city, removeCity }) => {
         <table className="table">
             <thead>
                 <tr>
-                    <th>id</th>
                     <th>City</th>
                     <th>delete</th>
                 </tr>
@@ -15,7 +14,6 @@ const TableCity = memo(({ city, removeCity }) => {
             <tbody>
                 {city.map(item => (
                     <tr key={item.id}>
-                        <td>{item.id}</td>
                         <td>{item.title}</td>
                         <td><button className="auth__btn auth__btn--del" onClick={() => removeCity(item.id)}>
                             <svg fill="#cccccc" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

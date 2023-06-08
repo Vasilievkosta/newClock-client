@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Select from 'react-select';
 
 import { createMaster, outMaster, deleteMaster, outCity } from '../http/userAPI';
 
@@ -13,7 +14,8 @@ function BlockMaster() {
     const [load, setLoad] = useState(true);
 
     const [master, setMaster] = useState('');
-    const [cityId, setCityId] = useState(1);
+
+    const [changeCity, setChangeCity] = useState([])
 
     const getMaster = () => {
         outMaster()
@@ -39,8 +41,18 @@ function BlockMaster() {
         getCity();
     }, []);
 
+    const options = itemsCity.map((item) => {
+        return ({ value: item.id, label: item.title })
+    })
+
+    const handleChange = (selectedOption) => {
+        console.log(selectedOption)
+        setChangeCity(selectedOption)
+    }
+
 
     const addMaster = async () => {
+        const arr = changeCity.map((el) => el.value)
 
         if (master.trim() === "") {
             alert('Master is required')
@@ -49,7 +61,7 @@ function BlockMaster() {
         }
         try {
             setLoad(true);
-            let data = await createMaster(master, cityId);
+            let data = await createMaster(master, arr);
 
             console.log({ data })
             setMaster('');
@@ -77,26 +89,23 @@ function BlockMaster() {
 
     return (
 
-        <div className="master" style={{ marginRight: '40px' }}>
+        <div className="master" style={{ color: 'black' }}>
 
             <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
 
-            <form style={{ width: '500px', margin: '0 auto', border: 'solid 1px grey' }}>
+            <form style={{ width: '500px', margin: '10px auto', border: 'solid 1px grey' }}>
 
                 <input className="auth__input" placeholder='Введите имя мастера...' type='text' value={master} onChange={e => setMaster(e.target.value)} />
-                <p></p>
 
-                <select className="auth__input" type="text" value={cityId} onChange={e => setCityId(e.target.value)}>
 
-                    <option disabled className="field__city" >{'Выберите город'}</option>
-                    {itemsCity.map(item => (
-                        <option key={item.id} className="field__city" value={item.id}>{item.title}</option>
-                    ))}
-                </select>
+                <button className="auth__btn" style={{ maxWidth: '200px', margin: '20px auto', display: 'block' }} type='button' onClick={addMaster}>
+                    Добавить мастера
+                </button>
 
-                <button className="auth__btn" type='button' onClick={addMaster}> {'Добавить мастера'} </button>
+                <div >
+                    <Select options={options} onChange={handleChange} isMulti />
+                </div>
             </form>
-            <br />
             {
                 load
                     ? <Loader />
