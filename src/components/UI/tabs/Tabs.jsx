@@ -4,6 +4,7 @@ import './tabs.css';
 import BlockCity from '../../BlockCity';
 import BlockMaster from '../../BlockMaster';
 import BlockUser from '../../BlockUser';
+import BlockOrder from '../../BlockOrder';
 
 function Tabs() {
     const [toggleState, setToggleState] = useState(1);
@@ -33,6 +34,12 @@ function Tabs() {
                 >
                     Users
                 </button>
+                <button
+                    className={toggleState === 4 ? "tabs active-tabs" : "tabs"}
+                    onClick={() => toggleTab(4)}
+                >
+                    Orders
+                </button>
             </div>
 
             <div className="content-tabs">
@@ -56,6 +63,14 @@ function Tabs() {
                     <h2>List of users</h2>
                     <hr />
                     <BlockUser />
+                </div>
+
+                <div
+                    className={toggleState === 4 ? "content  active-content" : "content"}
+                >
+                    <h2>List of orders</h2>
+                    <hr />
+                    <BlockOrder />
                 </div>
             </div>
         </div >

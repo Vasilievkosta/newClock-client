@@ -97,7 +97,6 @@ function BlockMaster() {
 
                 <input className="auth__input" placeholder='Введите имя мастера...' type='text' value={master} onChange={e => setMaster(e.target.value)} />
 
-
                 <button className="auth__btn" style={{ maxWidth: '200px', margin: '20px auto', display: 'block' }} type='button' onClick={addMaster}>
                     Добавить мастера
                 </button>

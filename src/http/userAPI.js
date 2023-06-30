@@ -5,6 +5,7 @@ const $host = axios.create({
     // baseURL: 'https://render-clock.onrender.com'
 })
 
+
 export const login = async (email, password) => {
 
     const data = await $host.post('/auth', { email, password });
@@ -30,6 +31,12 @@ export const outMaster = async () => {
     return data;
 }
 
+export const masterOfCity = async (id) => {
+
+    const { data } = await $host.get(`/api/master/ofcity/${String(id)}`);
+    return data;
+}
+
 export const outCity = async () => {
 
     const { data } = await $host.get('/api/city');
@@ -46,6 +53,16 @@ export const outUser = async () => {
     return data;
 }
 
+export const outOrder = async () => {
+    const token = localStorage.getItem('token');
+    const headers = {
+        'Authorization': `Bearer ${token}`
+    };
+
+    const { data } = await $host.get('/api/order', { headers });
+    return data;
+}
+
 export const createMaster = async (name, arr) => {
 
     const { data } = await $host.post('/api/master/create', { name, arr });
@@ -58,9 +75,15 @@ export const createCity = async (title) => {
     return data;
 }
 
-export const createUser = async (userName, email, city_id, date, time) => {
+export const createUser = async (userName, email, city_id) => {
 
-    const { data } = await $host.post('/api/user/create', { userName, email, city_id, date, time });
+    const { data } = await $host.post('/api/user/create', { userName, email, city_id });
+    return data;
+}
+
+export const createOrder = async (date, time, user_id, master_id) => {
+    console.log('вызов ', date, time, user_id, master_id)
+    const { data } = await $host.post('/api/order/create', { date, time, user_id, master_id });
     return data;
 }
 
@@ -78,5 +101,11 @@ export const deleteUser = async (id) => {
 export const deleteCity = async (id) => {
 
     const { data } = await $host.delete(`/api/city/delete/${String(id)}`);
+    return data;
+}
+
+export const deleteOrder = async (id) => {
+
+    const { data } = await $host.delete(`/api/order/delete/${String(id)}`);
     return data;
 }
