@@ -25,7 +25,9 @@ function BlockOrder() {
     }, []);
 
     const removeOrder = async (id) => {
+
         try {
+
             let data = await deleteOrder(id);
             console.log({ data })
         } catch (e) {

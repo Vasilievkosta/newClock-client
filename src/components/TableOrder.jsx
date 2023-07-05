@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TableOrder = ({ order, removeOrder }) => {
-    console.log(order)
+
     return (
         <table className="table">
             <thead>
