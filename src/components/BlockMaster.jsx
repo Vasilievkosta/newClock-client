@@ -73,10 +73,11 @@ function BlockMaster() {
         getMaster();
     }
 
-    const removeMaster = async (id) => {
+    const removeMaster = async (name) => {
+
         try {
             setLoad(true);
-            let data = await deleteMaster(id);
+            let data = await deleteMaster(name);
 
             console.log({ data })
             setLoad(false);

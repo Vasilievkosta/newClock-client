@@ -8,6 +8,7 @@ const TableOrder = ({ order, removeOrder }) => {
                 <tr>
                     <th>date</th>
                     <th>time</th>
+                    <th>hours</th>
                     <th>user</th>
                     <th>master</th>
                     <th>city</th>
@@ -18,6 +19,7 @@ const TableOrder = ({ order, removeOrder }) => {
                     <tr key={item.id}>
                         <td>{item.date}</td>
                         <td>{item.time}</td>
+                        <td>{item.duration}</td>
                         <td>{item.user_name}</td>
                         <td>{item.master_name}</td>
                         <td>{item.city_name}</td>

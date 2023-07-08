@@ -3,7 +3,7 @@ import './formUser.css';
 import { Modal } from '../modal/modal';
 import TableMastersForUser from '../../../components/TableMastesForUser'
 
-import { outCity, createUser, masterOfCity, createOrder } from '../../../http/userAPI';
+import { outCity, outOneUser, createUser, masterOfCity, createOrder } from '../../../http/userAPI';
 
 function FormUser() {
 
@@ -14,14 +14,20 @@ function FormUser() {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
 
-    const sizeItems = ['large', 'medium', 'small'];
+    const sizeToDuration = {
+        large: 3,
+        medium: 2,
+        small: 1
+    }
+
+    const sizeItems = Object.keys(sizeToDuration);
 
     const [itemsCity, setItemsCity] = useState([]);
 
     const [modalActive, setModalActive] = useState(false);
     const [sendPayload, setSendPayload] = useState({});
 
-    const [mastersForUser, setMastersForUser] = useState([])
+    const [mastersForUser, setMastersForUser] = useState([]);
 
     React.useEffect(() => {
 
@@ -35,21 +41,39 @@ function FormUser() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        alert(`Ваша заявка оформлена, здесь будет функционал выбора мастера
-        в выбранном городе на подходящую дату!`);
-        setModalActive(true)
-        try {
-            getMastersForUser(cityId)
 
-            let data = await createUser(userName, email, cityId);
-            console.log(data);
-            let userId = data[0].id
+        const hours = parseInt(time.split(":")[0], 10);
 
-            setSendPayload({ date, time, userId })
+        if (hours + sizeToDuration[size] > 17) {
+            alert(`Вы хотите, но время ремонта выших часов выходит за рабочее время.
+                    С размером ваших часов надо пораньше)!`);
+        } else {
+            alert(`Заявка оформляется, выберете мастера на подходящую дату и время!`);
+            setModalActive(true)
+            try {
+                getMastersForUser(cityId)
 
-        } catch (e) {
-            alert(e.response.data.message);
+                let findUser = await outOneUser(email);
+                let userId;
+                if (!findUser) {
+                    let data = await createUser(userName, email, cityId);
+                    console.log(data);
+                    userId = data[0].id
+
+                } else {
+                    console.log(findUser);
+                    userId = findUser.id
+                }
+                setSendPayload({ date, time, duration: sizeToDuration[size], userId })
+
+                console.log(sendPayload)
+
+
+            } catch (e) {
+                alert(e.response.data.message);
+            }
         }
+
 
     }
 
@@ -63,11 +87,10 @@ function FormUser() {
     const shooseMaster = async (idMaster) => {
         console.log(idMaster)
 
-
-        const { date, time, userId } = sendPayload;
-        console.log(date, time, userId)
+        const { date, time, duration, userId } = sendPayload;
+        console.log(date, time, duration, userId)
         try {
-            let data = await createOrder(date, time, userId, idMaster);
+            let data = await createOrder(date, time, duration, userId, idMaster);
             console.log(data);
 
             setUserName('');
@@ -83,8 +106,6 @@ function FormUser() {
             alert(e.response.data.message);
         }
     }
-
-
 
     const nowDate = new Date().toISOString().split('T')[0];
 
@@ -141,7 +162,7 @@ function FormUser() {
                 <label htmlFor="time" hidden>Время</label>
                 <input className="field__input" id="time" type="time"
                     placeholder="Введите время" value={time}
-                    min="09:00" max="17:00" step='3600'
+                    min="09:00" max="16:00" step='3600'
                     onChange={e => setTime(e.target.value)} required />
 
                 <button className="field__btn">Выбор мастера</button>

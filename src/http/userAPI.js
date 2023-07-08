@@ -53,6 +53,12 @@ export const outUser = async () => {
     return data;
 }
 
+export const outOneUser = async (email) => {
+
+    const { data } = await $host.get(`/api/user/${email}`);
+    return data;
+}
+
 export const outOrder = async () => {
     const token = localStorage.getItem('token');
     const headers = {
@@ -81,9 +87,9 @@ export const createUser = async (userName, email, city_id) => {
     return data;
 }
 
-export const createOrder = async (date, time, user_id, master_id) => {
-    console.log('вызов ', date, time, user_id, master_id)
-    const { data } = await $host.post('/api/order/create', { date, time, user_id, master_id });
+export const createOrder = async (date, time, duration, user_id, master_id) => {
+    console.log('заказ order ', date, time, duration, user_id, master_id)
+    const { data } = await $host.post('/api/order/create', { date, time, duration, user_id, master_id });
     return data;
 }
 
