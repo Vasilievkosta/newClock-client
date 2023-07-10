@@ -3,7 +3,7 @@ import './formUser.css';
 import { Modal } from '../modal/modal';
 import TableMastersForUser from '../../../components/TableMastesForUser'
 
-import { outCity, outOneUser, createUser, masterOfCity, createOrder } from '../../../http/userAPI';
+import { outCity, outOneUser, createUser, masterOfCityAndDate, createOrder } from '../../../http/userAPI';
 
 function FormUser() {
 
@@ -48,10 +48,10 @@ function FormUser() {
             alert(`Вы хотите, но время ремонта выших часов выходит за рабочее время.
                     С размером ваших часов надо пораньше)!`);
         } else {
-            alert(`Заявка оформляется, выберете мастера на подходящую дату и время!`);
+            alert(`Выберете мастера на подходящую дату и время!`);
             setModalActive(true)
             try {
-                getMastersForUser(cityId)
+                getMastersForUser(cityId, date, time, sizeToDuration[size])
 
                 let findUser = await outOneUser(email);
                 let userId;
@@ -73,22 +73,19 @@ function FormUser() {
                 alert(e.response.data.message);
             }
         }
-
-
     }
 
-    const getMastersForUser = (id) => {
-        masterOfCity(id)
+    const getMastersForUser = (cityId, date, time, duration) => {
+        masterOfCityAndDate(cityId, date, time, duration)
             .then((json) => {
                 setMastersForUser(json);
             });
     }
 
     const shooseMaster = async (idMaster) => {
-        console.log(idMaster)
 
         const { date, time, duration, userId } = sendPayload;
-        console.log(date, time, duration, userId)
+
         try {
             let data = await createOrder(date, time, duration, userId, idMaster);
             console.log(data);

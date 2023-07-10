@@ -37,6 +37,12 @@ export const masterOfCity = async (id) => {
     return data;
 }
 
+export const masterOfCityAndDate = async (cityId, date, time, duration) => {
+
+    const { data } = await $host.post('/api/master/ofcitytest', { cityId, date, time, duration });
+    return data;
+}
+
 export const outCity = async () => {
 
     const { data } = await $host.get('/api/city');

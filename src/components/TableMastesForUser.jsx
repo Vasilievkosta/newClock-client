@@ -2,6 +2,10 @@ import React from 'react';
 
 const TableMastersForUser = ({ mastersForUser, shooseMaster }) => {
 
+    if (mastersForUser.length === 0) {
+        return <p>На данное число и время пока нет свободных мастеров(</p>;
+    }
+
     return (
         <div>
             <p>Мастера работающие в Вашем городе</p>
