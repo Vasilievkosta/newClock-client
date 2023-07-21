@@ -12,22 +12,26 @@ function BlockUser() {
     const [load, setLoad] = useState(true);
 
     const getUser = () => {
+        setLoad(true);
         outUser()
             .then((json) => {
                 setItemsUser(json);
+                setLoad(false);
             });
     }
 
     React.useEffect(() => {
-        setLoad(true);
+
         getUser();
-        setLoad(false);
+
     }, []);
 
     const removeUser = async (id) => {
         try {
+            setLoad(true);
             let data = await deleteUser(id);
             console.log({ data })
+            setLoad(false);
         } catch (e) {
             console.log(e.response.data.message);
         }

@@ -12,16 +12,18 @@ function BlockOrder() {
     const [load, setLoad] = useState(true);
 
     const getOrder = () => {
+        setLoad(true);
         outOrder()
             .then((json) => {
                 setItemsOrder(json);
+                setLoad(false);
             });
     }
 
     React.useEffect(() => {
-        setLoad(true);
+
         getOrder();
-        setLoad(false);
+
     }, []);
 
     const removeOrder = async (id) => {

@@ -11,17 +11,30 @@ function BlockCity() {
     const [city, setCity] = useState('');
 
     React.useEffect(() => {
-        setLoad(true);
+
         getCity();
-        setLoad(false);
+
     }, []);
 
     const getCity = () => {
+        setLoad(true);
         outCity()
             .then((json) => {
                 setItemsCity(json);
+                setLoad(false);
             });
     }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        addCity();
+    };
+
+    const handleKeyDown = (event) => {
+        if (event.keyCode === 13 || event.key === 'Enter') {
+            handleSubmit();
+        }
+    };
 
     const addCity = async () => {
 
@@ -70,11 +83,13 @@ function BlockCity() {
 
             <p style={{ textAlign: 'center' }}>Форма для добавления городов</p>
 
-            <form style={{ width: '500px', margin: '0 auto', border: 'solid 1px grey' }}>
+            <form onSubmit={handleSubmit} style={{ width: '500px', margin: '0 auto', border: 'solid 1px grey' }}>
 
                 <input className="auth__input" placeholder='Введите название города...' type='text' value={city} onChange={e => setCity(e.target.value)} />
 
-                <button className="auth__btn" type='button' onClick={addCity}> {'Добавить город'} </button>
+                <button className="auth__btn" type='button' onClick={addCity}
+                    onKeyDown={handleKeyDown}>Добавить город
+                </button>
             </form>
             <br />
             {

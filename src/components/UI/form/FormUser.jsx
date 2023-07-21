@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import './formUser.css';
 import { Modal } from '../modal/modal';
+import Loader from '../loader/Loader';
 import TableMastersForUser from '../../../components/TableMastesForUser'
 
 import { outCity, outOneUser, createUser, masterOfCityAndDate, createOrder } from '../../../http/userAPI';
+
 
 function FormUser() {
 
@@ -13,12 +15,24 @@ function FormUser() {
     const [cityId, setCityId] = useState('1');
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
+    const [load, setLoad] = useState(true);
 
     const sizeToDuration = {
         large: 3,
         medium: 2,
         small: 1
     }
+
+    const nowDate = new Date().toISOString().split('T')[0];
+    const nowTime = new Date().toLocaleTimeString().split(':')[0];
+
+    const selectTime = [];
+    let timeToday = date === nowDate ? +nowTime + 2 : 0;
+
+    for (let i = timeToday; i < 24; i++) {
+        i < 10 ? selectTime.push({ id: i, title: `0${i}:00` })
+            : selectTime.push({ id: i, title: `${i}:00` })
+    };
 
     const sizeItems = Object.keys(sizeToDuration);
 
@@ -35,50 +49,41 @@ function FormUser() {
             .then((json) => {
                 setItemsCity(json);
             });
-
     }, []);
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const hours = parseInt(time.split(":")[0], 10);
+        setModalActive(true)
+        try {
+            getMastersForUser(cityId, date, time, sizeToDuration[size])
 
-        if (hours + sizeToDuration[size] > 17) {
-            alert(`Вы хотите, но время ремонта выших часов выходит за рабочее время.
-                    С размером ваших часов надо пораньше)!`);
-        } else {
-            alert(`Выберете мастера на подходящую дату и время!`);
-            setModalActive(true)
-            try {
-                getMastersForUser(cityId, date, time, sizeToDuration[size])
+            let findUser = await outOneUser(email);
+            let userId;
+            if (!findUser) {
+                let data = await createUser(userName, email, cityId);
+                console.log(data);
+                userId = data[0].id
 
-                let findUser = await outOneUser(email);
-                let userId;
-                if (!findUser) {
-                    let data = await createUser(userName, email, cityId);
-                    console.log(data);
-                    userId = data[0].id
-
-                } else {
-                    console.log(findUser);
-                    userId = findUser.id
-                }
-                setSendPayload({ date, time, duration: sizeToDuration[size], userId })
-
-                console.log(sendPayload)
-
-
-            } catch (e) {
-                alert(e.response.data.message);
+            } else {
+                console.log(findUser);
+                userId = findUser.id
             }
+            setSendPayload({ date, time, duration: sizeToDuration[size], userId })
+
+        } catch (e) {
+            alert(e.response.data.message);
         }
+
     }
 
     const getMastersForUser = (cityId, date, time, duration) => {
+        setLoad(true);
         masterOfCityAndDate(cityId, date, time, duration)
             .then((json) => {
                 setMastersForUser(json);
+                setLoad(false);
             });
     }
 
@@ -104,7 +109,11 @@ function FormUser() {
         }
     }
 
-    const nowDate = new Date().toISOString().split('T')[0];
+    const handleDateChange = (e) => {
+        const userDate = e.target.value;
+        setTime('');
+        setDate(userDate);
+    };
 
     return (
         <div className="field">
@@ -112,8 +121,11 @@ function FormUser() {
             <p className="field__text">Для выбора мастера заполните пожалуйста данные</p>
 
             <Modal active={modalActive} setActive={setModalActive}>
-
-                <TableMastersForUser mastersForUser={mastersForUser} shooseMaster={shooseMaster} />
+                {
+                    load
+                        ? <Loader />
+                        : <TableMastersForUser mastersForUser={mastersForUser} shooseMaster={shooseMaster} />
+                }
             </Modal>
 
 
@@ -154,13 +166,29 @@ function FormUser() {
                 <label htmlFor="date" hidden>Дата</label>
                 <input className="field__input" id="date" type="date"
                     placeholder="Введите дату" value={date} min={nowDate}
-                    onChange={e => setDate(e.target.value)} required />
+                    onChange={handleDateChange} required />
 
-                <label htmlFor="time" hidden>Время</label>
+                {/* <label htmlFor="time" hidden>Время</label>
                 <input className="field__input" id="time" type="time"
                     placeholder="Введите время" value={time}
-                    min="09:00" max="16:00" step='3600'
-                    onChange={e => setTime(e.target.value)} required />
+                    min="00:00" step='3600'
+                    onChange={e => setTime(e.target.value)} required /> */}
+
+
+                <label htmlFor="time" hidden>Время</label>
+                <select className="field__input"
+                    value={time}
+                    id="time"
+                    required
+                    onChange={e => setTime(e.target.value)}
+                >
+
+                    <option disabled value="" className="field__city" style={{ color: 'white' }}>Выберите время</option>
+                    {selectTime.map(item => (
+                        <option key={item.id} className="field__city"
+                            value={item.id} >{item.title}</option>
+                    ))}
+                </select>
 
                 <button className="field__btn">Выбор мастера</button>
 

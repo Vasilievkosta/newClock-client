@@ -168,6 +168,15 @@ body {
   background-color: #436372;
 }
 
+.auth__btn:disabled {
+  background-color: #cecece;
+  cursor: default;
+}
+
+.auth__btn:disabled:hover {
+  color: #fff;
+}
+
 .auth__link {
   -webkit-transition: color 0.3s;
   -o-transition: color 0.3s;
