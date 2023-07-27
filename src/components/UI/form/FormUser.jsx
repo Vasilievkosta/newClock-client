@@ -75,7 +75,6 @@ function FormUser() {
         } catch (e) {
             alert(e.response.data.message);
         }
-
     }
 
     const getMastersForUser = (cityId, date, time, duration) => {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { createCity, outCity, deleteCity } from '../http/userAPI';
 import TableCity from './TableCity';
 import Loader from './UI/loader/Loader';
+import { Modal } from './UI/modal/modal';
 
 function BlockCity() {
 
@@ -9,6 +10,9 @@ function BlockCity() {
     const [load, setLoad] = useState(true);
 
     const [city, setCity] = useState('');
+
+    const [modalActive, setModalActive] = useState(false);
+    const [error, setError] = useState('');
 
     React.useEffect(() => {
 
@@ -66,12 +70,20 @@ function BlockCity() {
     const removeCity = async (id) => {
         try {
             setLoad(true);
-            let data = await deleteCity(id);
 
-            console.log({ data })
+            await deleteCity(id);
+
             setLoad(false);
-        } catch (e) {
-            console.log(e.response.data.message);
+        } catch (error) {
+            if (error.response.status === 400) {
+                console.log(error.response.data.error); // Cообщение от сервера: Cannot delete city. Users...
+
+                setError(error.response.data.error)
+                setModalActive(true)
+
+            } else {
+                console.log('An error occurred while deleting the city.');
+            }
         }
 
         getCity();
@@ -80,6 +92,14 @@ function BlockCity() {
     return (
 
         <div className="city">
+
+            {
+                <Modal active={modalActive} setActive={setModalActive}>
+                    {
+                        error
+                    }
+                </Modal>
+            }
 
             <p style={{ textAlign: 'center' }}>Форма для добавления городов</p>
 

@@ -5,8 +5,9 @@ import { createMaster, outMaster, deleteMaster, outCity } from '../http/userAPI'
 
 import TableMaster from './TableMaster';
 import Loader from './UI/loader/Loader';
+import { Modal } from './UI/modal/modal';
 
-function BlockMaster() {
+function BlockMaster(props) {
 
     const [itemsMaster, setItemsMaster] = useState([]);
     const [itemsCity, setItemsCity] = useState([]);
@@ -16,6 +17,9 @@ function BlockMaster() {
     const [master, setMaster] = useState('');
 
     const [changeCity, setChangeCity] = useState([]);
+
+    const [modalActive, setModalActive] = useState(false);
+    const [error, setError] = useState('');
 
     const getMaster = () => {
         setLoad(true);
@@ -35,8 +39,12 @@ function BlockMaster() {
 
     React.useEffect(() => {
         getMaster();
-        getCity();
+
     }, []);
+    React.useEffect(() => {
+
+        getCity();
+    }, [props.forRender]);
 
 
     const options = itemsCity.map((item) => {
@@ -84,19 +92,35 @@ function BlockMaster() {
     const removeMaster = async (name) => {
         try {
             setLoad(true);
-            let data = await deleteMaster(name);
 
-            console.log({ data })
+            await deleteMaster(name);
+
             setLoad(false);
-        } catch (e) {
-            console.log(e.response.data.message);
+        } catch (error) {
+            if (error.response.status === 400) {
+                console.log(error.response.data.error); // Cообщение от сервера: Cannot delete user. Orders are associated with the user.
+
+                setError(error.response.data.error)
+                setModalActive(true)
+
+            } else {
+                console.log('An error occurred while deleting the master.');
+            }
         }
+
         getMaster();
     }
 
     return (
 
         <div className="master" style={{ color: 'black' }}>
+            {
+                <Modal active={modalActive} setActive={setModalActive}>
+                    {
+                        error
+                    }
+                </Modal>
+            }
 
             <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
 

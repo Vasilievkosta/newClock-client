@@ -11,6 +11,7 @@
     opacity: 0;
     pointer-events: none;
     transition: 0.3s;
+    z-index: 1;
 }
 
 .modal.active {
@@ -28,11 +29,19 @@
 
 .modal__buttons {
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
+    background-color: #b6cefc;
+    margin-bottom: 10px;
+
 }
 
 .modal__btn {
-    padding: 5px;
     margin: 5px;
+    border: 2px solid transparent;
     cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.modal__btn:hover {
+    border-color: #cecece;
 }

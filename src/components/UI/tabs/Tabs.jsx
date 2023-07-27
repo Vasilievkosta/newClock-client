@@ -47,7 +47,7 @@ function Tabs() {
                     className={toggleState === 1 ? "content  active-content" : "content"}
                 >
                     <h2>List of masters</h2>
-                    <BlockMaster />
+                    <BlockMaster forRender={toggleState} />
                 </div>
 
                 <div
