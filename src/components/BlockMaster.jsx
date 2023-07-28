@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-import { createMaster, outMaster, deleteMaster, outCity } from '../http/userAPI';
+import { createMaster, deleteMaster, outCity, masterOfCities } from '../http/userAPI';
 
 import TableMaster from './TableMaster';
 import Loader from './UI/loader/Loader';
@@ -21,9 +21,10 @@ function BlockMaster(props) {
     const [modalActive, setModalActive] = useState(false);
     const [error, setError] = useState('');
 
+
     const getMaster = () => {
         setLoad(true);
-        outMaster()
+        masterOfCities()
             .then((json) => {
                 setItemsMaster(json);
                 setLoad(false);
@@ -75,6 +76,7 @@ function BlockMaster(props) {
 
             console.log({ data })
             setMaster('');
+            setChangeCity([])
             setLoad(false);
         } catch (e) {
             console.log(e.response.data.message);
@@ -89,11 +91,12 @@ function BlockMaster(props) {
         }
     };
 
-    const removeMaster = async (name) => {
+    const removeMaster = async (id) => {
+
         try {
             setLoad(true);
 
-            await deleteMaster(name);
+            await deleteMaster(id);
 
             setLoad(false);
         } catch (error) {
@@ -135,7 +138,7 @@ function BlockMaster(props) {
                 </button>
 
                 <div >
-                    <Select options={options} onChange={handleChange} isMulti />
+                    <Select options={options} value={changeCity} onChange={handleChange} isMulti />
                 </div>
             </form>
             {

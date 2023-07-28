@@ -21,8 +21,9 @@ const AuthAdmin = () => {
                 // const token = data.headers['x-auth-token'];
 
                 localStorage.setItem('token', data.token);
-                localStorage.setItem('authKey', data.data)
+                localStorage.setItem('authKey', data.data);
 
+                //await new Promise((resolve) => setTimeout(resolve, 0));
                 navigate('/admin-panel')
 
             } else {
