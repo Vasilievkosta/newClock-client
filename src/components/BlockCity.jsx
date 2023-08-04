@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createCity, outCity, deleteCity } from '../http/userAPI';
+import { createCity, outCity, deleteCity, updateCity } from '../http/userAPI';
 import TableCity from './TableCity';
 import Loader from './UI/loader/Loader';
 import { Modal } from './UI/modal/modal';
@@ -13,6 +13,7 @@ function BlockCity() {
 
     const [modalActive, setModalActive] = useState(false);
     const [error, setError] = useState('');
+
 
     React.useEffect(() => {
 
@@ -85,7 +86,28 @@ function BlockCity() {
                 console.log('An error occurred while deleting the city.');
             }
         }
+        getCity();
+    }
 
+    const updateTitleCity = async (id, title) => {
+        try {
+            setLoad(true);
+
+            let data = await updateCity(id, title);
+            console.log(data)
+
+            setLoad(false);
+        } catch (error) {
+            if (error.response.status === 404) {
+                console.log(error.response.data.error); // Cообщение от сервера: City not found
+
+                setError(error.response.data.error)
+                setModalActive(true)
+
+            } else {
+                console.log('An error occurred while updating the city.');
+            }
+        }
         getCity();
     }
 
@@ -93,19 +115,20 @@ function BlockCity() {
 
         <div className="city">
 
-            {
-                <Modal active={modalActive} setActive={setModalActive}>
-                    {
-                        error
-                    }
-                </Modal>
-            }
+            <Modal active={modalActive} setActive={setModalActive}>
+                {error}
+            </Modal>
 
             <p style={{ textAlign: 'center' }}>Форма для добавления городов</p>
 
             <form onSubmit={handleSubmit} style={{ width: '500px', margin: '0 auto', border: 'solid 1px grey' }}>
 
-                <input className="auth__input" placeholder='Введите название города...' type='text' value={city} onChange={e => setCity(e.target.value)} />
+                <input className="auth__input"
+                    placeholder='Введите название города...'
+                    type='text'
+                    value={city}
+                    onChange={e => setCity(e.target.value)}
+                />
 
                 <button className="auth__btn" type='button' onClick={addCity}
                     onKeyDown={handleKeyDown}>Добавить город
@@ -115,7 +138,11 @@ function BlockCity() {
             {
                 load
                     ? <Loader />
-                    : <TableCity city={itemsCity} removeCity={removeCity} />
+                    :
+                    <TableCity city={itemsCity}
+                        removeCity={removeCity}
+                        updateTitleCity={updateTitleCity}
+                    />
             }
         </div>
     );

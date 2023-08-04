@@ -117,13 +117,10 @@ function BlockMaster(props) {
     return (
 
         <div className="master" style={{ color: 'black' }}>
-            {
-                <Modal active={modalActive} setActive={setModalActive}>
-                    {
-                        error
-                    }
-                </Modal>
-            }
+
+            <Modal active={modalActive} setActive={setModalActive}>
+                {error}
+            </Modal>
 
             <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
 

@@ -123,3 +123,9 @@ export const deleteOrder = async (id) => {
     const { data } = await hostAxios.delete(`/api/order/delete/${String(id)}`);
     return data;
 }
+
+export const updateCity = async (cityId, newTitle) => {
+
+    const { data } = await hostAxios.put('/api/city/update', { cityId, newTitle });
+    return data;
+}
