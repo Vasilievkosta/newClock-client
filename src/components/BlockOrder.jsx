@@ -5,7 +5,7 @@ import { outOrder, deleteOrder } from '../http/userAPI';
 import TableOrder from './TableOrder';
 import Loader from './UI/loader/Loader';
 
-function BlockOrder() {
+function BlockOrder(props) {
 
     const [itemsOrder, setItemsOrder] = useState([]);
 
@@ -24,7 +24,7 @@ function BlockOrder() {
 
         getOrder();
 
-    }, []);
+    }, [props.forRender]);
 
     const removeOrder = async (id) => {
 

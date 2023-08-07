@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-import { createMaster, deleteMaster, outCity, masterOfCities } from '../http/userAPI';
+import { createMaster, deleteMaster, outCity, masterOfCities, updateMaster } from '../http/userAPI';
 
 import TableMaster from './TableMaster';
 import Loader from './UI/loader/Loader';
@@ -41,7 +41,7 @@ function BlockMaster(props) {
     React.useEffect(() => {
         getMaster();
 
-    }, []);
+    }, [props.forRender]);
     React.useEffect(() => {
 
         getCity();
@@ -114,6 +114,28 @@ function BlockMaster(props) {
         getMaster();
     }
 
+    const updateNameMaster = async (id, name) => {
+        try {
+            setLoad(true);
+
+            let data = await updateMaster(id, name);
+            console.log(data)
+
+            setLoad(false);
+        } catch (error) {
+            if (error.response.status === 404) {
+                console.log(error.response.data.error); // Cообщение от сервера: Resource not found
+
+                setError(error.response.data.error)
+                setModalActive(true)
+
+            } else {
+                console.log('An error occurred while updating the master.');
+            }
+        }
+        getMaster();
+    }
+
     return (
 
         <div className="master" style={{ color: 'black' }}>
@@ -141,7 +163,9 @@ function BlockMaster(props) {
             {
                 load
                     ? <Loader />
-                    : <TableMaster master={itemsMaster} removeMaster={removeMaster} />
+                    : <TableMaster master={itemsMaster}
+                        removeMaster={removeMaster}
+                        updateNameMaster={updateNameMaster} />
             }
         </div>
     );

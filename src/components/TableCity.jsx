@@ -1,16 +1,19 @@
-import React, { memo, useState } from 'react';
+import React, { useState } from 'react';
 import { Modal } from './UI/modal/modal';
+import sprite from '../images/sprite.svg';
 
 const TableCity = ({ city, removeCity, updateTitleCity }) => {
 
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
+    const [oldCity, setOldCity] = useState('')
     const [cityUpdate, setCityUpdate] = useState('')
-    const [idCity, setIdCity] = useState('')
+    const [cityId, setCityId] = useState('')
 
     const handleUpdate = (id, title) => {
         setModalActiveUpdade(true)
+        setOldCity(title)
         setCityUpdate(title)
-        setIdCity(id)
+        setCityId(id)
     }
 
     const onClickUpdate = () => {
@@ -19,15 +22,24 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
             setModalActiveUpdade(false)
             return
         }
-        let newTitle = cityUpdate.trim()
-        updateTitleCity(idCity, newTitle)
+        if (cityUpdate.trim() === oldCity) {
+            setModalActiveUpdade(false)
+            return
+        }
+        let dublicateCity = city.find((c) => c.title === cityUpdate.trim())
+        if (dublicateCity) {
+            alert('This city already exists')
+            setModalActiveUpdade(false)
+            return
+        }
+        updateTitleCity(cityId, cityUpdate.trim())
         setModalActiveUpdade(false)
     }
 
     return (
         <>
             <Modal active={modalActiveUpdade} setActive={setModalActiveUpdade}>
-                <input value={cityUpdate} onChange={e => setCityUpdate(e.currentTarget.value)}></input>
+                <input className="auth__input" value={cityUpdate} onChange={e => setCityUpdate(e.currentTarget.value)} />
                 <button className="auth__btn" onClick={onClickUpdate}>Ok</button>
             </Modal>
 
@@ -35,18 +47,22 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
                 <thead>
                     <tr>
                         <th>city</th>
-                        <th>update</th>
-                        <th>delete</th>
+                        <th>...</th>
+                        <th>...</th>
                     </tr>
                 </thead>
                 <tbody>
                     {city.map(item => (
                         <tr key={item.id}>
                             <td>{item.title}</td>
-                            <td><button className="auth__btn" onClick={() => handleUpdate(item.id, item.title)}>update</button></td>
+                            <td><button className="auth__btn" onClick={() => handleUpdate(item.id, item.title)}>
+                                <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <use xlinkHref={`${sprite}#edit`} />
+                                </svg>
+                            </button></td>
                             <td><button className="auth__btn" onClick={() => removeCity(item.id)}>
-                                <svg fill="#cccccc" width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M5.755,20.283,4,8H20L18.245,20.283A2,2,0,0,1,16.265,22H7.735A2,2,0,0,1,5.755,20.283ZM21,4H16V3a1,1,0,0,0-1-1H9A1,1,0,0,0,8,3V4H3A1,1,0,0,0,3,6H21a1,1,0,0,0,0-2Z" />
+                                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <use xlinkHref={`${sprite}#bin`} />
                                 </svg>
                             </button></td>
                         </tr>

@@ -7,7 +7,7 @@ import BlockUser from '../../BlockUser';
 import BlockOrder from '../../BlockOrder';
 
 function Tabs() {
-    const [toggleState, setToggleState] = useState(2);
+    const [toggleState, setToggleState] = useState(1);
 
     const toggleTab = (index) => {
         setToggleState(index);
@@ -54,7 +54,7 @@ function Tabs() {
                     className={toggleState === 2 ? "content  active-content" : "content"}
                 >
                     <h2>List of cities</h2>
-                    <BlockCity />
+                    <BlockCity forRender={toggleState} />
                 </div>
 
                 <div
@@ -62,7 +62,7 @@ function Tabs() {
                 >
                     <h2>List of users</h2>
                     <hr />
-                    <BlockUser />
+                    <BlockUser forRender={toggleState} />
                 </div>
 
                 <div
@@ -70,7 +70,7 @@ function Tabs() {
                 >
                     <h2>List of orders</h2>
                     <hr />
-                    <BlockOrder />
+                    <BlockOrder forRender={toggleState} />
                 </div>
             </div>
         </div >

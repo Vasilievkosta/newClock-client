@@ -129,3 +129,15 @@ export const updateCity = async (cityId, newTitle) => {
     const { data } = await hostAxios.put('/api/city/update', { cityId, newTitle });
     return data;
 }
+
+export const updateMaster = async (masterId, newName) => {
+
+    const { data } = await hostAxios.put('/api/master/update', { masterId, newName });
+    return data;
+}
+
+export const updateUser = async (id, userName, email) => {
+
+    const { data } = await hostAxios.put('/api/user/update', { id, userName, email });
+    return data;
+}

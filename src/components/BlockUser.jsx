@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
-import { outUser, deleteUser } from '../http/userAPI';
+import { outUser, deleteUser, updateUser } from '../http/userAPI';
 
 import TableUser from './TableUser';
 import Loader from './UI/loader/Loader';
 import { Modal } from './UI/modal/modal';
 
-function BlockUser() {
+function BlockUser(props) {
 
     const [itemsUser, setItemsUser] = useState([]);
 
@@ -28,7 +28,7 @@ function BlockUser() {
 
         getUser();
 
-    }, []);
+    }, [props.forRender]);
 
     const removeUser = async (id) => {
         try {
@@ -50,6 +50,28 @@ function BlockUser() {
         getUser();
     }
 
+    const updateNameEmailUser = async (id, userName, email) => {
+        try {
+            setLoad(true);
+
+            let data = await updateUser(id, userName, email);
+            console.log(data)
+
+            setLoad(false);
+        } catch (error) {
+            if (error.response.status === 404) {
+                console.log(error.response.data.error); // Cообщение от сервера: User not found
+
+                setError(error.response.data.error)
+                setModalActive(true)
+
+            } else {
+                console.log('An error occurred while updating the user.');
+            }
+        }
+        getUser();
+    }
+
     return (
 
         <div className="city" style={{ marginRight: '40px' }}>
@@ -61,7 +83,9 @@ function BlockUser() {
             {
                 load
                     ? <Loader />
-                    : <TableUser user={itemsUser} removeUser={removeUser} />
+                    : <TableUser user={itemsUser}
+                        removeUser={removeUser}
+                        updateNameEmailUser={updateNameEmailUser} />
             }
         </div>
 

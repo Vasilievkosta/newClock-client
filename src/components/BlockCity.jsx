@@ -48,8 +48,8 @@ function BlockCity() {
             setCity('')
             return
         }
-        let newCity = itemsCity.find((c) => c.title === city.trim())
-        if (newCity) {
+        let dublicateCity = itemsCity.find((c) => c.title === city.trim())
+        if (dublicateCity) {
             alert('This city already exists')
             setCity('')
             return

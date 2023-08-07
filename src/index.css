@@ -149,6 +149,8 @@ body {
 }
 
 .auth__btn svg {
+  transform: translateY(20%);
+  fill: #cccccc;
   transition: fill 0.3s;
 }
 
