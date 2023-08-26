@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import './formUser.css';
 import { Modal } from '../modal/modal';
 import Loader from '../loader/Loader';
-import TableMastersForUser from '../../../components/TableMastesForUser'
-
-import { outCity, outOneUser, createUser, masterOfCityAndDate, createOrder } from '../../../http/userAPI';
-
+import TableMastersForUser from '../../../components/TableMastesForUser';
+import { ordersAPI, citiesAPI, mastersAPI, usersAPI } from '../../../http/api';
 
 function FormUser() {
 
@@ -45,7 +43,7 @@ function FormUser() {
 
     React.useEffect(() => {
 
-        outCity()
+        citiesAPI.outCity()
             .then((json) => {
                 setItemsCity(json);
             });
@@ -59,10 +57,10 @@ function FormUser() {
         try {
             getMastersForUser(cityId, date, time, sizeToDuration[size])
 
-            let findUser = await outOneUser(email);
+            let findUser = await usersAPI.outOneUser(email);
             let userId;
             if (!findUser) {
-                let data = await createUser(userName, email, cityId);
+                let data = await usersAPI.createUser(userName, email, cityId);
                 console.log(data);
                 userId = data[0].id
 
@@ -79,7 +77,7 @@ function FormUser() {
 
     const getMastersForUser = (cityId, date, time, duration) => {
         setLoad(true);
-        masterOfCityAndDate(cityId, date, time, duration)
+        mastersAPI.masterOfCityAndDate(cityId, date, time, duration)
             .then((json) => {
                 setMastersForUser(json);
                 setLoad(false);
@@ -91,7 +89,7 @@ function FormUser() {
         const { date, time, duration, userId } = sendPayload;
 
         try {
-            let data = await createOrder(date, time, duration, userId, idMaster);
+            let data = await ordersAPI.createOrder(date, time, duration, userId, idMaster);
             console.log(data);
 
             setUserName('');
@@ -107,7 +105,7 @@ function FormUser() {
             alert(e.response.data.message);
         }
     }
- 
+
     const handleDateChange = (e) => {
         const userDate = e.target.value;
         setTime('');
@@ -167,13 +165,6 @@ function FormUser() {
                     placeholder="Введите дату" value={date} min={nowDate}
                     onChange={handleDateChange} required />
 
-                {/* <label htmlFor="time" hidden>Время</label>
-                <input className="field__input" id="time" type="time"
-                    placeholder="Введите время" value={time}
-                    min="00:00" step='3600'
-                    onChange={e => setTime(e.target.value)} required /> */}
-
-
                 <label htmlFor="time" hidden>Время</label>
                 <select className="field__input"
                     value={time}
@@ -181,7 +172,6 @@ function FormUser() {
                     required
                     onChange={e => setTime(e.target.value)}
                 >
-
                     <option disabled value="" className="field__city" style={{ color: 'white' }}>Выберите время</option>
                     {selectTime.map(item => (
                         <option key={item.id} className="field__city"

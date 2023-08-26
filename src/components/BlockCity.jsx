@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { createCity, outCity, deleteCity, updateCity } from '../http/userAPI';
+import { citiesAPI } from '../http/api';
 import TableCity from './TableCity';
 import Loader from './UI/loader/Loader';
 import { Modal } from './UI/modal/modal';
@@ -16,14 +16,12 @@ function BlockCity() {
 
 
     React.useEffect(() => {
-
         getCity();
-
     }, []);
 
     const getCity = () => {
         setLoad(true);
-        outCity()
+        citiesAPI.outCity()
             .then((json) => {
                 setItemsCity(json);
                 setLoad(false);
@@ -56,7 +54,7 @@ function BlockCity() {
         }
         try {
             setLoad(true);
-            let data = await createCity(city);
+            let data = await citiesAPI.createCity(city);
             console.log({ data });
             setCity('');
             setLoad(false);
@@ -72,7 +70,7 @@ function BlockCity() {
         try {
             setLoad(true);
 
-            await deleteCity(id);
+            await citiesAPI.deleteCity(id);
 
             setLoad(false);
         } catch (error) {
@@ -93,7 +91,7 @@ function BlockCity() {
         try {
             setLoad(true);
 
-            let data = await updateCity(id, title);
+            let data = await citiesAPI.updateCity(id, title);
             console.log(data)
 
             setLoad(false);

@@ -2,21 +2,28 @@ import React, { useState } from 'react';
 import { Modal } from './UI/modal/modal';
 import sprite from '../images/sprite.svg';
 
-const TableUser = ({ user, removeUser, updateNameEmailUser }) => {
+const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
+
+
 
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
     const [oldName, setOldName] = useState('')
     const [oldEmail, setOldEmail] = useState('')
+    const [oldCityId, setOldCityId] = useState('')
     const [nameUpdate, setNameUpdate] = useState('')
     const [emailUpdate, setEmailUpdate] = useState('')
+    const [cityIdUpdate, setCityIdUpdate] = useState('')
     const [nameId, setNameId] = useState('')
 
-    const handleUpdate = (id, name, email) => {
+    const handleUpdate = (id, name, email, city_id) => {
         setModalActiveUpdade(true)
         setOldName(name)
         setOldEmail(email)
+        setOldCityId(city_id)
         setNameUpdate(name)
         setEmailUpdate(email)
+        setCityIdUpdate(city_id)
+
         setNameId(id)
     }
 
@@ -28,20 +35,21 @@ const TableUser = ({ user, removeUser, updateNameEmailUser }) => {
             setModalActiveUpdade(false)
             return
         }
-        if (nameUpdate.trim() === oldName && emailUpdate.trim() === oldEmail) {
+        if (nameUpdate.trim() === oldName && emailUpdate.trim() === oldEmail && cityIdUpdate === oldCityId) {
             setModalActiveUpdade(false)
             return
         }
-        let dublicateName = user.find((u) => u.username === nameUpdate.trim())
-        let dublicateEmail = user.find((u) => u.email === emailUpdate.trim())
+        if (oldEmail !== emailUpdate) {
+            const dublicateEmail = users.find((u) => u.email === emailUpdate.trim())
 
-        if (dublicateName && dublicateEmail) {
-            alert('The email or name already exists')
-            setModalActiveUpdade(false)
-            return
+            if (dublicateEmail) {
+                alert('The email or name already exists')
+                setModalActiveUpdade(false)
+                return
+            }
         }
-        updateNameEmailUser(nameId, nameUpdate.trim(), emailUpdate.trim())
-        console.log(nameId, nameUpdate.trim(), emailUpdate.trim())
+        updateNameEmailUser(nameId, nameUpdate.trim(), emailUpdate.trim(), +cityIdUpdate)
+        console.log(nameId, nameUpdate.trim(), emailUpdate.trim(), +cityIdUpdate)
         setModalActiveUpdade(false)
     }
 
@@ -55,16 +63,31 @@ const TableUser = ({ user, removeUser, updateNameEmailUser }) => {
                         value={nameUpdate}
                         onChange={e => setNameUpdate(e.currentTarget.value)}
                         required={true} />
+
                     <label htmlFor="email"></label>
                     <input id="email"
                         className="auth__input"
                         value={emailUpdate} onChange={e => setEmailUpdate(e.currentTarget.value)}
                         type="email"
                         required={true} />
+
+                    <label htmlFor="city"></label>
+
+                    <select className="auth__input" value={cityIdUpdate} id="city"
+                        onChange={e => setCityIdUpdate(e.target.value)}
+                    >
+
+                        <option disabled className="auth__input" >Select city...</option>
+                        {cities.map(item => (
+                            <option key={item.id} className="auth__input"
+                                value={item.id} >{item.title}</option>
+                        ))}
+                    </select>
+
                     <button className="auth__btn" type='submit'>Ok</button>
                 </form>
 
-            </Modal>
+            </Modal >
 
             <table className="table">
                 <thead>
@@ -77,18 +100,18 @@ const TableUser = ({ user, removeUser, updateNameEmailUser }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {user.map(item => (
+                    {users.map(item => (
                         <tr key={item.id}>
                             <td>{item.username}</td>
                             <td>{item.email}</td>
                             <td>{item.title}</td>
-                            <td><button className="auth__btn" onClick={() => handleUpdate(item.id, item.username, item.email)}>
-                                <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <td><button className="auth__btn" onClick={() => handleUpdate(item.id, item.username, item.email, item.city_id)}>
+                                <svg width="24" height="24">
                                     <use xlinkHref={`${sprite}#edit`} />
                                 </svg>
                             </button></td>
                             <td><button className="auth__btn" onClick={() => removeUser(item.id)}>
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="24" height="24">
                                     <use xlinkHref={`${sprite}#bin`} />
                                 </svg>
                             </button></td>

@@ -56,12 +56,12 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
                         <tr key={item.id}>
                             <td>{item.title}</td>
                             <td><button className="auth__btn" onClick={() => handleUpdate(item.id, item.title)}>
-                                <svg width="24" height="24" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="24" height="24" >
                                     <use xlinkHref={`${sprite}#edit`} />
                                 </svg>
                             </button></td>
                             <td><button className="auth__btn" onClick={() => removeCity(item.id)}>
-                                <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <svg width="24px" height="24px" >
                                     <use xlinkHref={`${sprite}#bin`} />
                                 </svg>
                             </button></td>

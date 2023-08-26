@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { logout } from '../http/userAPI';
+import { authAPI } from '../http/api';
 
 import imageLogo from '../images/Clockwise.png';
 
@@ -19,7 +19,7 @@ const HeaderContainer = () => {
         localStorage.removeItem('token');
         alert('log out)');
         navigate('/auth-admin');
-        logout()
+        authAPI.logout()
     }
 
     return (

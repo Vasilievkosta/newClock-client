@@ -26,7 +26,7 @@ const TableOrder = ({ order, removeOrder }) => {
                         <td>{item.master_name}</td>
                         <td>{item.city_name}</td>
                         <td><button className="auth__btn" onClick={() => removeOrder(item.id)}>
-                            <svg width="24px" height="24px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="24px" height="24px" >
                                 <use xlinkHref={`${sprite}#bin`} />
                             </svg>
                         </button></td>

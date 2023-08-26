@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { outOrder, deleteOrder } from '../http/userAPI';
+import { ordersAPI } from '../http/api';
 
 import TableOrder from './TableOrder';
 import Loader from './UI/loader/Loader';
@@ -13,7 +13,7 @@ function BlockOrder(props) {
 
     const getOrder = () => {
         setLoad(true);
-        outOrder()
+        ordersAPI.outOrder()
             .then((json) => {
                 setItemsOrder(json);
                 setLoad(false);
@@ -30,7 +30,7 @@ function BlockOrder(props) {
 
         try {
 
-            let data = await deleteOrder(id);
+            let data = await ordersAPI.deleteOrder(id);
             console.log({ data })
         } catch (e) {
             console.log(e.response.data.message);

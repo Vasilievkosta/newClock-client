@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
 
-import { createMaster, deleteMaster, outCity, masterOfCities, updateMaster } from '../http/userAPI';
+import { mastersAPI, citiesAPI } from '../http/api';
 
 import TableMaster from './TableMaster';
 import Loader from './UI/loader/Loader';
@@ -11,20 +11,21 @@ function BlockMaster(props) {
 
     const [itemsMaster, setItemsMaster] = useState([]);
     const [itemsCity, setItemsCity] = useState([]);
+    const [itemsRatings, setItemsRatings] = useState([]);
 
     const [load, setLoad] = useState(true);
 
     const [master, setMaster] = useState('');
+    const [ratingId, setRatingId] = useState('3');
 
     const [changeCity, setChangeCity] = useState([]);
 
     const [modalActive, setModalActive] = useState(false);
     const [error, setError] = useState('');
 
-
     const getMaster = () => {
         setLoad(true);
-        masterOfCities()
+        mastersAPI.masterOfCities()
             .then((json) => {
                 setItemsMaster(json);
                 setLoad(false);
@@ -32,19 +33,26 @@ function BlockMaster(props) {
     }
 
     const getCity = () => {
-        outCity()
+        citiesAPI.outCity()
             .then((json) => {
                 setItemsCity(json);
             });
     }
 
-    React.useEffect(() => {
-        getMaster();
+    const getRatings = () => {
+        mastersAPI.outRatings()
+            .then((json) => {
+                setItemsRatings(json);
+            });
+    }
 
+    React.useEffect(() => {
+        getMaster()
+        getRatings()
     }, [props.forRender]);
-    React.useEffect(() => {
 
-        getCity();
+    React.useEffect(() => {
+        getCity()
     }, [props.forRender]);
 
 
@@ -53,7 +61,6 @@ function BlockMaster(props) {
     })
 
     const handleChange = (selectedOption) => {
-        console.log(selectedOption)
         setChangeCity(selectedOption)
     }
 
@@ -72,9 +79,10 @@ function BlockMaster(props) {
         }
         try {
             setLoad(true);
-            let data = await createMaster(master, arr);
 
+            let data = await mastersAPI.createMaster(master, arr, ratingId);
             console.log({ data })
+
             setMaster('');
             setChangeCity([])
             setLoad(false);
@@ -86,7 +94,6 @@ function BlockMaster(props) {
 
     const handleKeyDown = (event) => {
         if (event.keyCode === 13 || event.key === 'Enter') {
-            console.log(event.keyCode)
             addMaster()
         }
     };
@@ -96,7 +103,7 @@ function BlockMaster(props) {
         try {
             setLoad(true);
 
-            await deleteMaster(id);
+            await mastersAPI.deleteMaster(id);
 
             setLoad(false);
         } catch (error) {
@@ -114,11 +121,11 @@ function BlockMaster(props) {
         getMaster();
     }
 
-    const updateNameMaster = async (id, name) => {
+    const updateNameMaster = async (id, name, ratingId) => {
         try {
             setLoad(true);
 
-            let data = await updateMaster(id, name);
+            let data = await mastersAPI.updateMaster(id, name, ratingId);
             console.log(data)
 
             setLoad(false);
@@ -148,24 +155,35 @@ function BlockMaster(props) {
 
             <form onSubmit={handleSubmit} style={{ width: '500px', margin: '10px auto', border: 'solid 1px grey' }}>
 
-                <input className="auth__input" placeholder='Введите имя мастера...' type='text' value={master} onChange={e => setMaster(e.target.value)} />
+                <label htmlFor="name" hidden>Имя мастера</label>
+                <input className="auth__input" placeholder='Enter master name...' id='name' value={master} onChange={e => setMaster(e.target.value)} />
+
+                <label hidden htmlFor="rating" >Рейтинг</label>
+                <select className="auth__input" value={ratingId} id="rating" required
+                    onChange={e => setRatingId(e.target.value)}
+                >
+                    <option disabled value="" className="auth__input">Select rating...</option>
+                    {itemsRatings.map(item => (
+                        <option key={item.id} className="auth__input"
+                            value={item.id} >{item.rating}</option>
+                    ))}
+                </select>
+
+                <Select options={options} value={changeCity} onChange={handleChange} placeholder='Select city...' isMulti />
 
                 <button className="auth__btn" style={{ maxWidth: '200px', margin: '20px auto', display: 'block' }}
                     onKeyDown={handleKeyDown}
                     disabled={!changeCity.length}>
                     Добавить мастера
                 </button>
-
-                <div >
-                    <Select options={options} value={changeCity} onChange={handleChange} isMulti />
-                </div>
             </form>
             {
                 load
                     ? <Loader />
                     : <TableMaster master={itemsMaster}
                         removeMaster={removeMaster}
-                        updateNameMaster={updateNameMaster} />
+                        updateNameMaster={updateNameMaster}
+                        itemsRatings={itemsRatings} />
             }
         </div>
     );

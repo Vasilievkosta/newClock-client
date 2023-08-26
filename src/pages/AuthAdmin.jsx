@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../http/userAPI';
+import { authAPI } from '../http/api';
 
 const AuthAdmin = () => {
     const navigate = useNavigate();
@@ -11,7 +11,7 @@ const AuthAdmin = () => {
     const loginHandler = async () => {
         try {
 
-            let data = await login(email, password);
+            let data = await authAPI.login(email, password);
 
             if (data.data) {
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { outUser, deleteUser, updateUser } from '../http/userAPI';
+import { usersAPI, citiesAPI } from '../http/api';
 
 import TableUser from './TableUser';
 import Loader from './UI/loader/Loader';
@@ -9,6 +9,7 @@ import { Modal } from './UI/modal/modal';
 function BlockUser(props) {
 
     const [itemsUser, setItemsUser] = useState([]);
+    const [itemsCity, setItemsCity] = useState([]);
 
     const [load, setLoad] = useState(true);
 
@@ -17,23 +18,31 @@ function BlockUser(props) {
 
     const getUser = () => {
         setLoad(true);
-        outUser()
+        usersAPI.outUser()
             .then((json) => {
                 setItemsUser(json);
                 setLoad(false);
             });
     }
 
+    const getCity = () => {
+        setLoad(true);
+        citiesAPI.outCity()
+            .then((json) => {
+                setItemsCity(json);
+                setLoad(false);
+            });
+    }
+
     React.useEffect(() => {
-
         getUser();
-
+        getCity()
     }, [props.forRender]);
 
     const removeUser = async (id) => {
         try {
             setLoad(true);
-            await deleteUser(id);
+            await usersAPI.deleteUser(id);
             setLoad(false);
         } catch (error) {
             if (error.response.status === 400) {
@@ -50,11 +59,11 @@ function BlockUser(props) {
         getUser();
     }
 
-    const updateNameEmailUser = async (id, userName, email) => {
+    const updateNameEmailUser = async (id, userName, email, city_id) => {
         try {
             setLoad(true);
 
-            let data = await updateUser(id, userName, email);
+            let data = await usersAPI.updateUser(id, userName, email, city_id);
             console.log(data)
 
             setLoad(false);
@@ -83,9 +92,11 @@ function BlockUser(props) {
             {
                 load
                     ? <Loader />
-                    : <TableUser user={itemsUser}
+                    : <TableUser users={itemsUser}
                         removeUser={removeUser}
-                        updateNameEmailUser={updateNameEmailUser} />
+                        updateNameEmailUser={updateNameEmailUser}
+                        cities={itemsCity}
+                    />
             }
         </div>
 
