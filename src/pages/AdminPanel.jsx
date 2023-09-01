@@ -1,21 +1,21 @@
-import React from 'react';
+import React from 'react'
 
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom'
 
-import Tabs from '../components/UI/tabs/Tabs';
+import Tabs from '../components/UI/tabs/Tabs'
 
 function AdminPanel() {
-    const auth = (!!localStorage.getItem('authKey'))
+    const auth = !!localStorage.getItem('authKey')
 
     if (!auth) {
-        return <Navigate to='/auth-admin' />
+        return <Navigate to="/auth-admin" />
     }
     return (
         <div>
             <h2 style={{ textAlign: 'center' }}>Страница админа</h2>
             <Tabs />
         </div>
-    );
+    )
 }
 
-export default AdminPanel;
+export default AdminPanel

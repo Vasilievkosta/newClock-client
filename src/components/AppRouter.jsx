@@ -1,20 +1,17 @@
-import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { publicRoutes } from '../routes';
+import React from 'react'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { publicRoutes } from '../routes'
 
 const AppRouter = () => {
-
     return (
-        <Routes >
-            {
-                publicRoutes.map(({ path, Component }) =>
-                    <Route key={path} path={path} element={<Component />} />
-                )
-            }
+        <Routes>
+            {publicRoutes.map(({ path, Component }) => (
+                <Route key={path} path={path} element={<Component />} />
+            ))}
 
             <Route path={'/*'} element={<Navigate to={'/'} />} />
-        </Routes >
-    );
+        </Routes>
+    )
 }
 
-export default AppRouter;
+export default AppRouter

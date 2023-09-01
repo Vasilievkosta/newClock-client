@@ -1,5 +1,8 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export const instance = axios.create({
-	baseURL: window.location.hostname === 'localhost' ? '' : 'https://render-clock.onrender.com'
-});
+    baseURL:
+        window.location.hostname === 'localhost'
+            ? ''
+            : 'https://render-clock.onrender.com',
+})

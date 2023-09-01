@@ -1,13 +1,12 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { authAPI } from '../http/api';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { authAPI } from '../http/api'
 
-import imageLogo from '../images/Clockwise.png';
-
+import imageLogo from '../images/Clockwise.png'
 
 const HeaderContainer = () => {
-    const navigate = useNavigate();
+    const navigate = useNavigate()
     const valid = localStorage.getItem('authKey')
 
     const validAuthAdmin = () => {
@@ -15,30 +14,38 @@ const HeaderContainer = () => {
     }
 
     const logOutHandler = () => {
-        localStorage.removeItem('authKey');
-        localStorage.removeItem('token');
-        alert('log out)');
-        navigate('/auth-admin');
+        localStorage.removeItem('authKey')
+        localStorage.removeItem('token')
+        alert('log out)')
+        navigate('/auth-admin')
         authAPI.logout()
     }
 
     return (
-        <div className='navbar'>
+        <div className="navbar">
             <NavLink to={'/'}>
-                <img className='navbar__img' src={imageLogo} alt='logo' />
+                <img className="navbar__img" src={imageLogo} alt="logo" />
             </NavLink>
 
-            <ul className='navbar__list'>
-                <li className='navbar__item'>
-                    <button className='navbar__link' onClick={validAuthAdmin}>Admin panel</button>
+            <ul className="navbar__list">
+                <li className="navbar__item">
+                    <button className="navbar__link" onClick={validAuthAdmin}>
+                        Admin panel
+                    </button>
                 </li>
-                {(valid) &&
-                    <li className='navbar__item'>
-                        <button className='navbar__link' onClick={logOutHandler}>Log out</button>
-                    </li>}
+                {valid && (
+                    <li className="navbar__item">
+                        <button
+                            className="navbar__link"
+                            onClick={logOutHandler}
+                        >
+                            Log out
+                        </button>
+                    </li>
+                )}
             </ul>
-        </div >
-    );
-};
+        </div>
+    )
+}
 
-export default HeaderContainer;
+export default HeaderContainer

@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { Modal } from './UI/modal/modal';
-import sprite from '../images/sprite.svg';
+import React, { useState } from 'react'
+import { Modal } from './UI/modal/modal'
+import sprite from '../images/sprite.svg'
 
 const TableCity = ({ city, removeCity, updateTitleCity }) => {
-
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
     const [oldCity, setOldCity] = useState('')
     const [cityUpdate, setCityUpdate] = useState('')
@@ -17,7 +16,7 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
     }
 
     const onClickUpdate = () => {
-        if (cityUpdate.trim() === "") {
+        if (cityUpdate.trim() === '') {
             alert('City is required')
             setModalActiveUpdade(false)
             return
@@ -39,8 +38,14 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
     return (
         <>
             <Modal active={modalActiveUpdade} setActive={setModalActiveUpdade}>
-                <input className="auth__input" value={cityUpdate} onChange={e => setCityUpdate(e.currentTarget.value)} />
-                <button className="auth__btn" onClick={onClickUpdate}>Ok</button>
+                <input
+                    className="auth__input"
+                    value={cityUpdate}
+                    onChange={(e) => setCityUpdate(e.currentTarget.value)}
+                />
+                <button className="auth__btn" onClick={onClickUpdate}>
+                    Ok
+                </button>
             </Modal>
 
             <table className="table">
@@ -52,26 +57,37 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {city.map(item => (
+                    {city.map((item) => (
                         <tr key={item.id}>
                             <td>{item.title}</td>
-                            <td><button className="auth__btn" onClick={() => handleUpdate(item.id, item.title)}>
-                                <svg width="24" height="24" >
-                                    <use xlinkHref={`${sprite}#edit`} />
-                                </svg>
-                            </button></td>
-                            <td><button className="auth__btn" onClick={() => removeCity(item.id)}>
-                                <svg width="24px" height="24px" >
-                                    <use xlinkHref={`${sprite}#bin`} />
-                                </svg>
-                            </button></td>
+                            <td>
+                                <button
+                                    className="auth__btn"
+                                    onClick={() =>
+                                        handleUpdate(item.id, item.title)
+                                    }
+                                >
+                                    <svg width="24" height="24">
+                                        <use xlinkHref={`${sprite}#edit`} />
+                                    </svg>
+                                </button>
+                            </td>
+                            <td>
+                                <button
+                                    className="auth__btn"
+                                    onClick={() => removeCity(item.id)}
+                                >
+                                    <svg width="24px" height="24px">
+                                        <use xlinkHref={`${sprite}#bin`} />
+                                    </svg>
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
-            </table >
+            </table>
         </>
+    )
+}
 
-    );
-};
-
-export default TableCity;
+export default TableCity

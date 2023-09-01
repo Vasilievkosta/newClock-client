@@ -30,7 +30,6 @@
     border-right: 1px solid rgba(0, 0, 0, 0.274);
 }
 
-
 .active-tabs {
     background: white;
     border-bottom: 1px solid transparent;
@@ -38,7 +37,7 @@
 }
 
 .active-tabs::before {
-    content: "";
+    content: '';
     display: block;
     position: absolute;
     top: -5px;
@@ -51,7 +50,6 @@
 
 button {
     border: none;
-
 }
 
 .content-tabs {

@@ -1,18 +1,18 @@
-import User from './pages/User';
-import AuthAdmin from './pages/AuthAdmin';
-import AdminPanel from './pages/AdminPanel';
+import UserPage from './pages/UserPage'
+import AuthAdmin from './pages/AuthAdmin'
+import AdminPanel from './pages/AdminPanel'
 
 export const publicRoutes = [
     {
         path: '/',
-        Component: User
+        Component: UserPage,
     },
     {
         path: '/auth-admin',
-        Component: AuthAdmin
+        Component: AuthAdmin,
     },
     {
         path: '/admin-panel',
-        Component: AdminPanel
-    }
+        Component: AdminPanel,
+    },
 ]

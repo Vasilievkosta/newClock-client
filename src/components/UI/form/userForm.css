@@ -6,6 +6,16 @@
     border-radius: 10px;
 }
 
+.field .field__wrap {
+    background-color: transparent;
+}
+
+.field__wrap {
+    background-color: rgba(39, 49, 100, 0.85);
+    padding: 10px;
+    border-radius: 5px;
+}
+
 .field__title {
     color: #fff;
     font-size: 30px;
@@ -75,8 +85,10 @@
     align-items: center;
     justify-content: center;
     min-height: calc(100vh - 66px);
-    background: linear-gradient(rgba(255, 255, 255, 0.6),
-            rgba(255, 255, 255, 0.1)),
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.1)
+        ),
         url(../../../images/cog.jpg);
     background-size: cover;
     background-position: center;
