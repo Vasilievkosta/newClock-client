@@ -32,18 +32,12 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
             setModalActiveUpdade(false)
             return
         }
-        if (
-            nameUpdate.trim() === oldName &&
-            emailUpdate.trim() === oldEmail &&
-            cityIdUpdate === oldCityId
-        ) {
+        if (nameUpdate.trim() === oldName && emailUpdate.trim() === oldEmail && cityIdUpdate === oldCityId) {
             setModalActiveUpdade(false)
             return
         }
         if (oldEmail !== emailUpdate) {
-            const dublicateEmail = users.find(
-                (u) => u.email === emailUpdate.trim(),
-            )
+            const dublicateEmail = users.find((u) => u.email === emailUpdate.trim())
 
             if (dublicateEmail) {
                 alert('The email or name already exists')
@@ -51,12 +45,7 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
                 return
             }
         }
-        updateNameEmailUser(
-            nameId,
-            nameUpdate.trim(),
-            emailUpdate.trim(),
-            +cityIdUpdate,
-        )
+        updateNameEmailUser(nameId, nameUpdate.trim(), emailUpdate.trim(), +cityIdUpdate)
         setModalActiveUpdade(false)
     }
 
@@ -64,54 +53,50 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
         <>
             <Modal active={modalActiveUpdade} setActive={setModalActiveUpdade}>
                 <form onSubmit={handleUpdateUser}>
-                    <label htmlFor="name"></label>
+                    <label htmlFor='name'></label>
                     <input
-                        id="name"
-                        className="auth__input"
+                        id='name'
+                        className='auth__input'
                         value={nameUpdate}
                         onChange={(e) => setNameUpdate(e.currentTarget.value)}
                         required={true}
                     />
 
-                    <label htmlFor="email"></label>
+                    <label htmlFor='email'></label>
                     <input
-                        id="email"
-                        className="auth__input"
+                        id='email'
+                        className='auth__input'
                         value={emailUpdate}
                         onChange={(e) => setEmailUpdate(e.currentTarget.value)}
-                        type="email"
+                        type='email'
                         required={true}
                     />
 
-                    <label htmlFor="city"></label>
+                    <label htmlFor='city'></label>
 
                     <select
-                        className="auth__input"
+                        className='auth__input'
                         value={cityIdUpdate}
-                        id="city"
+                        id='city'
                         onChange={(e) => setCityIdUpdate(e.target.value)}
                     >
-                        <option disabled className="auth__input">
+                        <option disabled className='auth__input'>
                             Select city...
                         </option>
                         {cities.map((item) => (
-                            <option
-                                key={item.id}
-                                className="auth__input"
-                                value={item.id}
-                            >
+                            <option key={item.id} className='auth__input' value={item.id}>
                                 {item.title}
                             </option>
                         ))}
                     </select>
 
-                    <button className="auth__btn" type="submit">
+                    <button className='auth__btn' type='submit'>
                         Ok
                     </button>
                 </form>
             </Modal>
 
-            <table className="table">
+            <table className='table'>
                 <thead>
                     <tr>
                         <th>name</th>
@@ -129,27 +114,17 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
                             <td>{item.title}</td>
                             <td>
                                 <button
-                                    className="auth__btn"
-                                    onClick={() =>
-                                        handleUpdate(
-                                            item.id,
-                                            item.username,
-                                            item.email,
-                                            item.city_id,
-                                        )
-                                    }
+                                    className='auth__btn'
+                                    onClick={() => handleUpdate(item.id, item.username, item.email, item.city_id)}
                                 >
-                                    <svg width="24" height="24">
+                                    <svg width='24' height='24'>
                                         <use xlinkHref={`${sprite}#edit`} />
                                     </svg>
                                 </button>
                             </td>
                             <td>
-                                <button
-                                    className="auth__btn"
-                                    onClick={() => removeUser(item.id)}
-                                >
-                                    <svg width="24" height="24">
+                                <button className='auth__btn' onClick={() => removeUser(item.id)}>
+                                    <svg width='24' height='24'>
                                         <use xlinkHref={`${sprite}#bin`} />
                                     </svg>
                                 </button>

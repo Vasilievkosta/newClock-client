@@ -1,9 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-import { authAPI } from '../http/api'
+import { authAPI } from 'http/api'
 
-import imageLogo from '../images/Clockwise.png'
+import imageLogo from 'images/Clockwise.png'
 
 const HeaderContainer = () => {
     const navigate = useNavigate()
@@ -22,23 +22,20 @@ const HeaderContainer = () => {
     }
 
     return (
-        <div className="navbar">
+        <div className='navbar'>
             <NavLink to={'/'}>
-                <img className="navbar__img" src={imageLogo} alt="logo" />
+                <img className='navbar__img' src={imageLogo} alt='logo' />
             </NavLink>
 
-            <ul className="navbar__list">
-                <li className="navbar__item">
-                    <button className="navbar__link" onClick={validAuthAdmin}>
+            <ul className='navbar__list'>
+                <li className='navbar__item'>
+                    <button className='navbar__link' onClick={validAuthAdmin}>
                         Admin panel
                     </button>
                 </li>
                 {valid && (
-                    <li className="navbar__item">
-                        <button
-                            className="navbar__link"
-                            onClick={logOutHandler}
-                        >
+                    <li className='navbar__item'>
+                        <button className='navbar__link' onClick={logOutHandler}>
                             Log out
                         </button>
                     </li>

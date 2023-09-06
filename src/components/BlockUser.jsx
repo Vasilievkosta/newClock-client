@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { usersAPI, citiesAPI } from '../http/api'
+import { usersAPI, citiesAPI } from 'http/api'
 
 import TableUser from './TableUser'
 import Loader from './UI/loader/Loader'
@@ -76,7 +76,7 @@ function BlockUser(props) {
     }
 
     return (
-        <div className="city" style={{ marginRight: '40px' }}>
+        <div className='city' style={{ marginRight: '40px' }}>
             {
                 <Modal active={modalActive} setActive={setModalActive}>
                     {error}

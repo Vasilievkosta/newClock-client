@@ -17,12 +17,7 @@ export const masterOfCities = async () => {
 }
 
 export const masterOfCityAndDate = async (cityId, date, time, duration) => {
-    const { data } = await instance.post('/api/master/datetime', {
-        cityId,
-        date,
-        time,
-        duration,
-    })
+    const { data } = await instance.post('/api/master/datetime', { cityId, date, time, duration })
     return data
 }
 

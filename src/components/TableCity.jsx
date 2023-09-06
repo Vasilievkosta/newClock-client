@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal } from './UI/modal/modal'
-import sprite from '../images/sprite.svg'
+import sprite from 'images/sprite.svg'
 
 const TableCity = ({ city, removeCity, updateTitleCity }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
@@ -39,16 +39,16 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
         <>
             <Modal active={modalActiveUpdade} setActive={setModalActiveUpdade}>
                 <input
-                    className="auth__input"
+                    className='auth__input'
                     value={cityUpdate}
                     onChange={(e) => setCityUpdate(e.currentTarget.value)}
                 />
-                <button className="auth__btn" onClick={onClickUpdate}>
+                <button className='auth__btn' onClick={onClickUpdate}>
                     Ok
                 </button>
             </Modal>
 
-            <table className="table">
+            <table className='table'>
                 <thead>
                     <tr>
                         <th>city</th>
@@ -61,23 +61,15 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
                         <tr key={item.id}>
                             <td>{item.title}</td>
                             <td>
-                                <button
-                                    className="auth__btn"
-                                    onClick={() =>
-                                        handleUpdate(item.id, item.title)
-                                    }
-                                >
-                                    <svg width="24" height="24">
+                                <button className='auth__btn' onClick={() => handleUpdate(item.id, item.title)}>
+                                    <svg width='24' height='24'>
                                         <use xlinkHref={`${sprite}#edit`} />
                                     </svg>
                                 </button>
                             </td>
                             <td>
-                                <button
-                                    className="auth__btn"
-                                    onClick={() => removeCity(item.id)}
-                                >
-                                    <svg width="24px" height="24px">
+                                <button className='auth__btn' onClick={() => removeCity(item.id)}>
+                                    <svg width='24px' height='24px'>
                                         <use xlinkHref={`${sprite}#bin`} />
                                     </svg>
                                 </button>

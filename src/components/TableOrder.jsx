@@ -1,26 +1,41 @@
 import React, { useState } from 'react'
-import sprite from '../images/sprite.svg'
-import '../components/UI/form/userForm.css'
+import sprite from 'images/sprite.svg'
+import 'components/UI/form/userForm.css'
 import { Modal } from './UI/modal/modal'
-import { ordersAPI, citiesAPI, mastersAPI, usersAPI } from '../http/api'
+import { citiesAPI, mastersAPI } from 'http/api'
 import FormComponent from './UI/form/FormComponent'
 
 import TableMastersForUser from './TableMastesForUser'
 import Loader from './UI/loader/Loader'
 
-const TableOrder = ({ order, removeOrder }) => {
+const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder }) => {
+    const [userId, setUserId] = useState('')
     const [userName, setUserName] = useState('')
     const [email, setEmail] = useState('')
     const [size, setSize] = useState('medium')
     const [cityId, setCityId] = useState('1')
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
+
+    const [userNameOld, setUserNameOld] = useState('')
+    const [emailOld, setEmailOld] = useState('')
+    const [cityIdOld, setCityIdOld] = useState('1')
+    const [orderId, setOrderId] = useState('')
+
     const [load, setLoad] = useState(true)
 
     const sizeToDuration = {
         large: 3,
         medium: 2,
         small: 1,
+    }
+
+    const findSize = (size) => {
+        for (let key in sizeToDuration) {
+            if (sizeToDuration[key] === size) {
+                return key
+            }
+        }
     }
 
     const sizeItems = Object.keys(sizeToDuration)
@@ -32,16 +47,13 @@ const TableOrder = ({ order, removeOrder }) => {
     let timeToday = date === nowDate ? +nowTime + 2 : 0
 
     for (let i = timeToday; i < 24; i++) {
-        i < 10
-            ? selectTime.push({ id: i, title: `0${i}:00` })
-            : selectTime.push({ id: i, title: `${i}:00` })
+        i < 10 ? selectTime.push({ id: i, title: `0${i}:00` }) : selectTime.push({ id: i, title: `${i}:00` })
     }
 
     const [itemsCity, setItemsCity] = useState([])
 
     const [modalActive, setModalActive] = useState(false)
     const [modalActiveUpdate, setModalActiveUpdate] = useState(false)
-    const [modalSuccess, setModalSuccess] = useState(false)
 
     const [sendPayload, setSendPayload] = useState({})
 
@@ -67,44 +79,33 @@ const TableOrder = ({ order, removeOrder }) => {
 
     const getMastersForUser = (cityId, date, time, duration) => {
         setLoad(true)
-        mastersAPI
-            .masterOfCityAndDate(cityId, date, time, duration)
-            .then((json) => {
-                setMastersForUser(json)
-                setLoad(false)
-            })
+        mastersAPI.masterOfCityAndDate(cityId, date, time, duration).then((json) => {
+            setMastersForUser(json)
+            setLoad(false)
+        })
     }
 
-    const createUserWithMaster = async (userName, email, cityId) => {
-        try {
-            let findUser = await usersAPI.outOneUser(email)
-            let userId
-            if (!findUser) {
-                const data = await usersAPI.createUser(userName, email, cityId)
-                userId = data[0].id
-            } else {
-                console.log(findUser)
-                userId = findUser.id
-            }
-            return userId
-        } catch (e) {
-            alert(e.response.data.message)
+    const updateUserForOrder = async (id, userName, email, city_id) => {
+        if (userName.trim() === userNameOld && email.trim() === emailOld && cityId === cityIdOld) {
+            return
         }
+        if (emailOld !== email) {
+            const dublicateEmail = order.find((o) => o.user.email === email.trim())
+
+            if (dublicateEmail) {
+                alert('The email or name already exists')
+                return
+            }
+        }
+        updateNameEmailUser(id, userName.trim(), email.trim(), +city_id)
     }
 
     const shooseMaster = async (idMaster) => {
         try {
-            const userId = await createUserWithMaster(userName, email, cityId)
+            await updateUserForOrder(userId, userName, email, cityId)
             const { date, time, duration } = sendPayload
-            const data = await ordersAPI.createOrder(
-                date,
-                time,
-                duration,
-                userId,
-                idMaster,
-            )
-            console.log(data)
-            setModalSuccess(true)
+
+            await handleUpdateOrder(orderId, date, time, duration, userId, idMaster)
 
             setUserName('')
             setEmail('')
@@ -114,15 +115,26 @@ const TableOrder = ({ order, removeOrder }) => {
             setTime('')
 
             setModalActive(false)
+            setModalActiveUpdate(false)
         } catch (e) {
             alert(e.response.data.message)
         }
     }
 
-    const handleUpdate = (id, date, master_name, user_name) => {
-        console.log(id, date, master_name, user_name)
-        setUserName(user_name)
-        setDate(date)
+    const handleUpdate = (item) => {
+        setOrderId(item.id)
+        setUserName(item.user.name)
+        setUserId(item.user.id)
+        setEmail(item.user.email)
+        setSize(findSize(item.duration))
+        setCityId(item.city.id)
+        setDate(item.date)
+        setTime(item.time)
+
+        setUserNameOld(item.user.name)
+        setEmailOld(item.user.email)
+        setCityIdOld(item.city.id)
+
         setModalActiveUpdate(true)
     }
 
@@ -133,10 +145,7 @@ const TableOrder = ({ order, removeOrder }) => {
                     {load ? (
                         <Loader />
                     ) : (
-                        <TableMastersForUser
-                            mastersForUser={mastersForUser}
-                            shooseMaster={shooseMaster}
-                        />
+                        <TableMastersForUser mastersForUser={mastersForUser} shooseMaster={shooseMaster} />
                     )}
                 </Modal>
 
@@ -160,51 +169,40 @@ const TableOrder = ({ order, removeOrder }) => {
                     handleSubmit={handleSubmit}
                 />
             </Modal>
-            <table className="table">
+            <table className='table'>
                 <thead>
                     <tr>
                         <th>date</th>
                         <th>time</th>
                         <th>hours</th>
                         <th>user</th>
+                        <th>email</th>
                         <th>master</th>
                         <th>city</th>
                         <th>...</th>
                         <th>...</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody style={{ fontSize: '14px', lineHeight: '1' }}>
                     {order.map((item) => (
                         <tr key={item.id}>
                             <td>{item.date}</td>
                             <td>{item.time}</td>
                             <td>{item.duration}</td>
-                            <td>{item.user_name}</td>
-                            <td>{item.master_name}</td>
-                            <td>{item.city_name}</td>
+                            <td>{item.user.name}</td>
+                            <td>{item.user.email}</td>
+                            <td>{item.master.name}</td>
+                            <td>{item.city.title}</td>
                             <td>
-                                <button
-                                    className="auth__btn"
-                                    onClick={() =>
-                                        handleUpdate(
-                                            item.id,
-                                            item.date,
-                                            item.master_name,
-                                            item.user_name,
-                                        )
-                                    }
-                                >
-                                    <svg width="24px" height="24px">
+                                <button className='auth__btn' onClick={() => handleUpdate(item)}>
+                                    <svg width='24px' height='24px'>
                                         <use xlinkHref={`${sprite}#edit`} />
                                     </svg>
                                 </button>
                             </td>
                             <td>
-                                <button
-                                    className="auth__btn"
-                                    onClick={() => removeOrder(item.id)}
-                                >
-                                    <svg width="24px" height="24px">
+                                <button className='auth__btn' onClick={() => removeOrder(item.id)}>
+                                    <svg width='24px' height='24px'>
                                         <use xlinkHref={`${sprite}#bin`} />
                                     </svg>
                                 </button>

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
 
-import { mastersAPI, citiesAPI } from '../http/api'
-
+import { mastersAPI, citiesAPI } from 'http/api'
 import TableMaster from './TableMaster'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
@@ -137,7 +136,7 @@ function BlockMaster(props) {
     }
 
     return (
-        <div className="master" style={{ color: 'black' }}>
+        <div className='master' style={{ color: 'black' }}>
             <Modal active={modalActive} setActive={setModalActive}>
                 {error}
             </Modal>
@@ -152,36 +151,32 @@ function BlockMaster(props) {
                     border: 'solid 1px grey',
                 }}
             >
-                <label htmlFor="name" hidden>
+                <label htmlFor='name' hidden>
                     Имя мастера
                 </label>
                 <input
-                    className="auth__input"
-                    placeholder="Enter master name..."
-                    id="name"
+                    className='auth__input'
+                    placeholder='Enter master name...'
+                    id='name'
                     value={master}
                     onChange={(e) => setMaster(e.target.value)}
                 />
 
-                <label hidden htmlFor="rating">
+                <label hidden htmlFor='rating'>
                     Рейтинг
                 </label>
                 <select
-                    className="auth__input"
+                    className='auth__input'
                     value={ratingId}
-                    id="rating"
+                    id='rating'
                     required
                     onChange={(e) => setRatingId(e.target.value)}
                 >
-                    <option disabled value="" className="auth__input">
+                    <option disabled value='' className='auth__input'>
                         Select rating...
                     </option>
                     {itemsRatings.map((item) => (
-                        <option
-                            key={item.id}
-                            className="auth__input"
-                            value={item.id}
-                        >
+                        <option key={item.id} className='auth__input' value={item.id}>
                             {item.rating}
                         </option>
                     ))}
@@ -191,12 +186,12 @@ function BlockMaster(props) {
                     options={options}
                     value={changeCity}
                     onChange={handleChange}
-                    placeholder="Select city..."
+                    placeholder='Select city...'
                     isMulti
                 />
 
                 <button
-                    className="auth__btn"
+                    className='auth__btn'
                     style={{
                         maxWidth: '200px',
                         margin: '20px auto',

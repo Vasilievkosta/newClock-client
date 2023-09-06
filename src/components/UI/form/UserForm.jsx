@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import './userForm.css'
 import { Modal } from '../modal/modal'
 import Loader from '../loader/Loader'
-import TableMastersForUser from '../../TableMastesForUser'
-import { ordersAPI, citiesAPI, mastersAPI, usersAPI } from '../../../http/api'
+import TableMastersForUser from 'components/TableMastesForUser'
+import { ordersAPI, citiesAPI, mastersAPI, usersAPI } from 'http/api'
 import FormComponent from './FormComponent'
 
 function UserForm() {
@@ -30,9 +30,7 @@ function UserForm() {
     let timeToday = date === nowDate ? +nowTime + 2 : 0
 
     for (let i = timeToday; i < 24; i++) {
-        i < 10
-            ? selectTime.push({ id: i, title: `0${i}:00` })
-            : selectTime.push({ id: i, title: `${i}:00` })
+        i < 10 ? selectTime.push({ id: i, title: `0${i}:00` }) : selectTime.push({ id: i, title: `${i}:00` })
     }
 
     const [itemsCity, setItemsCity] = useState([])
@@ -63,12 +61,10 @@ function UserForm() {
 
     const getMastersForUser = (cityId, date, time, duration) => {
         setLoad(true)
-        mastersAPI
-            .masterOfCityAndDate(cityId, date, time, duration)
-            .then((json) => {
-                setMastersForUser(json)
-                setLoad(false)
-            })
+        mastersAPI.masterOfCityAndDate(cityId, date, time, duration).then((json) => {
+            setMastersForUser(json)
+            setLoad(false)
+        })
     }
 
     const createUserWithMaster = async (userName, email, cityId) => {
@@ -92,14 +88,11 @@ function UserForm() {
         try {
             const userId = await createUserWithMaster(userName, email, cityId)
             const { date, time, duration } = sendPayload
-            const data = await ordersAPI.createOrder(
-                date,
-                time,
-                duration,
-                userId,
-                idMaster,
-            )
+
+            const data = await ordersAPI.createOrder(date, time, duration, userId, idMaster)
             console.log(data)
+
+            sendLetterUser()
             setModalSuccess(true)
 
             setUserName('')
@@ -115,25 +108,25 @@ function UserForm() {
         }
     }
 
+    const sendLetterUser = async () => {
+        const data = await ordersAPI.sendLetter(userName, email, date, time)
+        console.log(data)
+    }
+
     return (
-        <div className="field">
-            <h2 className="field__title">Clockware</h2>
-            <p className="field__text">
-                Для выбора мастера заполните пожалуйста данные
-            </p>
+        <div className='field'>
+            <h2 className='field__title'>Clockware</h2>
+            <p className='field__text'>Для выбора мастера заполните пожалуйста данные</p>
+
             <Modal active={modalSuccess} setActive={setModalSuccess}>
-                <p>
-                    Заказ успешно создан. Спасибо! Вам на почту придет письмо.
-                </p>
+                <p>Заказ успешно создан. Спасибо! Вам на почту придет письмо.</p>
             </Modal>
+
             <Modal active={modalActive} setActive={setModalActive}>
                 {load ? (
                     <Loader />
                 ) : (
-                    <TableMastersForUser
-                        mastersForUser={mastersForUser}
-                        shooseMaster={shooseMaster}
-                    />
+                    <TableMastersForUser mastersForUser={mastersForUser} shooseMaster={shooseMaster} />
                 )}
             </Modal>
 

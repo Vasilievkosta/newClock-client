@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { citiesAPI } from '../http/api'
+import { citiesAPI } from 'http/api'
 import TableCity from './TableCity'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
@@ -103,7 +103,7 @@ function BlockCity() {
     }
 
     return (
-        <div className="city">
+        <div className='city'>
             <Modal active={modalActive} setActive={setModalActive}>
                 {error}
             </Modal>
@@ -119,19 +119,14 @@ function BlockCity() {
                 }}
             >
                 <input
-                    className="auth__input"
-                    placeholder="Введите название города..."
-                    type="text"
+                    className='auth__input'
+                    placeholder='Введите название города...'
+                    type='text'
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
                 />
 
-                <button
-                    className="auth__btn"
-                    type="button"
-                    onClick={addCity}
-                    onKeyDown={handleKeyDown}
-                >
+                <button className='auth__btn' type='button' onClick={addCity} onKeyDown={handleKeyDown}>
                     Добавить город
                 </button>
             </form>
@@ -139,11 +134,7 @@ function BlockCity() {
             {load ? (
                 <Loader />
             ) : (
-                <TableCity
-                    city={itemsCity}
-                    removeCity={removeCity}
-                    updateTitleCity={updateTitleCity}
-                />
+                <TableCity city={itemsCity} removeCity={removeCity} updateTitleCity={updateTitleCity} />
             )}
         </div>
     )
