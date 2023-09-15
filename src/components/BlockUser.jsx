@@ -59,7 +59,7 @@ function BlockUser(props) {
             setLoad(true)
 
             let data = await usersAPI.updateUser(id, userName, email, city_id)
-
+            console.log(data)
             setLoad(false)
         } catch (error) {
             if (error.response.status === 404) {

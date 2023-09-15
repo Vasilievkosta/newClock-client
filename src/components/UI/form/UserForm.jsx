@@ -77,6 +77,7 @@ function UserForm() {
             } else {
                 userId = findUser.id
                 const data = await usersAPI.patchUserName(userId, userName)
+                console.log(data)
             }
             return userId
         } catch (e) {
@@ -90,8 +91,9 @@ function UserForm() {
             const userId = await createUserWithMaster(userName, email, cityId)
             const { date, time, duration } = sendPayload
             const data = await ordersAPI.createOrder(date, time, duration, userId, idMaster)
+            console.log(data)
 
-            //sendLetterUser()
+            sendLetterUser()
             setModalSuccess(true)
 
             setUserName('')
