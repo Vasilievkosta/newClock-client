@@ -1,18 +1,12 @@
 import { instance } from './api'
 
 export const outMaster = async () => {
-    const headers = {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-    }
-    const { data } = await instance.get('/api/master', { headers })
+    const { data } = await instance.get('/api/master/admin')
     return data
 }
 
 export const masterOfCities = async () => {
-    const headers = {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-    }
-    const { data } = await instance.get('/api/master/ofcities', { headers })
+    const { data } = await instance.get('/api/master/ofcities/admin')
     return data
 }
 

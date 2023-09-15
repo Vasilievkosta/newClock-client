@@ -55,7 +55,13 @@ function BlockCity() {
             setCity('')
             setLoad(false)
         } catch (e) {
-            alert(e.response.data.message)
+            if (e.response.data.errors && e.response.data.errors.length > 0) {
+                const errorMessage = e.response.data.errors[0].msg
+                setError(errorMessage)
+                setModalActive(true)
+            } else {
+                console.error(e)
+            }
         }
 
         getCity()

@@ -1,10 +1,7 @@
 import { instance } from './api'
 
 export const outOrder = async () => {
-    const headers = {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-    }
-    const { data } = await instance.get('/api/order', { headers })
+    const { data } = await instance.get('/api/order/admin')
     return data
 }
 
@@ -14,7 +11,7 @@ export const createOrder = async (date, time, duration, user_id, master_id) => {
 }
 
 export const updateOrder = async (orderId, date, time, duration, user_id, master_id) => {
-    const { data } = await instance.post('/api/order/update', { orderId, date, time, duration, user_id, master_id })
+    const { data } = await instance.put('/api/order/update', { orderId, date, time, duration, user_id, master_id })
     return data
 }
 

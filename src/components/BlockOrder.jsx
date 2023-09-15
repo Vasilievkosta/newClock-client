@@ -41,7 +41,6 @@ function BlockOrder(props) {
             setLoad(true)
 
             let data = await usersAPI.updateUser(id, userName, email, city_id)
-            console.log(data)
 
             setLoad(false)
         } catch (error) {
@@ -60,7 +59,6 @@ function BlockOrder(props) {
         try {
             setLoad(true)
             const data = await ordersAPI.updateOrder(orderId, date, time, duration, user_id, master_id)
-            console.log(data)
 
             setLoad(false)
         } catch (error) {

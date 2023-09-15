@@ -44,7 +44,7 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
     const nowTime = new Date().toLocaleTimeString().split(':')[0]
 
     const selectTime = []
-    let timeToday = date === nowDate ? +nowTime + 2 : 0
+    let timeToday = date === nowDate ? +nowTime + 1 : 0
 
     for (let i = timeToday; i < 24; i++) {
         i < 10 ? selectTime.push({ id: i, title: `0${i}:00` }) : selectTime.push({ id: i, title: `${i}:00` })

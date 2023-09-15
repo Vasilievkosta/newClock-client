@@ -75,12 +75,13 @@ function UserForm() {
                 const data = await usersAPI.createUser(userName, email, cityId)
                 userId = data[0].id
             } else {
-                console.log(findUser)
                 userId = findUser.id
+                const data = await usersAPI.patchUserName(userId, userName)
             }
             return userId
         } catch (e) {
-            alert(e.response.data.message)
+            console.error(e)
+            alert('Что-то не так при выполнении запроса на сервер. Пожалуйста, попробуйте ещё раз.')
         }
     }
 
@@ -88,11 +89,9 @@ function UserForm() {
         try {
             const userId = await createUserWithMaster(userName, email, cityId)
             const { date, time, duration } = sendPayload
-
             const data = await ordersAPI.createOrder(date, time, duration, userId, idMaster)
-            console.log(data)
 
-            sendLetterUser()
+            //sendLetterUser()
             setModalSuccess(true)
 
             setUserName('')

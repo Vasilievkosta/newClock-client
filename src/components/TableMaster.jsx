@@ -21,7 +21,6 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
         setRatingIdUpdate(ratingId)
         setOldChangeCity(cities.map((c) => c.id).join())
         setUpdateChangeCity(cities.map((c) => ({ value: c.id, label: c.title })))
-        console.log(cities)
 
         setMasterId(id)
     }

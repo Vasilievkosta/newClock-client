@@ -56,7 +56,6 @@ function BlockMaster(props) {
 
     const handleChange = (selectedOption) => {
         setChangeCity(selectedOption)
-        console.log(selectedOption)
     }
 
     const handleSubmit = (event) => {
@@ -66,12 +65,17 @@ function BlockMaster(props) {
 
     const addMaster = async () => {
         const arr = changeCity.map((el) => el.value)
-
         if (master.trim() === '') {
             alert('Master is required')
             setMaster('')
             return
         }
+        const dublicateName = itemsMaster.find((m) => m.master_name === master.trim())
+        if (dublicateName) {
+            alert('This master name already exists')
+            return
+        }
+
         try {
             setLoad(true)
 
@@ -143,14 +147,7 @@ function BlockMaster(props) {
 
             <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
 
-            <form
-                onSubmit={handleSubmit}
-                style={{
-                    width: '500px',
-                    margin: '10px auto',
-                    border: 'solid 1px grey',
-                }}
-            >
+            <form onSubmit={handleSubmit} style={{ width: '500px', margin: '10px auto', border: 'solid 1px grey' }}>
                 <label htmlFor='name' hidden>
                     Имя мастера
                 </label>
@@ -192,11 +189,7 @@ function BlockMaster(props) {
 
                 <button
                     className='auth__btn'
-                    style={{
-                        maxWidth: '200px',
-                        margin: '20px auto',
-                        display: 'block',
-                    }}
+                    style={{ maxWidth: '200px', margin: '20px auto', display: 'block' }}
                     onKeyDown={handleKeyDown}
                     disabled={!changeCity.length}
                 >

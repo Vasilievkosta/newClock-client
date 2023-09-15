@@ -16,9 +16,6 @@ export const deleteCity = async (id) => {
 }
 
 export const updateCity = async (cityId, newTitle) => {
-    const { data } = await instance.put('/api/city/update', {
-        cityId,
-        newTitle,
-    })
+    const { data } = await instance.put('/api/city/update', { cityId, newTitle })
     return data
 }
