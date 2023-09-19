@@ -20,12 +20,8 @@ export const outRatings = async () => {
     return data
 }
 
-export const createMaster = async (name, arr, rating_id) => {
-    const { data } = await instance.post('/api/master/create', {
-        name,
-        arr,
-        rating_id,
-    })
+export const createMaster = async (newName, arr, rating_id) => {
+    const { data } = await instance.post('/api/master/create', { newName, arr, rating_id })
     return data
 }
 
@@ -35,11 +31,6 @@ export const deleteMaster = async (id) => {
 }
 
 export const updateMaster = async (masterId, newName, ratingId, arr) => {
-    const { data } = await instance.put('/api/master/update', {
-        masterId,
-        newName,
-        ratingId,
-        arr,
-    })
+    const { data } = await instance.put('/api/master/update', { masterId, newName, ratingId, arr })
     return data
 }

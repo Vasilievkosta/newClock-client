@@ -5,6 +5,7 @@ import { ordersAPI, usersAPI } from 'http/api'
 import TableOrder from './TableOrder'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
+import { handleApiError } from 'common/utils/apiError'
 
 function BlockOrder(props) {
     const [itemsOrder, setItemsOrder] = useState([])
@@ -28,10 +29,10 @@ function BlockOrder(props) {
 
     const removeOrder = async (id) => {
         try {
-            let data = await ordersAPI.deleteOrder(id)
-            console.log({ data })
-        } catch (e) {
-            console.log(e.response.data.message)
+            await ordersAPI.deleteOrder(id)
+        } catch (error) {
+            console.log(error.response.data.message)
+            handleApiError(error, setError)
         }
         getOrder()
     }
@@ -39,48 +40,32 @@ function BlockOrder(props) {
     const updateNameEmailUser = async (id, userName, email, city_id) => {
         try {
             setLoad(true)
-
-            let data = await usersAPI.updateUser(id, userName, email, city_id)
-            console.log(data)
+            await usersAPI.updateUser(id, userName, email, city_id)
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 404) {
-                console.log(error.response.data.error) // Cообщение от сервера: User not found
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while updating the user.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
     }
 
     const handleUpdateOrder = async (orderId, date, time, duration, user_id, master_id) => {
         try {
             setLoad(true)
-            const data = await ordersAPI.updateOrder(orderId, date, time, duration, user_id, master_id)
-            console.log(data)
+            await ordersAPI.updateOrder(orderId, date, time, duration, user_id, master_id)
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 404) {
-                console.log(error.response.data.error) // Cообщение от сервера: User not found
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while updating the order.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
         getOrder()
     }
 
     return (
         <div className='city' style={{ marginRight: '40px' }}>
-            {
-                <Modal active={modalActive} setActive={setModalActive}>
-                    {error}
-                </Modal>
-            }
+            <Modal active={modalActive} setActive={setModalActive}>
+                {error}
+            </Modal>
+
             {load ? (
                 <Loader />
             ) : (

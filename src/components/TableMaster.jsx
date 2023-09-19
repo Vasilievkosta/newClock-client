@@ -31,12 +31,12 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
     }
 
     const handleChange = (selectedOption) => {
-        console.log(selectedOption)
         setUpdateChangeCity(selectedOption)
     }
 
     const updateMaster = () => {
         const arrCityId = updateChangeCity.map((el) => el.value)
+
         if (nameUpdate.trim() === '') {
             alert('Name is required')
             setModalActiveUpdade(false)
@@ -57,7 +57,6 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
         }
 
         updateNameMaster(masterId, nameUpdate.trim(), +ratingIdUpdate, arrCityId)
-        console.log(masterId, nameUpdate.trim(), +ratingIdUpdate, arrCityId)
 
         setModalActiveUpdade(false)
     }

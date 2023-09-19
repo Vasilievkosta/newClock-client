@@ -5,6 +5,7 @@ import { mastersAPI, citiesAPI } from 'http/api'
 import TableMaster from './TableMaster'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
+import { handleApiError } from 'common/utils/apiError'
 
 function BlockMaster(props) {
     const [itemsMaster, setItemsMaster] = useState([])
@@ -85,8 +86,8 @@ function BlockMaster(props) {
             setMaster('')
             setChangeCity([])
             setLoad(false)
-        } catch (e) {
-            console.log(e.response.data.message)
+        } catch (error) {
+            handleApiError(error, setError)
         }
         getMaster()
     }
@@ -105,14 +106,8 @@ function BlockMaster(props) {
 
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 400) {
-                console.log(error.response.data.error) // Cообщение от сервера: Cannot delete user. Orders are associated with the user.
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while deleting the master.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
 
         getMaster()
@@ -122,19 +117,12 @@ function BlockMaster(props) {
         try {
             setLoad(true)
 
-            let data = await mastersAPI.updateMaster(id, name, ratingId, arr)
-            console.log(data)
+            await mastersAPI.updateMaster(id, name, ratingId, arr)
 
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 404) {
-                console.log(error.response.data.error) // Cообщение от сервера: Resource not found
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while updating the master.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
         getMaster()
     }

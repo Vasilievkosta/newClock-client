@@ -5,6 +5,7 @@ import Loader from '../loader/Loader'
 import TableMastersForUser from 'components/TableMastesForUser'
 import { ordersAPI, citiesAPI, mastersAPI, usersAPI } from 'http/api'
 import FormComponent from './FormComponent'
+import { handleApiError } from 'common/utils/apiError'
 
 function UserForm() {
     const [userName, setUserName] = useState('')
@@ -14,6 +15,8 @@ function UserForm() {
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
     const [load, setLoad] = useState(true)
+    const [letterMessage, setLetterMessage] = useState('')
+    const [error, setError] = useState('')
 
     const sizeToDuration = {
         large: 3,
@@ -36,6 +39,7 @@ function UserForm() {
     const [itemsCity, setItemsCity] = useState([])
 
     const [modalActive, setModalActive] = useState(false)
+    const [modalError, setModalError] = useState(false)
     const [sendPayload, setSendPayload] = useState({})
     const [modalSuccess, setModalSuccess] = useState(false)
 
@@ -54,8 +58,9 @@ function UserForm() {
         try {
             getMastersForUser(cityId, date, time, sizeToDuration[size])
             setSendPayload({ date, time, duration: sizeToDuration[size] })
-        } catch (e) {
-            alert(e.response.data.message)
+        } catch (error) {
+            handleApiError(error, setError)
+            setModalActive(true)
         }
     }
 
@@ -80,9 +85,9 @@ function UserForm() {
                 console.log(data)
             }
             return userId
-        } catch (e) {
-            console.error(e)
-            alert('Что-то не так при выполнении запроса на сервер. Пожалуйста, попробуйте ещё раз.')
+        } catch (error) {
+            handleApiError(error, setError)
+            setModalActive(true)
         }
     }
 
@@ -90,11 +95,9 @@ function UserForm() {
         try {
             const userId = await createUserWithMaster(userName, email, cityId)
             const { date, time, duration } = sendPayload
-            const data = await ordersAPI.createOrder(date, time, duration, userId, idMaster)
-            console.log(data)
+            await ordersAPI.createOrder(date, time, duration, userId, idMaster)
 
             sendLetterUser()
-            setModalSuccess(true)
 
             setUserName('')
             setEmail('')
@@ -104,14 +107,24 @@ function UserForm() {
             setTime('')
 
             setModalActive(false)
-        } catch (e) {
-            alert(e.response.data.message)
+        } catch (error) {
+            handleApiError(error, setError)
+            setModalActive(true)
         }
     }
 
     const sendLetterUser = async () => {
+        setLoad(true)
         const data = await ordersAPI.sendLetter(userName, email, date, time)
-        console.log(data)
+        setLoad(false)
+
+        if (data && data.status === 'Message Sent') {
+            setLetterMessage('Заказ успешно создан. Письмо отправлено на Ваш email.')
+            setModalSuccess(true)
+        } else {
+            setLetterMessage('Ошибка при отправке письма. Пожалуйста, попробуйте позже.')
+            setModalSuccess(true)
+        }
     }
 
     return (
@@ -119,8 +132,12 @@ function UserForm() {
             <h2 className='field__title'>Clockware</h2>
             <p className='field__text'>Для выбора мастера заполните пожалуйста данные</p>
 
+            <Modal active={modalError} setActive={setModalError}>
+                {error}
+            </Modal>
+
             <Modal active={modalSuccess} setActive={setModalSuccess}>
-                <p>Заказ успешно создан. Спасибо! Вам на почту придет письмо.</p>
+                <p>{letterMessage}</p>
             </Modal>
 
             <Modal active={modalActive} setActive={setModalActive}>

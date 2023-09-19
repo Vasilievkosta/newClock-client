@@ -3,6 +3,7 @@ import { citiesAPI } from 'http/api'
 import TableCity from './TableCity'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
+import { handleApiError } from 'common/utils/apiError'
 
 function BlockCity() {
     const [itemsCity, setItemsCity] = useState([])
@@ -50,18 +51,12 @@ function BlockCity() {
         }
         try {
             setLoad(true)
-            let data = await citiesAPI.createCity(city)
-            console.log({ data })
+            await citiesAPI.createCity(city)
             setCity('')
             setLoad(false)
-        } catch (e) {
-            if (e.response.data.errors && e.response.data.errors.length > 0) {
-                const errorMessage = e.response.data.errors[0].msg
-                setError(errorMessage)
-                setModalActive(true)
-            } else {
-                console.error(e)
-            }
+        } catch (error) {
+            handleApiError(error, setError)
+            setModalActive(true)
         }
 
         getCity()
@@ -75,14 +70,8 @@ function BlockCity() {
 
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 400) {
-                console.log(error.response.data.error) // Cообщение от сервера: Cannot delete city. Users...
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while deleting the city.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
         getCity()
     }
@@ -91,19 +80,12 @@ function BlockCity() {
         try {
             setLoad(true)
 
-            let data = await citiesAPI.updateCity(id, title)
-            console.log(data)
+            await citiesAPI.updateCity(id, title)
 
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 404) {
-                console.log(error.response.data.error) // Cообщение от сервера: City not found
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while updating the city.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
         getCity()
     }

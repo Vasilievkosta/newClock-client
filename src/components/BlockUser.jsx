@@ -5,6 +5,7 @@ import { usersAPI, citiesAPI } from 'http/api'
 import TableUser from './TableUser'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
+import { handleApiError } from 'common/utils/apiError'
 
 function BlockUser(props) {
     const [itemsUser, setItemsUser] = useState([])
@@ -42,14 +43,8 @@ function BlockUser(props) {
             await usersAPI.deleteUser(id)
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 400) {
-                console.log(error.response.data.error) // Cообщение от сервера: Cannot delete user. Orders...
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while deleting the user.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
         getUser()
     }
@@ -58,18 +53,12 @@ function BlockUser(props) {
         try {
             setLoad(true)
 
-            let data = await usersAPI.updateUser(id, userName, email, city_id)
-            console.log(data)
+            await usersAPI.updateUser(id, userName, email, city_id)
+
             setLoad(false)
         } catch (error) {
-            if (error.response.status === 404) {
-                console.log(error.response.data.error) // Cообщение от сервера: User not found
-
-                setError(error.response.data.error)
-                setModalActive(true)
-            } else {
-                console.log('An error occurred while updating the user.')
-            }
+            handleApiError(error, setError)
+            setModalActive(true)
         }
         getUser()
     }

@@ -5,8 +5,8 @@ export const outCity = async () => {
     return data
 }
 
-export const createCity = async (title) => {
-    const { data } = await instance.post('/api/city/create', { title })
+export const createCity = async (newTitle) => {
+    const { data } = await instance.post('/api/city/create', { newTitle })
     return data
 }
 
