@@ -26,8 +26,14 @@ function UserForm() {
 
     const sizeItems = Object.keys(sizeToDuration)
 
-    const nowDate = new Date().toISOString().split('T')[0]
-    const nowTime = new Date().toLocaleTimeString().split(':')[0]
+    const userLocal = navigator.language
+    const options = { hour12: false }
+    const myTimezoneOffset = new Date().getTimezoneOffset()
+
+    const myData = new Date().setMinutes(-myTimezoneOffset + new Date().getMinutes())
+    const nowDate = new Date(myData).toISOString().split('T')[0]
+
+    const nowTime = new Date().toLocaleTimeString(userLocal, options).split(':')[0]
 
     const selectTime = []
     let timeToday = date === nowDate ? +nowTime + 2 : 0
@@ -81,8 +87,7 @@ function UserForm() {
                 userId = data[0].id
             } else {
                 userId = findUser.id
-                const data = await usersAPI.patchUserName(userId, userName)
-                console.log(data)
+                await usersAPI.patchUserName(userId, userName)
             }
             return userId
         } catch (error) {

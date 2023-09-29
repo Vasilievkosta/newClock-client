@@ -214,6 +214,10 @@ body {
     background-color: #b6cefc;
 }
 
+.table th {
+    padding: 1px 5px;
+}
+
 .table tbody {
     background-color: #cecece;
 }

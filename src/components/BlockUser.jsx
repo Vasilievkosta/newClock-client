@@ -64,7 +64,7 @@ function BlockUser(props) {
     }
 
     return (
-        <div className='city' style={{ marginRight: '40px' }}>
+        <div className='city'>
             {
                 <Modal active={modalActive} setActive={setModalActive}>
                     {error}

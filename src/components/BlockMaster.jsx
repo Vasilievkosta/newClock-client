@@ -80,8 +80,7 @@ function BlockMaster(props) {
         try {
             setLoad(true)
 
-            let data = await mastersAPI.createMaster(master, arr, ratingId)
-            console.log({ data })
+            await mastersAPI.createMaster(master, arr, ratingId)            
 
             setMaster('')
             setChangeCity([])
