@@ -80,16 +80,8 @@ function UserForm() {
 
     const createUserWithMaster = async (userName, email, cityId) => {
         try {
-            let findUser = await usersAPI.outOneUser(email)
-            let userId
-            if (!findUser) {
-                const data = await usersAPI.createUser(userName, email, cityId)
-                userId = data[0].id
-            } else {
-                userId = findUser.id
-                await usersAPI.patchUserName(userId, userName)
-            }
-            return userId
+            const userData = await usersAPI.createUser(userName, email, cityId)
+            return userData.id
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
@@ -100,10 +92,15 @@ function UserForm() {
         try {
             const userId = await createUserWithMaster(userName, email, cityId)
             const { date, time, duration } = sendPayload
-            await ordersAPI.createOrder(date, time, duration, userId, idMaster)
+            const data = await ordersAPI.createOrderAndSend(date, time, duration, userId, idMaster, userName, email)
 
-            sendLetterUser()
-
+            if (data && data.status === 'Success') {
+                setLetterMessage('Заказ успешно создан. Письмо отправлено на Ваш email.')
+                setModalSuccess(true)
+            } else {
+                setLetterMessage('Ошибка при отправке письма. Пожалуйста, попробуйте позже.')
+                setModalSuccess(true)
+            }
             setUserName('')
             setEmail('')
             setSize('medium')
@@ -115,20 +112,6 @@ function UserForm() {
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
-        }
-    }
-
-    const sendLetterUser = async () => {
-        setLoad(true)
-        const data = await ordersAPI.sendLetter(userName, email, date, time)
-        setLoad(false)
-
-        if (data && data.status === 'Message Sent') {
-            setLetterMessage('Заказ успешно создан. Письмо отправлено на Ваш email.')
-            setModalSuccess(true)
-        } else {
-            setLetterMessage('Ошибка при отправке письма. Пожалуйста, попробуйте позже.')
-            setModalSuccess(true)
         }
     }
 
