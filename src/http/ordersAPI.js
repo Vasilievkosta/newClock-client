@@ -1,7 +1,7 @@
 import { instance } from './api'
 
 export const outOrder = async () => {
-    const { data } = await instance.get('/api/order/admin')
+    const { data } = await instance.get('/api/order')
     return data
 }
 

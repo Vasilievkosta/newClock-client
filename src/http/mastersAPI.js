@@ -1,12 +1,12 @@
 import { instance } from './api'
 
 export const outMaster = async () => {
-    const { data } = await instance.get('/api/master/admin')
+    const { data } = await instance.get('/api/master')
     return data
 }
 
 export const masterOfCities = async () => {
-    const { data } = await instance.get('/api/master/ofcities/admin')
+    const { data } = await instance.get('/api/master/ofcities')
     return data
 }
 

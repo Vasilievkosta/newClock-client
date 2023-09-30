@@ -1,7 +1,7 @@
 import { instance } from './api'
 
 export const outUser = async () => {
-    const { data } = await instance.get('/api/user/admin')
+    const { data } = await instance.get('/api/user')
     return data
 }
 
