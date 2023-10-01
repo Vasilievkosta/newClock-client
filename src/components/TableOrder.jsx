@@ -40,8 +40,14 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
 
     const sizeItems = Object.keys(sizeToDuration)
 
-    const nowDate = new Date().toISOString().split('T')[0]
-    const nowTime = new Date().toLocaleTimeString().split(':')[0]
+    const userLocal = navigator.language
+    const options = { hour12: false }
+    const myTimezoneOffset = new Date().getTimezoneOffset()
+
+    const myData = new Date().setMinutes(-myTimezoneOffset + new Date().getMinutes())
+    const nowDate = new Date(myData).toISOString().split('T')[0]
+
+    const nowTime = new Date().toLocaleTimeString(userLocal, options).split(':')[0]
 
     const selectTime = []
     let timeToday = date === nowDate ? +nowTime + 1 : 0

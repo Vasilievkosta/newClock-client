@@ -29,7 +29,6 @@ function UserForm() {
     const userLocal = navigator.language
     const options = { hour12: false }
     const myTimezoneOffset = new Date().getTimezoneOffset()
-    console.log('time-zone-client ', myTimezoneOffset)
 
     const myData = new Date().setMinutes(-myTimezoneOffset + new Date().getMinutes())
     const nowDate = new Date(myData).toISOString().split('T')[0]
