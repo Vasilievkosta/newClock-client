@@ -7,7 +7,8 @@ import { handleApiError } from 'common/utils/apiError'
 
 function BlockCity() {
     const [itemsCity, setItemsCity] = useState([])
-    const [load, setLoad] = useState(true)
+    console.log(itemsCity)
+    const [load, setLoad] = useState(false)
 
     const [city, setCity] = useState('')
 

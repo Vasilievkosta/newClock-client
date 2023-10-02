@@ -51,6 +51,7 @@ function Tabs() {
                     <h2>List of orders</h2>
                     <hr />
                     <BlockOrder forRender={toggleState} />
+                    {/* <BlockOrder forRender={toggleState} /> */}
                 </div>
             </div>
         </div>
