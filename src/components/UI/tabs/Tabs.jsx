@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import './tabs.css'
 
+import { mastersAPI, usersAPI, ordersAPI, citiesAPI } from 'http/api'
+
 import BlockCity from 'components/BlockCity'
 import BlockMaster from 'components/BlockMaster'
 import BlockUser from 'components/BlockUser'
@@ -9,9 +11,45 @@ import BlockOrder from 'components/BlockOrder'
 function Tabs() {
     const [toggleState, setToggleState] = useState(1)
 
+    const [itemsCity, setItemsCity] = useState([])
+    const [itemsMaster, setItemsMaster] = useState([])
+    const [itemsUser, setItemsUser] = useState([])
+    const [itemsOrder, setItemsOrder] = useState([])
+
     const toggleTab = (index) => {
         setToggleState(index)
     }
+
+    const getCity = () => {
+        citiesAPI.outCity().then((json) => {
+            setItemsCity(json)
+        })
+    }
+    const getMaster = () => {
+        mastersAPI.masterOfCities().then((json) => {
+            setItemsMaster(json)
+        })
+    }
+    const getUser = () => {
+        usersAPI.outUser().then((json) => {
+            setItemsUser(json)
+        })
+    }
+    const getOrder = () => {
+        ordersAPI.outOrder().then((json) => {
+            setItemsOrder(json)
+        })
+    }
+
+    React.useEffect(() => {
+        getCity()
+    }, [])
+
+    React.useEffect(() => {
+        getMaster()
+        getUser()
+        getOrder()
+    }, [itemsCity])
 
     return (
         <div className='container'>
@@ -33,25 +71,30 @@ function Tabs() {
             <div className='content-tabs'>
                 <div className={toggleState === 1 ? 'content  active-content' : 'content'}>
                     <h2>List of masters</h2>
-                    <BlockMaster forRender={toggleState} />
+                    <BlockMaster itemsCity={itemsCity} itemsMaster={itemsMaster} getMaster={getMaster} />
                 </div>
 
                 <div className={toggleState === 2 ? 'content  active-content' : 'content'}>
                     <h2>List of cities</h2>
-                    <BlockCity forRender={toggleState} />
+                    <BlockCity itemsCity={itemsCity} getCity={getCity} />
                 </div>
 
                 <div className={toggleState === 3 ? 'content  active-content' : 'content'}>
                     <h2>List of users</h2>
                     <hr />
-                    <BlockUser forRender={toggleState} />
+                    <BlockUser itemsCity={itemsCity} itemsUser={itemsUser} getUser={getUser} getOrder={getOrder} />
                 </div>
 
                 <div className={toggleState === 4 ? 'content  active-content' : 'content'}>
                     <h2>List of orders</h2>
                     <hr />
-                    <BlockOrder forRender={toggleState} />
-                    {/* <BlockOrder forRender={toggleState} /> */}
+                    <BlockOrder
+                        itemsCity={itemsCity}
+                        itemsUser={itemsUser}
+                        itemsOrder={itemsOrder}
+                        getOrder={getOrder}
+                        getUser={getUser}
+                    />
                 </div>
             </div>
         </div>

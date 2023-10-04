@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 import Select from 'react-select'
 
-import { mastersAPI, citiesAPI } from 'http/api'
+import { mastersAPI } from 'http/api'
 import TableMaster from './TableMaster'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
 import { handleApiError } from 'common/utils/apiError'
 
-function BlockMaster(props) {
-    const [itemsMaster, setItemsMaster] = useState([])
-    const [itemsCity, setItemsCity] = useState([])
+const BlockMaster = ({ itemsCity, itemsMaster, getMaster }) => {
     const [itemsRatings, setItemsRatings] = useState([])
 
     const [load, setLoad] = useState(true)
@@ -22,34 +20,17 @@ function BlockMaster(props) {
     const [modalActive, setModalActive] = useState(false)
     const [error, setError] = useState('')
 
-    const getMaster = () => {
+    const getRatings = () => {
         setLoad(true)
-        mastersAPI.masterOfCities().then((json) => {
-            setItemsMaster(json)
+        mastersAPI.outRatings().then((json) => {
+            setItemsRatings(json)
             setLoad(false)
         })
     }
 
-    const getCity = () => {
-        citiesAPI.outCity().then((json) => {
-            setItemsCity(json)
-        })
-    }
-
-    const getRatings = () => {
-        mastersAPI.outRatings().then((json) => {
-            setItemsRatings(json)
-        })
-    }
-
     React.useEffect(() => {
-        getMaster()
         getRatings()
-    }, [props.forRender])
-
-    React.useEffect(() => {
-        getCity()
-    }, [props.forRender])
+    }, [])
 
     const options = itemsCity.map((item) => {
         return { value: item.id, label: item.title }
@@ -80,15 +61,16 @@ function BlockMaster(props) {
         try {
             setLoad(true)
 
-            await mastersAPI.createMaster(master, arr, ratingId)            
+            await mastersAPI.createMaster(master, arr, ratingId)
 
             setMaster('')
             setChangeCity([])
-            setLoad(false)
+
+            getMaster()
         } catch (error) {
             handleApiError(error, setError)
         }
-        getMaster()
+        setLoad(false)
     }
 
     const handleKeyDown = (event) => {
@@ -100,30 +82,26 @@ function BlockMaster(props) {
     const removeMaster = async (id) => {
         try {
             setLoad(true)
-
             await mastersAPI.deleteMaster(id)
 
-            setLoad(false)
+            getMaster()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
         }
-
-        getMaster()
+        setLoad(false)
     }
 
     const updateNameMaster = async (id, name, ratingId, arr) => {
         try {
             setLoad(true)
-
             await mastersAPI.updateMaster(id, name, ratingId, arr)
-
-            setLoad(false)
+            getMaster()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
         }
-        getMaster()
+        setLoad(false)
     }
 
     return (

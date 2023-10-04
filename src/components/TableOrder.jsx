@@ -2,13 +2,13 @@ import React, { useState } from 'react'
 import sprite from 'images/sprite.svg'
 import 'components/UI/form/userForm.css'
 import { Modal } from './UI/modal/modal'
-import { citiesAPI, mastersAPI } from 'http/api'
+import { mastersAPI } from 'http/api'
 import FormComponent from './UI/form/FormComponent'
 
 import TableMastersForUser from './TableMastesForUser'
 import Loader from './UI/loader/Loader'
 
-const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder }) => {
+const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder, itemsCity }) => {
     const [userId, setUserId] = useState('')
     const [userName, setUserName] = useState('')
     const [email, setEmail] = useState('')
@@ -56,20 +56,12 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
         i < 10 ? selectTime.push({ id: i, title: `0${i}:00` }) : selectTime.push({ id: i, title: `${i}:00` })
     }
 
-    const [itemsCity, setItemsCity] = useState([])
-
     const [modalActive, setModalActive] = useState(false)
     const [modalActiveUpdate, setModalActiveUpdate] = useState(false)
 
     const [sendPayload, setSendPayload] = useState({})
 
     const [mastersForUser, setMastersForUser] = useState([])
-
-    React.useEffect(() => {
-        citiesAPI.outCity().then((json) => {
-            setItemsCity(json)
-        })
-    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()

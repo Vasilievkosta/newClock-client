@@ -15,12 +15,12 @@ export const deleteOrder = async (id) => {
     return data
 }
 
-export const createOrderAndSend = async (date, time, duration, user_id, master_id, userName, email) => {
+export const createOrderAndSend = async (date, time, duration, city_id, master_id, userName, email) => {
     const { data } = await instance.post('/api/order/createAndSend', {
         date,
         time,
         duration,
-        user_id,
+        city_id,
         master_id,
         userName,
         email,

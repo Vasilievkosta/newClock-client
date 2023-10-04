@@ -1,66 +1,40 @@
 import React, { useState } from 'react'
 
-import { usersAPI, citiesAPI } from 'http/api'
+import { usersAPI } from 'http/api'
 
 import TableUser from './TableUser'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
 import { handleApiError } from 'common/utils/apiError'
 
-function BlockUser(props) {
-    const [itemsUser, setItemsUser] = useState([])
-    const [itemsCity, setItemsCity] = useState([])
-
-    const [load, setLoad] = useState(true)
-
+function BlockUser({ itemsCity, itemsUser, getUser, getOrder }) {
+    const [load, setLoad] = useState(false)
     const [modalActive, setModalActive] = useState(false)
     const [error, setError] = useState('')
-
-    const getUser = () => {
-        setLoad(true)
-        usersAPI.outUser().then((json) => {
-            setItemsUser(json)
-            setLoad(false)
-        })
-    }
-
-    const getCity = () => {
-        setLoad(true)
-        citiesAPI.outCity().then((json) => {
-            setItemsCity(json)
-            setLoad(false)
-        })
-    }
-
-    React.useEffect(() => {
-        getUser()
-        getCity()
-    }, [props.forRender])
 
     const removeUser = async (id) => {
         try {
             setLoad(true)
             await usersAPI.deleteUser(id)
-            setLoad(false)
+            getUser()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
         }
-        getUser()
+        setLoad(false)
     }
 
     const updateNameEmailUser = async (id, userName, email, city_id) => {
         try {
             setLoad(true)
-
             await usersAPI.updateUser(id, userName, email, city_id)
-
-            setLoad(false)
+            getUser()
+            getOrder()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
         }
-        getUser()
+        setLoad(false)
     }
 
     return (

@@ -3,7 +3,7 @@ import './userForm.css'
 import { Modal } from '../modal/modal'
 import Loader from '../loader/Loader'
 import TableMastersForUser from 'components/TableMastesForUser'
-import { ordersAPI, citiesAPI, mastersAPI, usersAPI } from 'http/api'
+import { ordersAPI, citiesAPI, mastersAPI } from 'http/api'
 import FormComponent from './FormComponent'
 import { handleApiError } from 'common/utils/apiError'
 
@@ -78,21 +78,10 @@ function UserForm() {
         })
     }
 
-    const createUserWithMaster = async (userName, email, cityId) => {
-        try {
-            const userData = await usersAPI.createUser(userName, email, cityId)
-            return userData.id
-        } catch (error) {
-            handleApiError(error, setError)
-            setModalActive(true)
-        }
-    }
-
     const shooseMaster = async (idMaster) => {
         try {
-            const userId = await createUserWithMaster(userName, email, cityId)
             const { date, time, duration } = sendPayload
-            const data = await ordersAPI.createOrderAndSend(date, time, duration, userId, idMaster, userName, email)
+            const data = await ordersAPI.createOrderAndSend(date, time, duration, cityId, idMaster, userName, email)
 
             if (data && data.status === 'Success') {
                 setLetterMessage('Заказ успешно создан. Письмо отправлено на Ваш email.')

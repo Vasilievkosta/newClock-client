@@ -5,27 +5,11 @@ import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
 import { handleApiError } from 'common/utils/apiError'
 
-function BlockCity() {
-    const [itemsCity, setItemsCity] = useState([])
-    console.log(itemsCity)
+function BlockCity({ itemsCity, getCity }) {
     const [load, setLoad] = useState(false)
-
     const [city, setCity] = useState('')
-
     const [modalActive, setModalActive] = useState(false)
     const [error, setError] = useState('')
-
-    React.useEffect(() => {
-        getCity()
-    }, [])
-
-    const getCity = () => {
-        setLoad(true)
-        citiesAPI.outCity().then((json) => {
-            setItemsCity(json)
-            setLoad(false)
-        })
-    }
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -54,13 +38,12 @@ function BlockCity() {
             setLoad(true)
             await citiesAPI.createCity(city)
             setCity('')
-            setLoad(false)
+            getCity()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
         }
-
-        getCity()
+        setLoad(false)
     }
 
     const removeCity = async (id) => {
@@ -68,13 +51,12 @@ function BlockCity() {
             setLoad(true)
 
             await citiesAPI.deleteCity(id)
-
-            setLoad(false)
+            getCity()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
         }
-        getCity()
+        setLoad(false)
     }
 
     const updateTitleCity = async (id, title) => {
@@ -82,13 +64,12 @@ function BlockCity() {
             setLoad(true)
 
             await citiesAPI.updateCity(id, title)
-
-            setLoad(false)
+            getCity()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
         }
-        getCity()
+        setLoad(false)
     }
 
     return (
