@@ -71,7 +71,12 @@ function Tabs() {
             <div className='content-tabs'>
                 <div className={toggleState === 1 ? 'content  active-content' : 'content'}>
                     <h2>List of masters</h2>
-                    <BlockMaster itemsCity={itemsCity} itemsMaster={itemsMaster} getMaster={getMaster} />
+                    <BlockMaster
+                        itemsCity={itemsCity}
+                        itemsMaster={itemsMaster}
+                        getMaster={getMaster}
+                        getOrder={getOrder}
+                    />
                 </div>
 
                 <div className={toggleState === 2 ? 'content  active-content' : 'content'}>

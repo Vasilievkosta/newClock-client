@@ -7,7 +7,7 @@ import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
 import { handleApiError } from 'common/utils/apiError'
 
-const BlockMaster = ({ itemsCity, itemsMaster, getMaster }) => {
+const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
     const [itemsRatings, setItemsRatings] = useState([])
 
     const [load, setLoad] = useState(true)
@@ -97,6 +97,7 @@ const BlockMaster = ({ itemsCity, itemsMaster, getMaster }) => {
             setLoad(true)
             await mastersAPI.updateMaster(id, name, ratingId, arr)
             getMaster()
+            getOrder()
         } catch (error) {
             handleApiError(error, setError)
             setModalActive(true)
@@ -112,7 +113,7 @@ const BlockMaster = ({ itemsCity, itemsMaster, getMaster }) => {
 
             <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
 
-            <form onSubmit={handleSubmit} style={{ width: '500px', margin: '10px auto', border: 'solid 1px grey' }}>
+            <form onSubmit={handleSubmit} className='form'>
                 <label htmlFor='name' hidden>
                     Имя мастера
                 </label>

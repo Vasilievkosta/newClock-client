@@ -181,7 +181,7 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
                         <th>...</th>
                     </tr>
                 </thead>
-                <tbody style={{ fontSize: '14px', lineHeight: '1' }}>
+                <tbody style={{ lineHeight: '1' }}>
                     {order.map((item) => (
                         <tr key={item.id}>
                             <td>{item.date}</td>

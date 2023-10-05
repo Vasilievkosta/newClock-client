@@ -202,11 +202,17 @@ body {
     font-size: 18px;
 }
 
+.form {
+    max-width: 500px;
+    margin: 10px auto;
+    border: solid 1px grey;
+}
+
 .table {
     margin: 0 auto;
     border: 1px solid #607d8b;
     font-size: 18px;
-    min-width: 500px;
+    min-width: 1024px;
     text-align: center;
 }
 

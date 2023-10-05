@@ -80,14 +80,7 @@ function BlockCity({ itemsCity, getCity }) {
 
             <p style={{ textAlign: 'center' }}>Форма для добавления городов</p>
 
-            <form
-                onSubmit={handleSubmit}
-                style={{
-                    width: '500px',
-                    margin: '0 auto',
-                    border: 'solid 1px grey',
-                }}
-            >
+            <form onSubmit={handleSubmit} className='form'>
                 <input
                     className='auth__input'
                     placeholder='Введите название города...'
