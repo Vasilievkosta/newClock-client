@@ -167,48 +167,50 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
                     handleSubmit={handleSubmit}
                 />
             </Modal>
-            <table className='table'>
-                <thead>
-                    <tr>
-                        <th>date</th>
-                        <th>time</th>
-                        <th>hours</th>
-                        <th>user</th>
-                        <th>email</th>
-                        <th>master</th>
-                        <th>city</th>
-                        <th>...</th>
-                        <th>...</th>
-                    </tr>
-                </thead>
-                <tbody style={{ lineHeight: '1' }}>
-                    {order.map((item) => (
-                        <tr key={item.id}>
-                            <td>{item.date}</td>
-                            <td>{item.time}</td>
-                            <td>{item.duration}</td>
-                            <td>{item.user.name}</td>
-                            <td>{item.user.email}</td>
-                            <td>{item.master.name}</td>
-                            <td>{item.city.title}</td>
-                            <td>
-                                <button className='auth__btn' onClick={() => handleUpdate(item)}>
-                                    <svg width='24px' height='24px'>
-                                        <use xlinkHref={`${sprite}#edit`} />
-                                    </svg>
-                                </button>
-                            </td>
-                            <td>
-                                <button className='auth__btn' onClick={() => removeOrder(item.id)}>
-                                    <svg width='24px' height='24px'>
-                                        <use xlinkHref={`${sprite}#bin`} />
-                                    </svg>
-                                </button>
-                            </td>
+            <div style={{ overflow: 'auto' }}>
+                <table className='table'>
+                    <thead>
+                        <tr>
+                            <th>date</th>
+                            <th>time</th>
+                            <th>hours</th>
+                            <th>user</th>
+                            <th>email</th>
+                            <th>master</th>
+                            <th>city</th>
+                            <th>...</th>
+                            <th>...</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody style={{ lineHeight: '1' }}>
+                        {order.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.date}</td>
+                                <td>{item.time}</td>
+                                <td>{item.duration}</td>
+                                <td>{item.user.name}</td>
+                                <td>{item.user.email}</td>
+                                <td>{item.master.name}</td>
+                                <td>{item.city.title}</td>
+                                <td>
+                                    <button className='auth__btn' onClick={() => handleUpdate(item)}>
+                                        <svg width='24px' height='24px'>
+                                            <use xlinkHref={`${sprite}#edit`} />
+                                        </svg>
+                                    </button>
+                                </td>
+                                <td>
+                                    <button className='auth__btn' onClick={() => removeOrder(item.id)}>
+                                        <svg width='24px' height='24px'>
+                                            <use xlinkHref={`${sprite}#bin`} />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </>
     )
 }

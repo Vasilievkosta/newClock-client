@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './tabs.css'
+import { useNavigate } from 'react-router-dom'
 
 import { mastersAPI, usersAPI, ordersAPI, citiesAPI } from 'http/api'
 
@@ -7,8 +8,10 @@ import BlockCity from 'components/BlockCity'
 import BlockMaster from 'components/BlockMaster'
 import BlockUser from 'components/BlockUser'
 import BlockOrder from 'components/BlockOrder'
+import { handleAuthorizationError } from 'common/utils/apiError'
 
-function Tabs() {
+const Tabs = () => {
+    const navigate = useNavigate()
     const [toggleState, setToggleState] = useState(1)
 
     const [itemsCity, setItemsCity] = useState([])
@@ -25,20 +28,38 @@ function Tabs() {
             setItemsCity(json)
         })
     }
+
     const getMaster = () => {
-        mastersAPI.masterOfCities().then((json) => {
-            setItemsMaster(json)
-        })
+        mastersAPI
+            .masterOfCities()
+            .then((json) => {
+                setItemsMaster(json)
+            })
+            .catch((error) => {
+                handleAuthorizationError(error, navigate)
+            })
     }
+
     const getUser = () => {
-        usersAPI.outUser().then((json) => {
-            setItemsUser(json)
-        })
+        usersAPI
+            .outUser()
+            .then((json) => {
+                setItemsUser(json)
+            })
+            .catch((error) => {
+                handleAuthorizationError(error, navigate)
+            })
     }
+
     const getOrder = () => {
-        ordersAPI.outOrder().then((json) => {
-            setItemsOrder(json)
-        })
+        ordersAPI
+            .outOrder()
+            .then((json) => {
+                setItemsOrder(json)
+            })
+            .catch((error) => {
+                handleAuthorizationError(error, navigate)
+            })
     }
 
     React.useEffect(() => {
@@ -46,10 +67,14 @@ function Tabs() {
     }, [])
 
     React.useEffect(() => {
-        getMaster()
-        getUser()
-        getOrder()
-    }, [itemsCity])
+        if (toggleState === 1) {
+            getMaster()
+        } else if (toggleState === 3) {
+            getUser()
+        } else if (toggleState === 4) {
+            getOrder()
+        }
+    }, [toggleState])
 
     return (
         <div className='container'>

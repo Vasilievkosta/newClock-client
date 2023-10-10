@@ -5,6 +5,7 @@ import Select from 'react-select'
 
 const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, options }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
+    const [modalActiveRemove, setModalActiveRemove] = useState(false)
     const [oldName, setOldName] = useState('')
     const [nameUpdate, setNameUpdate] = useState('')
     const [oldRatingId, setOldRatingId] = useState('')
@@ -55,14 +56,24 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
                 return
             }
         }
-
         updateNameMaster(masterId, nameUpdate.trim(), +ratingIdUpdate, arrCityId)
-
         setModalActiveUpdade(false)
+    }
+
+    const handleDelete = (id, name) => {
+        setModalActiveRemove(true)
+        setMasterId(id)
+        setOldName(name)
     }
 
     return (
         <>
+            <Modal active={modalActiveRemove} setActive={setModalActiveRemove}>
+                <p>Delete {oldName}?</p>
+                <button className='auth__btn' onClick={() => removeMaster(masterId)}>
+                    Yes
+                </button>
+            </Modal>
             <Modal active={modalActiveUpdade} setActive={setModalActiveUpdade}>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor='name'></label>
@@ -116,7 +127,6 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
                             <td>{item.master_name}</td>
                             <td>{item.cities.map((c) => c.title).join()}</td>
                             <td>{item.master_rating}</td>
-
                             <td>
                                 <button
                                     className='auth__btn'
@@ -130,7 +140,10 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
                                 </button>
                             </td>
                             <td>
-                                <button className='auth__btn' onClick={() => removeMaster(item.master_id)}>
+                                <button
+                                    className='auth__btn'
+                                    onClick={() => handleDelete(item.master_id, item.master_name)}
+                                >
                                     <svg width='24px' height='24px'>
                                         <use xlinkHref={`${sprite}#bin`} />
                                     </svg>

@@ -6,6 +6,7 @@ import TableMaster from './TableMaster'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
 import { handleApiError } from 'common/utils/apiError'
+import sprite from 'images/sprite.svg'
 
 const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
     const [itemsRatings, setItemsRatings] = useState([])
@@ -18,6 +19,7 @@ const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
     const [changeCity, setChangeCity] = useState([])
 
     const [modalActive, setModalActive] = useState(false)
+    const [modalActiveAdd, setModalActiveAdd] = useState(false)
     const [error, setError] = useState('')
 
     const getRatings = () => {
@@ -60,7 +62,6 @@ const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
 
         try {
             setLoad(true)
-
             await mastersAPI.createMaster(master, arr, ratingId)
 
             setMaster('')
@@ -71,6 +72,7 @@ const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
             handleApiError(error, setError)
         }
         setLoad(false)
+        setModalActiveAdd(false)
     }
 
     const handleKeyDown = (event) => {
@@ -111,57 +113,67 @@ const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
                 {error}
             </Modal>
 
-            <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
+            <Modal active={modalActiveAdd} setActive={setModalActiveAdd}>
+                <p style={{ textAlign: 'center' }}>Форма для добавления мастеров</p>
+                <form onSubmit={handleSubmit} className='form'>
+                    <label htmlFor='name' hidden>
+                        Имя мастера
+                    </label>
+                    <input
+                        className='auth__input'
+                        placeholder='Enter master name...'
+                        id='name'
+                        value={master}
+                        onChange={(e) => setMaster(e.target.value)}
+                    />
 
-            <form onSubmit={handleSubmit} className='form'>
-                <label htmlFor='name' hidden>
-                    Имя мастера
-                </label>
-                <input
-                    className='auth__input'
-                    placeholder='Enter master name...'
-                    id='name'
-                    value={master}
-                    onChange={(e) => setMaster(e.target.value)}
-                />
-
-                <label hidden htmlFor='rating'>
-                    Рейтинг
-                </label>
-                <select
-                    className='auth__input'
-                    value={ratingId}
-                    id='rating'
-                    required
-                    onChange={(e) => setRatingId(e.target.value)}
-                >
-                    <option disabled value='' className='auth__input'>
-                        Select rating...
-                    </option>
-                    {itemsRatings.map((item) => (
-                        <option key={item.id} className='auth__input' value={item.id}>
-                            {item.rating}
+                    <label hidden htmlFor='rating'>
+                        Рейтинг
+                    </label>
+                    <select
+                        className='auth__input'
+                        value={ratingId}
+                        id='rating'
+                        required
+                        onChange={(e) => setRatingId(e.target.value)}
+                    >
+                        <option disabled value='' className='auth__input'>
+                            Select rating...
                         </option>
-                    ))}
-                </select>
+                        {itemsRatings.map((item) => (
+                            <option key={item.id} className='auth__input' value={item.id}>
+                                {item.rating}
+                            </option>
+                        ))}
+                    </select>
 
-                <Select
-                    options={options}
-                    value={changeCity}
-                    onChange={handleChange}
-                    placeholder='Select city...'
-                    isMulti
-                />
+                    <Select
+                        options={options}
+                        value={changeCity}
+                        onChange={handleChange}
+                        placeholder='Select city...'
+                        isMulti
+                    />
 
-                <button
-                    className='auth__btn'
-                    style={{ maxWidth: '200px', margin: '20px auto', display: 'block' }}
-                    onKeyDown={handleKeyDown}
-                    disabled={!changeCity.length}
-                >
-                    Добавить мастера
+                    <button
+                        className='auth__btn'
+                        style={{ maxWidth: '200px', margin: '20px auto', display: 'block' }}
+                        onKeyDown={handleKeyDown}
+                        disabled={!changeCity.length}
+                    >
+                        Добавить мастера
+                    </button>
+                </form>
+            </Modal>
+            <div style={{ maxWidth: '200px', margin: '20px auto' }}>
+                <button className='auth__btn' onClick={() => setModalActiveAdd(true)}>
+                    <span style={{ marginRight: '15px' }}>Добавить мастера</span>
+                    <svg width='24px' height='24px'>
+                        <use xlinkHref={`${sprite}#added`} />
+                    </svg>
                 </button>
-            </form>
+            </div>
+
             {load ? (
                 <Loader />
             ) : (

@@ -9,10 +9,11 @@ const TableMastersForUser = ({ mastersForUser, shooseMaster }) => {
         <div>
             <p>Мастера работающие в Вашем городе</p>
             <p>Выберите мастера</p>
-            <table className="table">
+            <table className='table'>
                 <thead>
                     <tr>
                         <th>мастер</th>
+                        <th>рейтинг</th>
                         <th>выбрать</th>
                     </tr>
                 </thead>
@@ -20,11 +21,9 @@ const TableMastersForUser = ({ mastersForUser, shooseMaster }) => {
                     {mastersForUser.map((item) => (
                         <tr key={item.id}>
                             <td>{item.name}</td>
+                            <td>{item.rating_id}</td>
                             <td>
-                                <button
-                                    className="auth__btn auth__btn--del"
-                                    onClick={() => shooseMaster(item.id)}
-                                >
+                                <button className='auth__btn auth__btn--del' onClick={() => shooseMaster(item.id)}>
                                     choose
                                 </button>
                             </td>

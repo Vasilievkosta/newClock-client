@@ -14,3 +14,18 @@ export const handleApiError = (error, errorCallback) => {
         errorCallback(commonErrorMessage)
     }
 }
+
+export const handleAuthorizationError = (error, navigate) => {
+    if (error.response) {
+        if (error.response.status === 403) {
+            console.error('Error:', error.response.data)
+            localStorage.removeItem('authKey')
+            localStorage.removeItem('token')
+            navigate('/auth-admin')
+        } else if (error.response.status === 401) {
+            console.error('Unauthorized:', error.response.data)
+        }
+    } else {
+        console.error('Error:', error)
+    }
+}

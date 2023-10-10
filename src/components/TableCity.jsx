@@ -4,6 +4,7 @@ import sprite from 'images/sprite.svg'
 
 const TableCity = ({ city, removeCity, updateTitleCity }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
+
     const [oldCity, setOldCity] = useState('')
     const [cityUpdate, setCityUpdate] = useState('')
     const [cityId, setCityId] = useState('')

@@ -3,12 +3,14 @@ import { citiesAPI } from 'http/api'
 import TableCity from './TableCity'
 import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
+import sprite from 'images/sprite.svg'
 import { handleApiError } from 'common/utils/apiError'
 
-function BlockCity({ itemsCity, getCity }) {
+const BlockCity = ({ itemsCity, getCity }) => {
     const [load, setLoad] = useState(false)
     const [city, setCity] = useState('')
     const [modalActive, setModalActive] = useState(false)
+    const [modalActiveAdd, setModalActiveAdd] = useState(false)
     const [error, setError] = useState('')
 
     const handleSubmit = (event) => {
@@ -44,6 +46,7 @@ function BlockCity({ itemsCity, getCity }) {
             setModalActive(true)
         }
         setLoad(false)
+        setModalActiveAdd(false)
     }
 
     const removeCity = async (id) => {
@@ -77,23 +80,32 @@ function BlockCity({ itemsCity, getCity }) {
             <Modal active={modalActive} setActive={setModalActive}>
                 {error}
             </Modal>
+            <Modal active={modalActiveAdd} setActive={setModalActiveAdd}>
+                <p>Форма для добавления городов</p>
+                <form onSubmit={handleSubmit} className='form'>
+                    <input
+                        className='auth__input'
+                        placeholder='Введите название города...'
+                        type='text'
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                    />
 
-            <p style={{ textAlign: 'center' }}>Форма для добавления городов</p>
+                    <button className='auth__btn' type='button' onClick={addCity} onKeyDown={handleKeyDown}>
+                        Добавить город
+                    </button>
+                </form>
+            </Modal>
 
-            <form onSubmit={handleSubmit} className='form'>
-                <input
-                    className='auth__input'
-                    placeholder='Введите название города...'
-                    type='text'
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                />
-
-                <button className='auth__btn' type='button' onClick={addCity} onKeyDown={handleKeyDown}>
-                    Добавить город
+            <div style={{ maxWidth: '200px', margin: '20px auto' }}>
+                <button className='auth__btn' onClick={() => setModalActiveAdd(true)}>
+                    <span style={{ marginRight: '15px' }}>Добавить город</span>
+                    <svg width='24px' height='24px'>
+                        <use xlinkHref={`${sprite}#add`} />
+                    </svg>
                 </button>
-            </form>
-            <br />
+            </div>
+
             {load ? (
                 <Loader />
             ) : (
