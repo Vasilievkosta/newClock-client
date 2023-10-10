@@ -28,7 +28,7 @@ const Tabs = () => {
             setItemsCity(json)
         })
     }
-    const getMaster = () => {
+    const getMaster = React.useCallback(() => {
         mastersAPI
             .masterOfCities()
             .then((json) => {
@@ -37,8 +37,9 @@ const Tabs = () => {
             .catch((error) => {
                 handleAuthorizationError(error, navigate)
             })
-    }
-    const getUser = () => {
+    }, [navigate])
+
+    const getUser = React.useCallback(() => {
         usersAPI
             .outUser()
             .then((json) => {
@@ -47,8 +48,9 @@ const Tabs = () => {
             .catch((error) => {
                 handleAuthorizationError(error, navigate)
             })
-    }
-    const getOrder = () => {
+    }, [navigate])
+
+    const getOrder = React.useCallback(() => {
         ordersAPI
             .outOrder()
             .then((json) => {
@@ -57,7 +59,7 @@ const Tabs = () => {
             .catch((error) => {
                 handleAuthorizationError(error, navigate)
             })
-    }
+    }, [navigate])
 
     React.useEffect(() => {
         getCity()
@@ -71,7 +73,7 @@ const Tabs = () => {
         } else if (toggleState === 4) {
             getOrder()
         }
-    }, [toggleState])
+    }, [toggleState, getMaster, getUser, getOrder])
 
     return (
         <div className='container'>
