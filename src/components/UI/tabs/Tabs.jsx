@@ -28,7 +28,6 @@ const Tabs = () => {
             setItemsCity(json)
         })
     }
-
     const getMaster = () => {
         mastersAPI
             .masterOfCities()
@@ -39,7 +38,6 @@ const Tabs = () => {
                 handleAuthorizationError(error, navigate)
             })
     }
-
     const getUser = () => {
         usersAPI
             .outUser()
@@ -50,7 +48,6 @@ const Tabs = () => {
                 handleAuthorizationError(error, navigate)
             })
     }
-
     const getOrder = () => {
         ordersAPI
             .outOrder()
