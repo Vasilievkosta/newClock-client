@@ -4,6 +4,8 @@ import sprite from '../images/sprite.svg'
 
 const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
+    const [modalActiveRemove, setModalActiveRemove] = useState(false)
+
     const [oldName, setOldName] = useState('')
     const [oldEmail, setOldEmail] = useState('')
     const [oldCityId, setOldCityId] = useState('')
@@ -49,8 +51,20 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
         setModalActiveUpdade(false)
     }
 
+    const handleDelete = (id, name) => {
+        setModalActiveRemove(true)
+        setNameId(id)
+        setOldName(name)
+    }
+
     return (
         <>
+            <Modal active={modalActiveRemove} setActive={setModalActiveRemove}>
+                <p>Delete {oldName}?</p>
+                <button className='auth__btn' onClick={() => removeUser(nameId)}>
+                    Yes
+                </button>
+            </Modal>
             <Modal active={modalActiveUpdade} setActive={setModalActiveUpdade}>
                 <form onSubmit={handleUpdateUser}>
                     <label htmlFor='name'></label>
@@ -123,7 +137,7 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
                                 </button>
                             </td>
                             <td>
-                                <button className='auth__btn' onClick={() => removeUser(item.id)}>
+                                <button className='auth__btn' onClick={() => handleDelete(item.id, item.username)}>
                                     <svg width='24' height='24'>
                                         <use xlinkHref={`${sprite}#bin`} />
                                     </svg>

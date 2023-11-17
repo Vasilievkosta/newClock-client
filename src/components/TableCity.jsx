@@ -4,6 +4,7 @@ import sprite from 'images/sprite.svg'
 
 const TableCity = ({ city, removeCity, updateTitleCity }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
+    const [modalActiveRemove, setModalActiveRemove] = useState(false)
 
     const [oldCity, setOldCity] = useState('')
     const [cityUpdate, setCityUpdate] = useState('')
@@ -36,8 +37,20 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
         setModalActiveUpdade(false)
     }
 
+    const handleDelete = (id, title) => {
+        setModalActiveRemove(true)
+        setCityId(id)
+        setOldCity(title)
+    }
+
     return (
         <>
+            <Modal active={modalActiveRemove} setActive={setModalActiveRemove}>
+                <p>Delete {oldCity}?</p>
+                <button className='auth__btn' onClick={() => removeCity(cityId)}>
+                    Yes
+                </button>
+            </Modal>
             <Modal active={modalActiveUpdade} setActive={setModalActiveUpdade}>
                 <input
                     className='auth__input'
@@ -69,7 +82,7 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
                                 </button>
                             </td>
                             <td>
-                                <button className='auth__btn' onClick={() => removeCity(item.id)}>
+                                <button className='auth__btn' onClick={() => handleDelete(item.id, item.title)}>
                                     <svg width='24px' height='24px'>
                                         <use xlinkHref={`${sprite}#bin`} />
                                     </svg>

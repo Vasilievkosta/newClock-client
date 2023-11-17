@@ -58,6 +58,7 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
 
     const [modalActive, setModalActive] = useState(false)
     const [modalActiveUpdate, setModalActiveUpdate] = useState(false)
+    const [modalActiveRemove, setModalActiveRemove] = useState(false)
 
     const [sendPayload, setSendPayload] = useState({})
 
@@ -136,8 +137,20 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
         setModalActiveUpdate(true)
     }
 
+    const handleDelete = (id, name) => {
+        setModalActiveRemove(true)
+        setOrderId(id)
+        setUserNameOld(name)
+    }
+
     return (
         <>
+            <Modal active={modalActiveRemove} setActive={setModalActiveRemove}>
+                <p>Delete {userNameOld}?</p>
+                <button className='auth__btn' onClick={() => removeOrder(orderId)}>
+                    Yes
+                </button>
+            </Modal>
             <Modal active={modalActiveUpdate} setActive={setModalActiveUpdate}>
                 <Modal active={modalActive} setActive={setModalActive}>
                     {load ? (
@@ -200,7 +213,7 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
                                     </button>
                                 </td>
                                 <td>
-                                    <button className='auth__btn' onClick={() => removeOrder(item.id)}>
+                                    <button className='auth__btn' onClick={() => handleDelete(item.id, item.user.name)}>
                                         <svg width='24px' height='24px'>
                                             <use xlinkHref={`${sprite}#bin`} />
                                         </svg>
