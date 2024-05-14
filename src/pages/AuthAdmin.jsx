@@ -34,7 +34,7 @@ const AuthAdmin = () => {
             <form>
                 <input
                     className='auth__input'
-                    placeholder='Введите ваш email...'
+                    placeholder='admin@example.com'
                     type='text'
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -42,7 +42,7 @@ const AuthAdmin = () => {
                 <p></p>
                 <input
                     className='auth__input'
-                    placeholder='Введите ваш пароль...'
+                    placeholder='passwordsecret'
                     type='password'
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

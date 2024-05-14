@@ -42,6 +42,11 @@
     padding-bottom: 5px;
     margin-bottom: 20px;
     color: #fff;
+    transition: background-color 0.3s;
+}
+
+.field__input:hover {
+    background-color: rgba(39, 49, 100, 0.95);
 }
 
 .field__input::-webkit-input-placeholder {

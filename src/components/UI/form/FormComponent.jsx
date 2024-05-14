@@ -76,7 +76,7 @@ const FormComponent = ({
                     onChange={(e) => setCityId(e.target.value)}
                 >
                     <option disabled className='field__city' style={{ color: 'white' }}>
-                        {'Выберите город'}
+                        Выберите город
                     </option>
 
                     {itemsCity.map((item) => (
