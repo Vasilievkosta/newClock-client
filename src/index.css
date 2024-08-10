@@ -185,13 +185,13 @@ body {
     transition: color 0.3s;
 }
 
-.auth__link:focus {
-    outline: 0;
-    color: #99cccc;
+ .auth__link:focus {
+outline: 0;
+        color: #99cccc;                           
 }
 
 .auth__link:hover {
-    color: #1a1a1a;
+   color: #1a1a1a;
 }
 
 .auth__link:active {
