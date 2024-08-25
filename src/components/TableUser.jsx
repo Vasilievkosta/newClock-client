@@ -123,7 +123,7 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
                 <tbody>
                     {users.map((item) => (
                         <tr key={item.id}>
-                            <td>{item.userName}</td>
+                            <td>{item.username}</td>
                             <td>{item.email}</td>
                             <td>{item.title}</td>
                             <td>
