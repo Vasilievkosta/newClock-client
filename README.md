@@ -39,7 +39,7 @@ Navigate to the project folder:
   ```
 Install dependencies:
   ```sh
- yarn install
+ pnpm install
 
 
   ```
@@ -60,7 +60,7 @@ TRANSPORTER_PASSWORD=your_transpassword
   ```
 Start the server:
   ```sh
- yarn start
+ pnpm start
 
 
   ```
@@ -82,13 +82,13 @@ Navigate to the project folder:
   ```
 Install NPM packages:
    ```sh   
-   npm install
+   pnpm install
    
    
    ```
 Start
    ```sh
-   npm start
+   pnpm start
    
    
    ```
