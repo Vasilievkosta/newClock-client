@@ -1,28 +1,29 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { authAPI } from 'http/api'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
 
-const AuthAdmin = () => {
+const AuthAdminHookForm = () => {
     const navigate = useNavigate()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm()
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
-    const loginHandler = async () => {
+    const onSubmit = async (data) => {
+        const { email, password } = data
         try {
-            let data = await authAPI.login(email, password)
+            let res = await authAPI.login(email, password)
 
-            if (data.data) {
-                localStorage.setItem('token', data.token)
-                localStorage.setItem('authKey', data.data)
-
+            if (res.data) {
+                localStorage.setItem('token', res.token)
+                localStorage.setItem('authKey', res.data)
                 navigate('/admin-panel')
             } else {
                 alert('Не правильный пароль или логин.')
-                setEmail('')
-                setPassword('')
             }
         } catch (e) {
+            console.log(e)
             alert(e.response.data.message)
         }
     }
@@ -31,30 +32,26 @@ const AuthAdmin = () => {
         <div className='auth'>
             <h2 className='auth__title'>Авторизация админа</h2>
 
-            <form>
+            <form style={{ maxWidth: '400px' }} onSubmit={handleSubmit(onSubmit)}>
                 <input
                     className='auth__input'
                     placeholder='admin@example.com'
-                    type='text'
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    {...register('email', { required: true })}
                 />
-                <p></p>
+                {errors.email && <p className='auth__error'>This field is required</p>}
+
                 <input
                     className='auth__input'
                     placeholder='passwordsecret'
-                    type='password'
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    {...register('password', { required: true })}
                 />
 
+                {errors.password && <p className='auth__error'>This field is required</p>}
                 <br />
-                <button className='auth__btn' type='button' onClick={loginHandler}>
-                    Войти
-                </button>
+                <input className='auth__input' type='submit' value={' Войти '} />
             </form>
         </div>
     )
 }
 
-export default AuthAdmin
+export default AuthAdminHookForm
