@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Modal } from './UI/modal/modal'
 import sprite from 'images/sprite.svg'
 import Select from 'react-select'
+import { notify } from './UI/toast'
 
 const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, options }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
@@ -39,7 +40,7 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
         const arrCityId = updateChangeCity.map((el) => el.value)
 
         if (nameUpdate.trim() === '') {
-            alert('Name is required')
+            notify('Name is required')
             setModalActiveUpdade(false)
             return
         }
@@ -51,7 +52,7 @@ const TableMaster = ({ master, removeMaster, updateNameMaster, itemsRatings, opt
             const dublicateName = master.find((m) => m.master_name === nameUpdate.trim())
 
             if (dublicateName) {
-                alert('This master name already exists')
+                notify('This master name already exists')
                 setModalActiveUpdade(false)
                 return
             }

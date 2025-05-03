@@ -5,6 +5,7 @@ import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
 import sprite from 'images/sprite.svg'
 import { handleApiError } from 'common/utils/apiError'
+import { notify } from './UI/toast'
 
 const BlockCity = ({ itemsCity, getCity }) => {
     const [load, setLoad] = useState(false)
@@ -26,13 +27,13 @@ const BlockCity = ({ itemsCity, getCity }) => {
 
     const addCity = async () => {
         if (city.trim() === '') {
-            alert('City is required')
+            notify('City is required')
             setCity('')
             return
         }
         let dublicateCity = itemsCity.find((c) => c.title === city.trim())
         if (dublicateCity) {
-            alert('This city already exists')
+            notify('This city already exists')
             setCity('')
             return
         }

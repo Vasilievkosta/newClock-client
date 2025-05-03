@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Modal } from './UI/modal/modal'
 import sprite from 'images/sprite.svg'
+import { notify } from './UI/toast'
 
 const TableCity = ({ city, removeCity, updateTitleCity }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
@@ -19,7 +20,7 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
 
     const onClickUpdate = () => {
         if (cityUpdate.trim() === '') {
-            alert('City is required')
+            notify('City is required')
             setModalActiveUpdade(false)
             return
         }
@@ -29,7 +30,7 @@ const TableCity = ({ city, removeCity, updateTitleCity }) => {
         }
         let dublicateCity = city.find((c) => c.title === cityUpdate.trim())
         if (dublicateCity) {
-            alert('This city already exists')
+            notify('This city already exists')
             setModalActiveUpdade(false)
             return
         }

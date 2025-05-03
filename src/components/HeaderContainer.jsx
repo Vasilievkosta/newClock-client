@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { authAPI } from 'http/api'
 
 import imageLogo from 'images/Clockwise.png'
+import { notify, ToastContainerWrap } from './UI/toast'
 
 const HeaderContainer = () => {
     const navigate = useNavigate()
@@ -16,32 +17,35 @@ const HeaderContainer = () => {
     const logOutHandler = () => {
         localStorage.removeItem('authKey')
         localStorage.removeItem('token')
-        alert('log out)')
+        notify('log out')
         navigate('/auth-admin')
         authAPI.logout()
     }
 
     return (
-        <div className='navbar'>
-            <NavLink to={'/'}>
-                <img className='navbar__img' src={imageLogo} alt='logo' />
-            </NavLink>
+        <>
+            <div className='navbar'>
+                <NavLink to={'/'}>
+                    <img className='navbar__img' src={imageLogo} alt='logo' />
+                </NavLink>
 
-            <ul className='navbar__list'>
-                <li className='navbar__item'>
-                    <button className='navbar__link' onClick={validAuthAdmin}>
-                        Admin panel
-                    </button>
-                </li>
-                {valid && (
+                <ul className='navbar__list'>
                     <li className='navbar__item'>
-                        <button className='navbar__link' onClick={logOutHandler}>
-                            Log out
+                        <button className='navbar__link' onClick={validAuthAdmin}>
+                            Admin panel
                         </button>
                     </li>
-                )}
-            </ul>
-        </div>
+                    {valid && (
+                        <li className='navbar__item'>
+                            <button className='navbar__link' onClick={logOutHandler}>
+                                Log out
+                            </button>
+                        </li>
+                    )}
+                </ul>
+            </div>
+            <ToastContainerWrap />
+        </>
     )
 }
 

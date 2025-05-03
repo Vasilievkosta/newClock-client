@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Modal } from './UI/modal/modal'
 import sprite from '../images/sprite.svg'
+import { notify } from './UI/toast'
 
 const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
     const [modalActiveUpdade, setModalActiveUpdade] = useState(false)
@@ -30,7 +31,7 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
         e.preventDefault()
 
         if (nameUpdate.trim() === '' || emailUpdate.trim() === '') {
-            alert('Name or email is required')
+            notify('Name or email is required')
             setModalActiveUpdade(false)
             return
         }
@@ -42,7 +43,7 @@ const TableUser = ({ users, removeUser, updateNameEmailUser, cities }) => {
             const dublicateEmail = users.find((u) => u.email === emailUpdate.trim())
 
             if (dublicateEmail) {
-                alert('The email or name already exists')
+                notify('The email or name already exists')
                 setModalActiveUpdade(false)
                 return
             }

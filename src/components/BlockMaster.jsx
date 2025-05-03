@@ -7,6 +7,7 @@ import Loader from './UI/loader/Loader'
 import { Modal } from './UI/modal/modal'
 import { handleApiError } from 'common/utils/apiError'
 import sprite from 'images/sprite.svg'
+import { notify } from './UI/toast'
 
 const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
     const [itemsRatings, setItemsRatings] = useState([])
@@ -50,13 +51,13 @@ const BlockMaster = ({ itemsCity, itemsMaster, getMaster, getOrder }) => {
     const addMaster = async () => {
         const arr = changeCity.map((el) => el.value)
         if (master.trim() === '') {
-            alert('Master is required')
+            notify('Master is required')
             setMaster('')
             return
         }
         const dublicateName = itemsMaster.find((m) => m.master_name === master.trim())
         if (dublicateName) {
-            alert('This master name already exists')
+            notify('This master name already exists')
             return
         }
 

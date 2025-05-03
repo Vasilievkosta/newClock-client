@@ -7,6 +7,7 @@ import FormComponent from './UI/form/FormComponent'
 
 import TableMastersForUser from './TableMastesForUser'
 import Loader from './UI/loader/Loader'
+import { notify, notifyError } from './UI/toast'
 
 const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder, itemsCity }) => {
     const [userId, setUserId] = useState('')
@@ -72,7 +73,7 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
             getMastersForUser(cityId, date, time, sizeToDuration[size])
             setSendPayload({ date, time, duration: sizeToDuration[size] })
         } catch (e) {
-            alert(e.response.data.message)
+            notifyError(e.response.data.message)
         }
     }
 
@@ -92,7 +93,7 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
             const dublicateEmail = order.find((o) => o.user.email === email.trim())
 
             if (dublicateEmail) {
-                alert('The email or name already exists')
+                notify('The email or name already exists')
                 return
             }
         }
@@ -116,7 +117,7 @@ const TableOrder = ({ order, removeOrder, updateNameEmailUser, handleUpdateOrder
             setModalActive(false)
             setModalActiveUpdate(false)
         } catch (e) {
-            alert(e.response.data.message)
+            notifyError(e.response.data.message)
         }
     }
 
