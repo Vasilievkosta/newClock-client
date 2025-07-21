@@ -1,10 +1,9 @@
-import React from 'react'
-import UserForm from '../components/UI/form/UserForm'
+import { FormDateT } from 'components/UI/form/FormDateT'
 
 function UserPage() {
     return (
-        <div className="user">
-            <UserForm />
+        <div className='user'>
+            <FormDateT />
         </div>
     )
 }

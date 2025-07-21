@@ -18,11 +18,7 @@ function UserForm() {
     const [letterMessage, setLetterMessage] = useState('')
     const [error, setError] = useState('')
 
-    const sizeToDuration = {
-        large: 3,
-        medium: 2,
-        small: 1,
-    }
+    const sizeToDuration = { large: 3, medium: 2, small: 1 }
 
     const sizeItems = Object.keys(sizeToDuration)
 

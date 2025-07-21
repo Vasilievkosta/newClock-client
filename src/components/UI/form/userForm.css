@@ -17,6 +17,16 @@
     color: #000;
 }
 
+.field__container {
+    min-height: 60px;
+}
+
+.field__wrap p {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
 .field__title {
     color: #fff;
     font-size: 30px;
@@ -39,8 +49,8 @@
     border-bottom: 1px solid #7d83a2;
     display: block;
     background-color: transparent;
-padding-bottom: 5px;
-    margin-bottom: 20px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
     color: #fff;
     transition: background-color 0.3s;
 }
