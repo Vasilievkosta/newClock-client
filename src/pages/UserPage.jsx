@@ -1,9 +1,10 @@
-import { FormDateT } from 'components/UI/form/FormDateT'
+import UserForm from 'components/UI/form/UserForm'
 
 function UserPage() {
     return (
         <div className='user'>
-            <FormDateT />
+            {/* <FormDateT /> */}
+            <UserForm />
         </div>
     )
 }
