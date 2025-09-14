@@ -1,10 +1,8 @@
 import axios from 'axios'
 
 export const instance = axios.create({
-    baseURL: window.location.hostname === 'localhost' ? '' : 'http://212.32.248.97:5000',
+    baseURL: window.location.hostname === 'localhost' ? '' : 'https://render-clock.onrender.com',
 })
-
-// 'https://render-clock.onrender.com'
 
 instance.interceptors.request.use(
     (config) => {
